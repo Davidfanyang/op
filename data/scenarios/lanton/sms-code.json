@@ -1,0 +1,35 @@
+{
+  "id": "lanton_sms_code",
+  "product": "LantonPay",
+  "category": "注册问题",
+  "title": "注册收不到验证码",
+  "customerMessage": "我注册 Lanton Pay 一直收不到验证码，怎么办？",
+  "mustCollect": [
+    "注册手机号"
+  ],
+  "processKeywords": [
+    "手机号",
+    "验证码",
+    "申请"
+  ],
+  "empathyKeywords": [
+    "您好",
+    "请您",
+    "我们会",
+    "协助"
+  ],
+  "qualityChecks": {
+    "shouldAskFor": [
+      "注册手机号"
+    ],
+    "shouldContainAction": [
+      "申请验证码",
+      "协助申请验证码"
+    ],
+    "shouldAvoid": [
+      "自己等等",
+      "不用管"
+    ]
+  },
+  "standardReply": "您好～😊 在注册 Lanton Pay 时收不到验证码，请您提供注册时使用的手机号，我们将为您申请验证码。"
+}

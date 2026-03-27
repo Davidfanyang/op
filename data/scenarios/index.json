@@ -1,0 +1,12 @@
+[
+  {
+    "id": "lanton_sms_code",
+    "title": "注册收不到验证码",
+    "path": "./lanton/sms-code.json"
+  },
+  {
+    "id": "lanton_transfer_success_not_received",
+    "title": "转账成功但对方未到账",
+    "path": "./lanton/transfer-success-not-received.json"
+  }
+]

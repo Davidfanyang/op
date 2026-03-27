@@ -1,0 +1,19 @@
+{
+  "name": "trainer-core",
+  "version": "1.0.0",
+  "description": "客服训练核心引擎 V1",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js examples/test-input.json",
+    "test:run": "node index.js examples/test-input.json",
+    "score": "node examples/score-dialog.js",
+    "tg": "node bot/telegram-bot.js",
+    "tg:clean": "pkill -f 'node bot/tg-debug.js|node bot/telegram-bot.js' || true; rm -f runtime/locks/telegram-bot.lock runtime/logs/telegram-bot.log runtime/logs/smoke-test.log",
+    "tg:start": "npm run tg:clean && nohup node bot/telegram-bot.js > runtime/logs/telegram-bot.log 2>&1 &"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "node-telegram-bot-api": "^0.66.0"
+  }
+}

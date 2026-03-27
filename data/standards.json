@@ -1,0 +1,11 @@
+{
+  "default": {
+    "dimensions": [
+      { "name": "attitude", "label": "态度", "weight": 0.2 },
+      { "name": "process", "label": "流程正确", "weight": 0.3 },
+      { "name": "information", "label": "信息完整", "weight": 0.25 },
+      { "name": "empathy", "label": "安抚能力", "weight": 0.15 },
+      { "name": "clarity", "label": "表达清晰", "weight": 0.1 }
+    ]
+  }
+}

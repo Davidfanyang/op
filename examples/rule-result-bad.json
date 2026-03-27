@@ -1,0 +1,14 @@
+{
+  "score": 13,
+  "scenarioId": "lanton_transfer_success_not_received",
+  "findings": [
+    { "code": "attitude_missing", "message": "语气不够客服化，礼貌表达不足。" },
+    { "code": "process_incomplete", "message": "处理流程表达不完整，缺少关键动作说明。" },
+    { "code": "missing_information", "message": "缺少关键资料收集：付款账单截图、Lanton绑定手机号" },
+    { "code": "empathy_weak", "message": "安抚表达不足，容易让用户感觉被机械处理。" },
+    { "code": "risk_phrase", "message": "出现不建议使用的话术：你自己联系银行、这个我们不管" }
+  ],
+  "suggestions": [
+    "建议加入“您好 / 请 / 感谢”等标准客服表达。"
+  ]
+}

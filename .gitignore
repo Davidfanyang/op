@@ -1,0 +1,15 @@
+node_modules/
+.env
+.DS_Store
+npm-debug.log*
+
+runtime/logs/
+runtime/locks/
+*.log
+
+telegram-bot.lock
+bot.log
+tg-debug.log
+
+ trainer-bot:/
+ telegram-bot:/
