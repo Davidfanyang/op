@@ -1,5 +1,10 @@
 [
   {
+    "id": "register_flow",
+    "title": "注册流程指引",
+    "path": "./lanton/register-flow.json"
+  },
+  {
     "id": "lanton_sms_code",
     "title": "注册收不到验证码",
     "path": "./lanton/sms-code.json"

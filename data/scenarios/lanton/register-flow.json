@@ -1,0 +1,143 @@
+{
+  "id": "register_flow",
+  "product": "LantonPay",
+  "category": "注册流程",
+  "title": "注册流程指引",
+  "description": "用户咨询如何注册LantonPay账户的完整流程指引",
+  "customerMessage": "我想注册LantonPay，怎么操作？",
+  
+  "stages": [
+    {
+      "id": "stage_1_greet_and_collect",
+      "name": "问候并收集信息",
+      "description": "礼貌问候，确认用户注册意图，收集基础信息",
+      "trigger": {
+        "turnIndex": 0,
+        "customerIntent": ["注册", "开户", "怎么用"]
+      },
+      "expectedActions": [
+        "礼貌问候",
+        "确认注册意图",
+        "询问用户当前状态(是否下载APP)"
+      ],
+      "mustInclude": [
+        "您好",
+        "注册",
+        "请问"
+      ],
+      "mustAvoid": [
+        "你自己去看",
+        "不知道",
+        "这个很简单"
+      ],
+      "completionCriteria": [
+        "确认用户已下载APP",
+        "了解用户注册卡点"
+      ],
+      "nextStage": "stage_2_guide_registration"
+    },
+    {
+      "id": "stage_2_guide_registration",
+      "name": "指引注册步骤",
+      "description": "根据用户情况提供具体注册步骤指引",
+      "trigger": {
+        "turnIndex": 1,
+        "customerIntent": ["不会", "怎么填", "卡住了"]
+      },
+      "expectedActions": [
+        "分步骤说明注册流程",
+        "说明必填字段",
+        "提醒准备必要材料(手机号/邮箱)"
+      ],
+      "mustInclude": [
+        "第一步",
+        "手机号",
+        "验证码"
+      ],
+      "mustAvoid": [
+        "你自己试试",
+        "随便填",
+        "这个我不管"
+      ],
+      "completionCriteria": [
+        "用户理解注册步骤",
+        "确认用户开始操作"
+      ],
+      "nextStage": "stage_3_handle_issues"
+    },
+    {
+      "id": "stage_3_handle_issues",
+      "name": "处理注册问题",
+      "description": "处理注册过程中遇到的具体问题(验证码/身份验证等)",
+      "trigger": {
+        "turnIndex": 2,
+        "customerIntent": ["收不到", "失败", "错误", "不行"]
+      },
+      "expectedActions": [
+        "安抚用户情绪",
+        "询问具体错误信息",
+        "收集必要信息(手机号/截图)",
+        "提供解决方案或承诺跟进"
+      ],
+      "mustInclude": [
+        "请您",
+        "提供",
+        "协助",
+        "我们会尽快"
+      ],
+      "mustAvoid": [
+        "自己等等",
+        "不用管",
+        "没办法",
+        "你自己联系银行"
+      ],
+      "completionCriteria": [
+        "收集到问题详情",
+        "给出明确解决方案或时间承诺"
+      ],
+      "nextStage": "stage_4_confirm_completion"
+    },
+    {
+      "id": "stage_4_confirm_completion",
+      "name": "确认完成并跟进",
+      "description": "确认用户注册成功或跟进处理进度",
+      "trigger": {
+        "turnIndex": 3,
+        "customerIntent": ["好了", "成功了", "还没好", "多久"]
+      },
+      "expectedActions": [
+        "确认注册结果",
+        "如成功：欢迎语+后续指引",
+        "如未完成：说明处理进度+预计时间"
+      ],
+      "mustInclude": [
+        "恭喜",
+        "使用",
+        "如有问题"
+      ],
+      "mustAvoid": [
+        "没事我不管了",
+        "你自己弄吧"
+      ],
+      "completionCriteria": [
+        "用户确认问题解决",
+        "或已建立跟进工单"
+      ],
+      "nextStage": null
+    }
+  ],
+  
+  "globalRules": {
+    "alwaysInclude": [
+      "您好",
+      "请",
+      "谢谢"
+    ],
+    "alwaysAvoid": [
+      "你自己",
+      "不知道",
+      "这个我们不管",
+      "没办法"
+    ]
+  }
+}

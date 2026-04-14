@@ -1,0 +1,33 @@
+{
+  "description": "SMS验证码场景测试数据 - 反例集合",
+  "scenarioId": "lanton_sms_code",
+  "testCases": [
+    {
+      "name": "缺少关键信息",
+      "conversation": [
+        { "role": "customer", "content": "收不到验证码" }
+      ],
+      "currentReply": "好的，我帮您看看",
+      "expectedLevel": "fail",
+      "missingKeywords": ["您好", "请您", "手机号", "验证码"]
+    },
+    {
+      "name": "包含禁忌内容",
+      "conversation": [
+        { "role": "customer", "content": "收不到验证码" }
+      ],
+      "currentReply": "你自己等等吧，这个我们没办法",
+      "expectedLevel": "risk",
+      "forbiddenKeywords": ["自己等等", "没办法"]
+    },
+    {
+      "name": "回复过短",
+      "conversation": [
+        { "role": "customer", "content": "验证码收不到" }
+      ],
+      "currentReply": "好的",
+      "expectedLevel": "fail",
+      "issues": ["回复过短"]
+    }
+  ]
+}

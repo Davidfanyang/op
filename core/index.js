@@ -23,7 +23,7 @@ async function runAiEnhancedTrainerCore(ruleResult, scenario) {
   }
 
   const aiResult = await callAiCoach({ ruleResult, scenario });
-  const validation = validateAiOutput(aiResult, scenario);
+  const validation = await validateAiOutput(aiResult, scenario, ruleResult);
 
   if (!validation.valid) {
     trackValidationFail();
@@ -43,6 +43,7 @@ async function runAiEnhancedTrainerCore(ruleResult, scenario) {
     aiDecision: decision,
     aiEnhanced: true,
     aiResult,
+    aiValidation: validation,
     metricsSnapshot: { ...metrics }
   };
 }

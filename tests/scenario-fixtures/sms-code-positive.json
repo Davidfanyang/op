@@ -1,0 +1,26 @@
+{
+  "description": "SMS验证码场景测试数据 - 正例集合",
+  "scenarioId": "lanton_sms_code",
+  "testCases": [
+    {
+      "name": "第一阶段完美回复",
+      "conversation": [
+        { "role": "customer", "content": "我注册LantonPay一直收不到验证码，怎么办？" }
+      ],
+      "currentReply": "您好！请您提供注册时使用的手机号，以便我们协助您申请验证码。请您别担心，我们会尽快处理。",
+      "expectedLevel": "borderline",
+      "expectedRisk": "low"
+    },
+    {
+      "name": "第二阶段跟进回复",
+      "conversation": [
+        { "role": "customer", "content": "收不到验证码" },
+        { "role": "agent", "content": "您好！请您提供注册手机号，我们协助申请。" },
+        { "role": "customer", "content": "我的手机号是13800138000" }
+      ],
+      "currentReply": "收到！我们已为您申请验证码，预计5分钟内发送，请您注意查收。",
+      "expectedLevel": "fail",
+      "expectedRisk": "low"
+    }
+  ]
+}

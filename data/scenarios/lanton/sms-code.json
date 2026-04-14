@@ -3,33 +3,116 @@
   "product": "LantonPay",
   "category": "注册问题",
   "title": "注册收不到验证码",
+  "description": "用户注册LantonPay时无法收到短信验证码的处理流程",
   "customerMessage": "我注册 Lanton Pay 一直收不到验证码，怎么办？",
-  "mustCollect": [
-    "注册手机号"
+  
+  "stages": [
+    {
+      "id": "stage_1_acknowledge_and_collect",
+      "name": "确认问题并收集信息",
+      "description": "理解用户问题，安抚情绪，收集注册手机号",
+      "trigger": {
+        "turnIndex": 0,
+        "customerIntent": ["收不到", "验证码", "注册"]
+      },
+      "expectedActions": [
+        "礼貌问候并安抚",
+        "确认问题类型(注册验证码)",
+        "请求用户提供注册手机号"
+      ],
+      "mustInclude": [
+        "您好",
+        "请您",
+        "手机号",
+        "验证码"
+      ],
+      "mustAvoid": [
+        "自己等等",
+        "不用管",
+        "没办法",
+        "这个我不清楚"
+      ],
+      "completionCriteria": [
+        "用户提供注册手机号",
+        "确认问题场景"
+      ],
+      "nextStage": "stage_2_check_and_escalate"
+    },
+    {
+      "id": "stage_2_check_and_escalate",
+      "name": "核查并升级处理",
+      "description": "收到用户手机号后，说明处理流程和时间",
+      "trigger": {
+        "turnIndex": 1,
+        "customerIntent": ["提供了", "手机号", "好的"]
+      },
+      "expectedActions": [
+        "确认收到信息",
+        "说明将协助申请验证码",
+        "给出处理时间预期",
+        "告知后续联系方式"
+      ],
+      "mustInclude": [
+        "收到",
+        "协助",
+        "申请验证码",
+        "我们会尽快",
+        "预计"
+      ],
+      "mustAvoid": [
+        "你自己再试试",
+        "等吧",
+        "不知道什么时候",
+        "这个没办法"
+      ],
+      "completionCriteria": [
+        "承诺具体处理动作",
+        "给出时间预期"
+      ],
+      "nextStage": "stage_3_followup"
+    },
+    {
+      "id": "stage_3_followup",
+      "name": "跟进处理结果",
+      "description": "跟进验证码发送结果，确认用户是否收到",
+      "trigger": {
+        "turnIndex": 2,
+        "customerIntent": ["收到了", "还没收到", "多久", "好了吗"]
+      },
+      "expectedActions": [
+        "如已收到：确认注册成功，提供后续指引",
+        "如未收到：说明处理进度，给出新的时间预期或替代方案"
+      ],
+      "mustInclude": [
+        "请您",
+        "确认",
+        "如有问题"
+      ],
+      "mustAvoid": [
+        "你自己弄吧",
+        "我不管了",
+        "没办法了"
+      ],
+      "completionCriteria": [
+        "用户确认收到验证码",
+        "或已升级技术工单"
+      ],
+      "nextStage": null
+    }
   ],
-  "processKeywords": [
-    "手机号",
-    "验证码",
-    "申请"
-  ],
-  "empathyKeywords": [
-    "您好",
-    "请您",
-    "我们会",
-    "协助"
-  ],
-  "qualityChecks": {
-    "shouldAskFor": [
-      "注册手机号"
+  
+  "globalRules": {
+    "alwaysInclude": [
+      "您好",
+      "请您",
+      "我们会",
+      "协助"
     ],
-    "shouldContainAction": [
-      "申请验证码",
-      "协助申请验证码"
-    ],
-    "shouldAvoid": [
+    "alwaysAvoid": [
       "自己等等",
-      "不用管"
+      "不用管",
+      "没办法",
+      "你自己联系"
     ]
-  },
-  "standardReply": "您好～😊 在注册 Lanton Pay 时收不到验证码，请您提供注册时使用的手机号，我们将为您申请验证码。"
+  }
 }

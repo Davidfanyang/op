@@ -1,4 +1,6 @@
-function validateAiOutput(aiResult, scenario) {
+const { runValidationKit } = require('./validation-kit-bridge');
+
+async function validateAiOutput(aiResult, scenario, ruleResult) {
   if (!aiResult || typeof aiResult !== 'object') {
     return { valid: false, reason: 'empty_or_invalid_object' };
   }
@@ -46,7 +48,27 @@ function validateAiOutput(aiResult, scenario) {
     return { valid: false, reason: 'contains_should_avoid' };
   }
 
-  return { valid: true, reason: 'ok' };
+  const kitResult = await runValidationKit({ aiResult, scenario, ruleResult });
+  const phaseOutcomes = kitResult.validation.phaseOutcomes || [];
+  const hardFail = kitResult.validation.status === 'hard_fail';
+
+  if (hardFail) {
+    return {
+      valid: false,
+      reason: 'validation_kit_hard_fail',
+      validationKit: kitResult
+    };
+  }
+
+  return {
+    valid: true,
+    reason: 'ok',
+    validationKit: {
+      validation: kitResult.validation,
+      evaluation: kitResult.evaluation,
+      phaseOutcomes
+    }
+  };
 }
 
 module.exports = { validateAiOutput };

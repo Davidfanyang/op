@@ -1,0 +1,170 @@
+[
+  {
+    "messageId": "msg_1775822296665_rjua5tzeb",
+    "sessionId": "sess_1775822296664_5zlkbg7hq",
+    "projectId": "lanton",
+    "channel": "telegram",
+    "employeeId": "emp_001",
+    "customerId": "cust_123",
+    "direction": "outbound",
+    "content": "您好，请提供手机号",
+    "messageType": "text",
+    "timestamp": "2026-04-10T11:58:16.664Z",
+    "rawPayload": {
+      "chatId": 123456
+    },
+    "normalized": {
+      "messageId": "tg_msg_002"
+    },
+    "evaluationId": "eval_1775822296665_he80hcq7q",
+    "createdAt": "2026-04-10T11:58:16.665Z"
+  },
+  {
+    "messageId": "msg_1775822296667_b656hvnq3",
+    "sessionId": "sess_1775822296667_rj4gua9es",
+    "projectId": "lanton",
+    "channel": "telegram",
+    "employeeId": "emp_002",
+    "customerId": "cust_456",
+    "direction": "inbound",
+    "content": "测试消息A",
+    "messageType": "text",
+    "timestamp": "2026-04-10T11:58:16.667Z",
+    "rawPayload": {},
+    "normalized": {
+      "messageId": "tg_msg_003"
+    },
+    "evaluationId": null,
+    "createdAt": "2026-04-10T11:58:16.667Z"
+  },
+  {
+    "messageId": "msg_1775822296667_ncs1to5rf",
+    "sessionId": "sess_1775822296667_rj4gua9es",
+    "projectId": "lanton",
+    "channel": "telegram",
+    "employeeId": "emp_002",
+    "customerId": "cust_456",
+    "direction": "outbound",
+    "content": "测试消息B",
+    "messageType": "text",
+    "timestamp": "2026-04-10T11:58:16.667Z",
+    "rawPayload": {},
+    "normalized": {
+      "messageId": "tg_msg_004"
+    },
+    "evaluationId": "eval_1775822296668_buw4cje1s",
+    "createdAt": "2026-04-10T11:58:16.667Z"
+  },
+  {
+    "messageId": "msg_1775822296669_b3bhbwwfs",
+    "sessionId": "sess_1775822296669_nhvp38ijh",
+    "projectId": "lanton",
+    "channel": "telegram",
+    "employeeId": "emp_003",
+    "customerId": "cust_789",
+    "direction": "outbound",
+    "content": "不知道",
+    "messageType": "text",
+    "timestamp": "2026-04-10T11:58:16.669Z",
+    "rawPayload": {},
+    "normalized": {
+      "messageId": "tg_msg_005"
+    },
+    "evaluationId": "eval_1775822296669_zvv163bub",
+    "createdAt": "2026-04-10T11:58:16.669Z"
+  },
+  {
+    "messageId": "msg_1775822402393_7a9fhgu2k",
+    "sessionId": "sess_1775822402392_zcg0h0e98",
+    "projectId": "lanton",
+    "channel": "telegram",
+    "employeeId": "emp_001",
+    "customerId": "cust_123",
+    "direction": "inbound",
+    "content": "我转账显示成功但对方没收到",
+    "messageType": "text",
+    "timestamp": "2026-04-10T12:00:02.391Z",
+    "rawPayload": {
+      "chatId": 123456
+    },
+    "normalized": {
+      "messageId": "tg_msg_001"
+    },
+    "evaluationId": null,
+    "createdAt": "2026-04-10T12:00:02.393Z"
+  },
+  {
+    "messageId": "msg_1775822402394_1mnehdqd6",
+    "sessionId": "sess_1775822402392_zcg0h0e98",
+    "projectId": "lanton",
+    "channel": "telegram",
+    "employeeId": "emp_001",
+    "customerId": "cust_123",
+    "direction": "outbound",
+    "content": "您好，请提供手机号",
+    "messageType": "text",
+    "timestamp": "2026-04-10T12:00:02.394Z",
+    "rawPayload": {
+      "chatId": 123456
+    },
+    "normalized": {
+      "messageId": "tg_msg_002"
+    },
+    "evaluationId": "eval_1775822402612_mwatf9p65",
+    "createdAt": "2026-04-10T12:00:02.394Z"
+  },
+  {
+    "messageId": "msg_1775822402614_6vxj9czxo",
+    "sessionId": "sess_1775822296667_rj4gua9es",
+    "projectId": "lanton",
+    "channel": "telegram",
+    "employeeId": "emp_002",
+    "customerId": "cust_456",
+    "direction": "inbound",
+    "content": "测试消息A",
+    "messageType": "text",
+    "timestamp": "2026-04-10T12:00:02.614Z",
+    "rawPayload": {},
+    "normalized": {
+      "messageId": "tg_msg_003"
+    },
+    "evaluationId": null,
+    "createdAt": "2026-04-10T12:00:02.614Z"
+  },
+  {
+    "messageId": "msg_1775822402614_v3vdzw591",
+    "sessionId": "sess_1775822296667_rj4gua9es",
+    "projectId": "lanton",
+    "channel": "telegram",
+    "employeeId": "emp_002",
+    "customerId": "cust_456",
+    "direction": "outbound",
+    "content": "测试消息B",
+    "messageType": "text",
+    "timestamp": "2026-04-10T12:00:02.614Z",
+    "rawPayload": {},
+    "normalized": {
+      "messageId": "tg_msg_004"
+    },
+    "evaluationId": "eval_1775822402615_7s43f5m7a",
+    "createdAt": "2026-04-10T12:00:02.614Z"
+  },
+  {
+    "messageId": "msg_1775822402616_11dt9fp9u",
+    "sessionId": "sess_1775822296669_nhvp38ijh",
+    "projectId": "lanton",
+    "channel": "telegram",
+    "employeeId": "emp_003",
+    "customerId": "cust_789",
+    "direction": "outbound",
+    "content": "不知道",
+    "messageType": "text",
+    "timestamp": "2026-04-10T12:00:02.616Z",
+    "rawPayload": {},
+    "normalized": {
+      "messageId": "tg_msg_005"
+    },
+    "evaluationId": "eval_1775822402616_mb27lvf8r",
+    "createdAt": "2026-04-10T12:00:02.616Z"
+  }
+]

@@ -3,36 +3,125 @@
   "product": "LantonPay",
   "category": "转账异常",
   "title": "转账成功但对方未到账",
+  "description": "用户发起转账后显示成功但收款方未收到资金的处理流程",
   "customerMessage": "我这边显示转账成功了，但是对方一直没收到钱，这是怎么回事？",
-  "mustCollect": [
-    "付款账单截图",
-    "Lanton绑定手机号"
+  
+  "stages": [
+    {
+      "id": "stage_1_acknowledge_and_collect",
+      "name": "确认问题并收集信息",
+      "description": "理解用户问题，安抚情绪，收集必要信息(账单截图/绑定手机号)",
+      "trigger": {
+        "turnIndex": 0,
+        "customerIntent": ["转账", "成功", "没收到", "未到账"]
+      },
+      "expectedActions": [
+        "礼貌问候并安抚",
+        "确认问题类型(转账未到账)",
+        "请求提供付款账单截图",
+        "请求提供Lanton绑定手机号"
+      ],
+      "mustInclude": [
+        "您好",
+        "请您",
+        "账单截图",
+        "绑定手机号",
+        "协助"
+      ],
+      "mustAvoid": [
+        "你自己联系银行",
+        "这个我们不管",
+        "没办法查",
+        "等吧"
+      ],
+      "completionCriteria": [
+        "用户提供账单截图",
+        "用户提供绑定手机号"
+      ],
+      "nextStage": "stage_2_investigate"
+    },
+    {
+      "id": "stage_2_investigate",
+      "name": "核查交易状态",
+      "description": "收到用户信息后，说明核查流程和时间",
+      "trigger": {
+        "turnIndex": 1,
+        "customerIntent": ["提供了", "截图", "好的", "发了"]
+      },
+      "expectedActions": [
+        "确认收到信息",
+        "说明将查询交易状态",
+        "给出核查时间预期",
+        "承诺反馈时间"
+      ],
+      "mustInclude": [
+        "收到",
+        "查询",
+        "核查",
+        "我们会尽快",
+        "预计",
+        "反馈"
+      ],
+      "mustAvoid": [
+        "你自己等吧",
+        "不知道什么时候",
+        "这个查不了",
+        "没办法"
+      ],
+      "completionCriteria": [
+        "承诺具体核查动作",
+        "给出明确时间预期"
+      ],
+      "nextStage": "stage_3_resolution"
+    },
+    {
+      "id": "stage_3_resolution",
+      "name": "反馈处理结果",
+      "description": "向用户反馈核查结果并提供解决方案",
+      "trigger": {
+        "turnIndex": 2,
+        "customerIntent": ["结果", "怎么样了", "查到了吗", "多久"]
+      },
+      "expectedActions": [
+        "如已查明：说明交易状态和资金位置",
+        "如处理中：说明当前进度和下一步",
+        "提供明确解决方案或补偿措施",
+        "道歉并感谢用户耐心"
+      ],
+      "mustInclude": [
+        "经查",
+        "您的",
+        "交易",
+        "解决方案",
+        "抱歉",
+        "感谢"
+      ],
+      "mustAvoid": [
+        "你自己联系收款方",
+        "我们不管了",
+        "没办法处理",
+        "就这样吧"
+      ],
+      "completionCriteria": [
+        "给出明确解决方案",
+        "用户确认理解并接受"
+      ],
+      "nextStage": null
+    }
   ],
-  "processKeywords": [
-    "账单截图",
-    "绑定手机号",
-    "查询",
-    "核查"
-  ],
-  "empathyKeywords": [
-    "您好",
-    "请您",
-    "我们会尽快",
-    "协助"
-  ],
-  "qualityChecks": {
-    "shouldAskFor": [
-      "付款账单截图",
-      "Lanton绑定手机号"
+  
+  "globalRules": {
+    "alwaysInclude": [
+      "您好",
+      "请您",
+      "我们会尽快",
+      "协助"
     ],
-    "shouldContainAction": [
-      "查询交易状态",
-      "核查处理"
-    ],
-    "shouldAvoid": [
+    "alwaysAvoid": [
       "你自己联系银行",
-      "这个我们不管"
+      "这个我们不管",
+      "没办法",
+      "等吧"
     ]
-  },
-  "standardReply": "您好：为了更好地协助您处理，麻烦您提供付款账单的截图和Lanton绑定的手机号，以便我们进一步查询交易状态。我们会尽快为您核查处理，谢谢！"
+  }
 }

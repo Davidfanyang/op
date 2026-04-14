@@ -1,122 +1,291 @@
-const fs = require('fs');
-const path = require('path');
-const dotenv = require('dotenv');
-const { evaluateTraining } = require('../core/trainer');
-const scenarios = require('../data/scenarios.json');
-const { resetSession, getSession } = require('../session/telegram-session');
-const { formatResultMessage, formatUsage, formatScenarioPrompt, formatScenarioSelected, formatCustomerMessageRecorded } = require('../app/telegram/formatter');
-const { parseCommand } = require('../app/telegram/commands');
+const { evaluate } = require('../services/evaluation-service');
 const { createTelegramClient } = require('../adapters/telegram/telegram-client');
+const { formatResultMessage } = require('../app/telegram/formatter');
+const { parseCommand, parseReviewCommand } = require('../app/telegram/commands');
+const { getSession, setSession, clearSession } = require('../session/telegram-session');
+const { updateReviewStatus } = require('../services/review-service');
+const { ReviewStatus, FalsePositiveReason } = require('../core/constants/statuses');
+const dotenv = require('dotenv');
+const path = require('path');
 
 dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
 
-const token = process.env.TELEGRAM_BOT_TOKEN;
-if (!token) {
-  console.error('缺少 TELEGRAM_BOT_TOKEN');
-  process.exit(1);
-}
-
-const LOCK_PATH = path.resolve(__dirname, '..', 'runtime', 'locks', 'telegram-bot.lock');
-let lockFd = null;
-function acquireLock() {
-  try {
-    lockFd = fs.openSync(LOCK_PATH, 'wx');
-    fs.writeFileSync(LOCK_PATH, String(process.pid));
-  } catch (err) {
-    if (err.code === 'EEXIST') {
-      const pid = fs.existsSync(LOCK_PATH) ? fs.readFileSync(LOCK_PATH, 'utf8').trim() : 'unknown';
-      console.error(`已有 Telegram bot 实例在运行，lock pid=${pid}`);
-      process.exit(1);
-    }
-    throw err;
-  }
-}
-function releaseLock() {
-  try { if (lockFd) fs.closeSync(lockFd); } catch {}
-  try { if (fs.existsSync(LOCK_PATH)) fs.unlinkSync(LOCK_PATH); } catch {}
-}
-process.on('exit', releaseLock);
-process.on('SIGINT', () => { releaseLock(); process.exit(0); });
-process.on('SIGTERM', () => { releaseLock(); process.exit(0); });
-acquireLock();
-
-const telegram = createTelegramClient({ token });
+const telegram = createTelegramClient({ token: process.env.TELEGRAM_BOT_TOKEN });
 let offset = 0;
-function getScenarioByInput(input) {
-  const text = String(input || '').trim();
-  if (/^\d+$/.test(text)) return scenarios[Number(text) - 1] || null;
-  return scenarios.find((s) => s.id === text) || null;
-}
-async function sendUsage(chatId) {
-  return telegram.sendMessage(chatId, formatUsage());
-}
-async function handleTextMessage(chatId, text) {
-  const session = getSession(chatId);
+const scenarios = require('../data/scenarios.json');
+
+const DEFAULT_PROJECT = 'default';
+const DEFAULT_MODE = 'training';
+
+async function handleTextMessage(chatId, text, userInfo = {}) {
+  let session = getSession(chatId) || { index: -1, step: 'idle', projectId: DEFAULT_PROJECT };
   const normalized = String(text || '').trim();
   const command = parseCommand(normalized);
 
-  if (command === 'start') {
-    resetSession(chatId);
-    await telegram.sendMessage(chatId, '客服训练 Bot 已连接。');
-    await sendUsage(chatId);
+  // 处理 review 命令
+  if (command === 'review') {
+    await handleReviewCommand(chatId, normalized, userInfo);
     return;
   }
-  if (command === 'score') {
-    session.step = 'await_scenario';
-    session.scenario = null;
-    session.customerMessage = '';
-    await sendMessage(chatId, formatScenarioPrompt(scenarios));
+
+  // 处理 training 命令
+  if (command === 'training_pending') {
+    await handleTrainingPendingCommand(chatId, userInfo);
     return;
   }
+
+  if (command === 'training_stats') {
+    await handleTrainingStatsCommand(chatId, userInfo);
+    return;
+  }
+
+  if (command === 'start' || command === 'score') {
+    session.index = (session.index + 1) % scenarios.length;
+    session.scenario = scenarios[session.index];
+    session.step = 'await_reply';
+    session.mode = DEFAULT_MODE;
+    setSession(chatId, session);
+    
+    await telegram.sendMessage(chatId, `【话术训练 #${session.index + 1}】${session.scenario.title}\n\n问题：${session.scenario.customerMessage}\n\n请发送你的客服回复：`, { parse_mode: 'Markdown' });
+    return;
+  }
+
   if (command === 'cancel') {
-    resetSession(chatId);
-    await telegram.sendMessage(chatId, '已取消当前流程。');
+    clearSession(chatId);
+    await telegram.sendMessage(chatId, '已取消当前训练会话。发送 /score 重新开始。');
     return;
   }
-  if (session.step === 'await_scenario') {
-    const scenario = getScenarioByInput(normalized);
-    if (!scenario) {
-      await telegram.sendMessage(chatId, '场景无效，请回复场景编号。');
+
+  if (command === 'help') {
+    await telegram.sendMessage(chatId, 
+      '*可用命令：*\n' +
+      '/start 或 /score - 开始新的训练\n' +
+      '/cancel - 取消当前会话\n' +
+      '/review confirmed [备注] - 确认告警\n' +
+      '/review false_positive [原因] [备注] - 标记误报\n' +
+      '/review dismissed [备注] - 忽略告警\n' +
+      '/training_pending - 查看训练待复核列表\n' +
+      '/training_stats - 查看训练统计\n' +
+      '/help - 显示帮助\n\n' +
+      '训练时直接发送你的客服回复即可。',
+      { parse_mode: 'Markdown' }
+    );
+    return;
+  }
+
+  if (session.step === 'await_reply') {
+    const result = await evaluate({
+      projectId: session.projectId || DEFAULT_PROJECT,
+      mode: session.mode || DEFAULT_MODE,
+      scenarioId: session.scenario.id,
+      userReply: normalized,
+      metadata: {
+        channel: 'telegram',
+        chatId: chatId.toString(),
+        sessionId: `${chatId}_${Date.now()}`
+      }
+    });
+    const message = formatResultMessage(result, session.scenario, session.scenario.customerMessage, normalized);
+    await telegram.sendMessage(chatId, message, { parse_mode: 'Markdown' });
+    session.step = 'idle';
+    setSession(chatId, session);
+    return;
+  }
+  
+  await telegram.sendMessage(chatId, "发送 /score 开始训练。\n/help 查看帮助\n（Bot已加载最新 FAQ 知识库，仅依据 FAQ 场景进行评估）");
+}
+
+/**
+ * 处理 review 命令
+ */
+async function handleReviewCommand(chatId, text, userInfo) {
+  const parsed = parseReviewCommand(text);
+  
+  if (!parsed) {
+    await telegram.sendMessage(chatId, 
+      '❌ 命令格式错误\n\n' +
+      '正确格式：\n' +
+      '`/review confirmed [备注]`\n' +
+      '`/review false_positive [原因] [备注]`\n' +
+      '`/review dismissed [备注]`\n\n' +
+      '误报原因可选：\n' +
+      '- threshold_too_sensitive\n' +
+      '- dimension_mapping_strict\n' +
+      '- model_understanding_limitation\n' +
+      '- scenario_match_error\n' +
+      '- other',
+      { parse_mode: 'Markdown' }
+    );
+    return;
+  }
+
+  // 检查 false_positive 是否提供了原因
+  if (parsed._missingReason) {
+    await telegram.sendMessage(chatId,
+      '❌ false_positive 必须提供误报原因\n\n' +
+      '正确格式：\n' +
+      '`/review false_positive threshold_too_sensitive 正常短回复被误报`\n\n' +
+      '可选原因：\n' +
+      '- threshold_too_sensitive\n' +
+      '- dimension_mapping_strict\n' +
+      '- model_understanding_limitation\n' +
+      '- scenario_match_error\n' +
+      '- other',
+      { parse_mode: 'Markdown' }
+    );
+    return;
+  }
+
+  // 从回复的消息中获取 sessionId
+  // 注意：这里假设用户是在回复某条告警消息
+  // 实际实现可能需要从消息上下文中获取
+  const sessionId = userInfo.replyToMessage?.text?.match(/会话ID:\s*`?(\S+)`?/)?.[1];
+  
+  if (!sessionId) {
+    await telegram.sendMessage(chatId,
+      '❌ 无法确定要复核的会话\n\n' +
+      '请回复告警消息后再使用 /review 命令',
+      { parse_mode: 'Markdown' }
+    );
+    return;
+  }
+
+  // 执行复核更新
+  const result = updateReviewStatus({
+    sessionId,
+    reviewStatus: parsed.reviewStatus,
+    reviewedBy: userInfo.username || userInfo.userId || 'unknown',
+    reviewComment: parsed.reviewComment,
+    falsePositiveReason: parsed.falsePositiveReason
+  });
+
+  if (!result.success) {
+    await telegram.sendMessage(chatId,
+      `❌ 复核失败\n\n错误: ${result.error.message}`,
+      { parse_mode: 'Markdown' }
+    );
+    return;
+  }
+
+  // 发送确认消息
+  const data = result.data;
+  let confirmMessage = '';
+  
+  switch (data.reviewStatus) {
+    case ReviewStatus.CONFIRMED:
+      confirmMessage += '✅ *复核已更新*\n\n';
+      break;
+    case ReviewStatus.FALSE_POSITIVE:
+      confirmMessage += '🔄 *复核已更新*\n\n';
+      break;
+    case ReviewStatus.DISMISSED:
+      confirmMessage += '🚫 *复核已更新*\n\n';
+      break;
+  }
+  
+  confirmMessage += `*会话ID:* \`${data.sessionId || sessionId}\`\n`;
+  confirmMessage += `*复核状态:* ${data.reviewStatus}\n`;
+  confirmMessage += `*复核人:* ${data.reviewedBy}\n`;
+  
+  if (data.falsePositiveReason) {
+    confirmMessage += `*误报原因:* ${data.falsePositiveReason}\n`;
+  }
+  
+  if (data.reviewComment) {
+    confirmMessage += `*备注:* ${data.reviewComment}\n`;
+  }
+  
+  await telegram.sendMessage(chatId, confirmMessage, { parse_mode: 'Markdown' });
+}
+
+/**
+ * 处理 /training_pending 命令
+ */
+async function handleTrainingPendingCommand(chatId, userInfo) {
+  try {
+    const { RepositoryFactory } = require('../repositories');
+    const repos = RepositoryFactory.getMySQLRepositories();
+    
+    const result = await repos.review.findTrainingPending('default', {}, { page: 1, limit: 10 });
+    
+    if (result.total === 0) {
+      await telegram.sendMessage(chatId, '✅ 当前没有待复核的训练记录');
       return;
     }
-    session.scenario = scenario;
-    session.step = 'await_customer_message';
-    await telegram.sendMessage(chatId, formatScenarioSelected(scenario.title));
-    return;
+    
+    let message = `📋 *训练待复核列表* (${result.total} 条)\n\n`;
+    
+    result.items.forEach((item, index) => {
+      message += `${index + 1}. *${item.alertLevel}* - ${item.sessionId}\n`;
+      message += `   创建时间: ${new Date(item.createdAt).toLocaleString('zh-CN')}\n\n`;
+    });
+    
+    message += '_使用 /review 命令复核具体会话_';
+    
+    await telegram.sendMessage(chatId, message, { parse_mode: 'Markdown' });
+  } catch (error) {
+    console.error('[TrainingPending] 查询失败:', error.message);
+    await telegram.sendMessage(chatId, `❌ 查询失败: ${error.message}`, { parse_mode: 'Markdown' });
   }
-  if (session.step === 'await_customer_message') {
-    session.customerMessage = normalized === '默认' ? session.scenario.customerMessage : normalized;
-    session.step = 'await_user_reply';
-    await telegram.sendMessage(chatId, formatCustomerMessageRecorded(session.customerMessage));
-    return;
-  }
-  if (session.step === 'await_user_reply') {
-    const scenario = session.scenario;
-    const customerMessage = session.customerMessage || scenario.customerMessage;
-    const result = evaluateTraining({ scenarioId: scenario.id, userReply: normalized });
-    const message = formatResultMessage(result, scenario, customerMessage, normalized);
-    resetSession(chatId);
-    await telegram.sendMessage(chatId, message);
-    return;
-  }
-  await sendUsage(chatId);
 }
+
+/**
+ * 处理 /training_stats 命令
+ */
+async function handleTrainingStatsCommand(chatId, userInfo) {
+  try {
+    const { RepositoryFactory } = require('../repositories');
+    const repos = RepositoryFactory.getMySQLRepositories();
+    
+    const stats = await repos.review.getTrainingStats('default', {});
+    
+    let message = `📊 *训练统计*\n\n`;
+    message += `*总计:* ${stats.total} 条记录\n\n`;
+    
+    message += '*按状态分布:*\n';
+    for (const [status, data] of Object.entries(stats.byStatus)) {
+      message += `- ${status}: ${data.count} 条`;
+      if (data.avgScore) message += ` (平均分: ${data.avgScore})`;
+      message += '\n';
+    }
+    
+    message += '\n*按告警级别:*\n';
+    for (const [level, count] of Object.entries(stats.byAlertLevel)) {
+      message += `- ${level}: ${count} 条\n`;
+    }
+    
+    await telegram.sendMessage(chatId, message, { parse_mode: 'Markdown' });
+  } catch (error) {
+    console.error('[TrainingStats] 查询失败:', error.message);
+    await telegram.sendMessage(chatId, `❌ 查询失败: ${error.message}`, { parse_mode: 'Markdown' });
+  }
+}
+
 async function pollLoop() {
+  console.log('[Telegram Bot] 启动轮询...');
   while (true) {
     try {
       const updates = await telegram.getUpdates(offset);
       for (const update of updates) {
         offset = update.update_id + 1;
-        const msg = update.message;
-        if (!msg || !msg.text) continue;
-        console.log('[UPDATE]', JSON.stringify({ chatId: msg.chat.id, text: msg.text }));
-        await handleTextMessage(msg.chat.id, msg.text.trim());
+        if (update.message?.text) {
+          const userInfo = {
+            userId: update.message.from?.id,
+            username: update.message.from?.username,
+            replyToMessage: update.message.reply_to_message
+          };
+          await handleTextMessage(update.message.chat.id, update.message.text, userInfo);
+        }
       }
-    } catch (err) {
-      console.error('[POLL ERROR]', err.message);
-      await new Promise((r) => setTimeout(r, 1500));
+    } catch (err) { 
+      console.error('[Telegram Bot] 轮询错误:', err.message);
+      await new Promise(r => setTimeout(r, 2000)); 
     }
   }
 }
-console.log('Telegram 对练评分机器人已启动');
-pollLoop();
+
+if (require.main === module) {
+  pollLoop();
+}
+
+module.exports = { pollLoop, handleTextMessage };

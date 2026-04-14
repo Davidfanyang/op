@@ -7,13 +7,17 @@
   "scripts": {
     "start": "node index.js examples/test-input.json",
     "test:run": "node index.js examples/test-input.json",
+    "test": "node tests/run-all-tests.js",
+    "test:mysql": "bash scripts/run-mysql-tests.sh",
+    "test:api": "node tests/supervisor-api.test.js",
     "score": "node examples/score-dialog.js",
     "tg": "node bot/telegram-bot.js",
-    "tg:clean": "pkill -f 'node bot/tg-debug.js|node bot/telegram-bot.js' || true; rm -f runtime/locks/telegram-bot.lock runtime/logs/telegram-bot.log runtime/logs/smoke-test.log",
-    "tg:start": "npm run tg:clean && nohup node bot/telegram-bot.js > runtime/logs/telegram-bot.log 2>&1 &"
+    "tg:clean": "pkill -f 'node bot/telegram-bot.js' || true; rm -f runtime/locks/telegram-bot.lock runtime/logs/telegram-bot.log",
+    "tg:start": "npm run tg:clean && node bot/telegram-bot.js 2>&1 | tee runtime/logs/telegram-bot.log"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
+    "mysql2": "^3.6.0",
     "node-telegram-bot-api": "^0.66.0"
   }
 }

@@ -1,0 +1,486 @@
+[
+  {
+    "evaluationId": "eval_1775822296665_he80hcq7q",
+    "messageId": "msg_1775822296665_rjua5tzeb",
+    "sessionId": "sess_1775822296664_5zlkbg7hq",
+    "projectId": "lanton",
+    "mode": "live_monitor",
+    "scenarioId": null,
+    "status": "invalid_input",
+    "alertLevel": "none",
+    "score": 0,
+    "dimensionScores": {},
+    "findings": [
+      {
+        "code": "INVALID_INPUT",
+        "severity": "high",
+        "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
+      }
+    ],
+    "suggestions": [
+      "请检查输入参数是否完整"
+    ],
+    "alerts": [],
+    "summary": "输入参数不合法",
+    "standardReply": null,
+    "matchedScenario": null,
+    "matchConfidence": null,
+    "createdAt": "2026-04-10T11:58:16.665Z",
+    "rawResult": {
+      "status": "invalid_input",
+      "evaluationStatus": "invalid_input",
+      "alertLevel": "none",
+      "reviewStatus": "pending",
+      "projectId": "lanton",
+      "mode": "live_monitor",
+      "sessionId": "sess_1775822296664_5zlkbg7hq",
+      "employeeId": "emp_001",
+      "scenarioId": null,
+      "matchedScenarioId": null,
+      "matchConfidence": null,
+      "customerMessage": null,
+      "userReply": "您好，请提供手机号",
+      "score": null,
+      "dimensionScores": null,
+      "findings": [
+        {
+          "code": "INVALID_INPUT",
+          "severity": "high",
+          "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
+        }
+      ],
+      "suggestions": [
+        "请检查输入参数是否完整"
+      ],
+      "alerts": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewComment": "",
+      "falsePositiveReason": null,
+      "summary": "输入参数不合法",
+      "standardReply": null,
+      "createdAt": "2026-04-10T11:58:16.665Z",
+      "updatedAt": "2026-04-10T11:58:16.665Z",
+      "meta": {
+        "evaluatorVersion": "v3.0",
+        "source": "evaluation-service",
+        "aiEnhanced": false,
+        "fallbackUsed": false,
+        "timestamp": "2026-04-10T11:58:16.665Z",
+        "error": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
+      }
+    }
+  },
+  {
+    "evaluationId": "eval_1775822296668_buw4cje1s",
+    "messageId": "msg_1775822296667_ncs1to5rf",
+    "sessionId": "sess_1775822296667_rj4gua9es",
+    "projectId": "lanton",
+    "mode": "live_monitor",
+    "scenarioId": null,
+    "status": "scenario_match_low_confidence",
+    "alertLevel": "none",
+    "score": 0,
+    "dimensionScores": {},
+    "findings": [
+      {
+        "code": "SCENARIO_MATCH_LOW_CONFIDENCE",
+        "severity": "high",
+        "message": "匹配置信度过低 (0.0%)，请人工确认场景或提供明确的 scenarioId"
+      }
+    ],
+    "suggestions": [
+      "场景匹配置信度过低，建议人工确认或提供明确 scenarioId"
+    ],
+    "alerts": [],
+    "summary": "场景匹配置信度不足",
+    "standardReply": null,
+    "matchedScenario": null,
+    "matchConfidence": null,
+    "createdAt": "2026-04-10T11:58:16.668Z",
+    "rawResult": {
+      "status": "scenario_match_low_confidence",
+      "evaluationStatus": "scenario_match_low_confidence",
+      "alertLevel": "none",
+      "reviewStatus": "pending",
+      "projectId": "lanton",
+      "mode": "live_monitor",
+      "sessionId": "sess_1775822296667_rj4gua9es",
+      "employeeId": "emp_002",
+      "scenarioId": null,
+      "matchedScenarioId": null,
+      "matchConfidence": null,
+      "customerMessage": "测试消息A",
+      "userReply": "测试消息B",
+      "score": null,
+      "dimensionScores": null,
+      "findings": [
+        {
+          "code": "SCENARIO_MATCH_LOW_CONFIDENCE",
+          "severity": "high",
+          "message": "匹配置信度过低 (0.0%)，请人工确认场景或提供明确的 scenarioId"
+        }
+      ],
+      "suggestions": [
+        "场景匹配置信度过低，建议人工确认或提供明确 scenarioId"
+      ],
+      "alerts": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewComment": "",
+      "falsePositiveReason": null,
+      "summary": "场景匹配置信度不足",
+      "standardReply": null,
+      "createdAt": "2026-04-10T11:58:16.668Z",
+      "updatedAt": "2026-04-10T11:58:16.668Z",
+      "meta": {
+        "evaluatorVersion": "v3.0",
+        "source": "evaluation-service",
+        "aiEnhanced": false,
+        "fallbackUsed": false,
+        "timestamp": "2026-04-10T11:58:16.668Z",
+        "error": "匹配置信度过低 (0.0%)，请人工确认场景或提供明确的 scenarioId"
+      }
+    }
+  },
+  {
+    "evaluationId": "eval_1775822296669_zvv163bub",
+    "messageId": "msg_1775822296669_b3bhbwwfs",
+    "sessionId": "sess_1775822296669_nhvp38ijh",
+    "projectId": "lanton",
+    "mode": "live_monitor",
+    "scenarioId": null,
+    "status": "invalid_input",
+    "alertLevel": "none",
+    "score": 0,
+    "dimensionScores": {},
+    "findings": [
+      {
+        "code": "INVALID_INPUT",
+        "severity": "high",
+        "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
+      }
+    ],
+    "suggestions": [
+      "请检查输入参数是否完整"
+    ],
+    "alerts": [],
+    "summary": "输入参数不合法",
+    "standardReply": null,
+    "matchedScenario": null,
+    "matchConfidence": null,
+    "createdAt": "2026-04-10T11:58:16.669Z",
+    "rawResult": {
+      "status": "invalid_input",
+      "evaluationStatus": "invalid_input",
+      "alertLevel": "none",
+      "reviewStatus": "pending",
+      "projectId": "lanton",
+      "mode": "live_monitor",
+      "sessionId": "sess_1775822296669_nhvp38ijh",
+      "employeeId": "emp_003",
+      "scenarioId": null,
+      "matchedScenarioId": null,
+      "matchConfidence": null,
+      "customerMessage": null,
+      "userReply": "不知道",
+      "score": null,
+      "dimensionScores": null,
+      "findings": [
+        {
+          "code": "INVALID_INPUT",
+          "severity": "high",
+          "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
+        }
+      ],
+      "suggestions": [
+        "请检查输入参数是否完整"
+      ],
+      "alerts": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewComment": "",
+      "falsePositiveReason": null,
+      "summary": "输入参数不合法",
+      "standardReply": null,
+      "createdAt": "2026-04-10T11:58:16.669Z",
+      "updatedAt": "2026-04-10T11:58:16.669Z",
+      "meta": {
+        "evaluatorVersion": "v3.0",
+        "source": "evaluation-service",
+        "aiEnhanced": false,
+        "fallbackUsed": false,
+        "timestamp": "2026-04-10T11:58:16.669Z",
+        "error": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
+      }
+    }
+  },
+  {
+    "evaluationId": "eval_1775822402612_mwatf9p65",
+    "messageId": "msg_1775822402394_1mnehdqd6",
+    "sessionId": "sess_1775822402392_zcg0h0e98",
+    "projectId": "lanton",
+    "mode": "live_monitor",
+    "scenarioId": "lanton_not_received",
+    "status": "alert_triggered",
+    "alertLevel": "warning",
+    "score": 35,
+    "dimensionScores": {
+      "attitude": 10,
+      "process": 6,
+      "information": 9,
+      "empathy": 10,
+      "clarity": 14
+    },
+    "findings": [
+      {
+        "code": "NEEDS_IMPROVEMENT",
+        "severity": "high",
+        "message": "回复需要改进"
+      }
+    ],
+    "suggestions": [
+      "请认真学习标准回复话术",
+      "注意收集必要信息",
+      "加强礼貌和安抚表达"
+    ],
+    "alerts": [
+      {
+        "level": "warning",
+        "type": "low_score",
+        "message": "评分偏低: 35分，需要关注",
+        "threshold": 40
+      }
+    ],
+    "summary": "这条回复暂时还不适合直接发给用户，请认真学习标准回复。",
+    "standardReply": "您好：为了更好地协助您处理，麻烦您提供付款账单的截图和Lanton绑定的手机号，以便我们进一步查询交易状态。",
+    "matchedScenario": {
+      "id": "lanton_not_received",
+      "title": "转账成功但对方未到账",
+      "customerMessage": "我转账显示成功，但对方一直没收到钱？"
+    },
+    "matchConfidence": 0.09999999999999999,
+    "createdAt": "2026-04-10T12:00:02.612Z",
+    "rawResult": {
+      "status": "alert_triggered",
+      "evaluationStatus": "alert_triggered",
+      "alertLevel": "warning",
+      "reviewStatus": "pending",
+      "projectId": "lanton",
+      "mode": "live_monitor",
+      "sessionId": "sess_1775822402392_zcg0h0e98",
+      "employeeId": "emp_001",
+      "scenarioId": "lanton_not_received",
+      "matchedScenarioId": "lanton_not_received",
+      "matchConfidence": 0.09999999999999999,
+      "customerMessage": "我转账显示成功但对方没收到",
+      "userReply": "您好，请提供手机号",
+      "score": 35,
+      "dimensionScores": {
+        "attitude": 10,
+        "process": 6,
+        "information": 9,
+        "empathy": 10,
+        "clarity": 14
+      },
+      "findings": [
+        {
+          "code": "NEEDS_IMPROVEMENT",
+          "severity": "high",
+          "message": "回复需要改进"
+        }
+      ],
+      "suggestions": [
+        "请认真学习标准回复话术",
+        "注意收集必要信息",
+        "加强礼貌和安抚表达"
+      ],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewComment": "",
+      "falsePositiveReason": null,
+      "summary": "这条回复暂时还不适合直接发给用户，请认真学习标准回复。",
+      "standardReply": "您好：为了更好地协助您处理，麻烦您提供付款账单的截图和Lanton绑定的手机号，以便我们进一步查询交易状态。",
+      "createdAt": "2026-04-10T12:00:02.611Z",
+      "updatedAt": "2026-04-10T12:00:02.611Z",
+      "grayRelease": {
+        "isGrayMode": true,
+        "phase": "pilot",
+        "disclaimer": "灰度测试数据，不作为处罚依据",
+        "startDate": "2026-04-10T12:00:02.611Z"
+      },
+      "meta": {
+        "evaluatorVersion": "v3.0",
+        "source": "local-model",
+        "aiEnhanced": true,
+        "fallbackUsed": false,
+        "timestamp": "2026-04-10T12:00:02.611Z",
+        "mode": "live_monitor",
+        "projectId": "lanton",
+        "aiFallback": false,
+        "sessionId": "sess_1775822402392_zcg0h0e98",
+        "employeeId": "emp_001",
+        "customerId": "cust_123",
+        "messageId": "msg_1775822402394_1mnehdqd6"
+      },
+      "alerts": [
+        {
+          "level": "warning",
+          "type": "low_score",
+          "message": "评分偏低: 35分，需要关注",
+          "threshold": 40
+        }
+      ],
+      "matchedScenario": {
+        "id": "lanton_not_received",
+        "title": "转账成功但对方未到账",
+        "customerMessage": "我转账显示成功，但对方一直没收到钱？"
+      },
+      "matchWarning": null
+    }
+  },
+  {
+    "evaluationId": "eval_1775822402615_7s43f5m7a",
+    "messageId": "msg_1775822402614_v3vdzw591",
+    "sessionId": "sess_1775822296667_rj4gua9es",
+    "projectId": "lanton",
+    "mode": "live_monitor",
+    "scenarioId": null,
+    "status": "scenario_match_low_confidence",
+    "alertLevel": "none",
+    "score": 0,
+    "dimensionScores": {},
+    "findings": [
+      {
+        "code": "SCENARIO_MATCH_LOW_CONFIDENCE",
+        "severity": "high",
+        "message": "匹配置信度过低 (0.0%)，请人工确认场景或提供明确的 scenarioId"
+      }
+    ],
+    "suggestions": [
+      "场景匹配置信度过低，建议人工确认或提供明确 scenarioId"
+    ],
+    "alerts": [],
+    "summary": "场景匹配置信度不足",
+    "standardReply": null,
+    "matchedScenario": null,
+    "matchConfidence": null,
+    "createdAt": "2026-04-10T12:00:02.615Z",
+    "rawResult": {
+      "status": "scenario_match_low_confidence",
+      "evaluationStatus": "scenario_match_low_confidence",
+      "alertLevel": "none",
+      "reviewStatus": "pending",
+      "projectId": "lanton",
+      "mode": "live_monitor",
+      "sessionId": "sess_1775822296667_rj4gua9es",
+      "employeeId": "emp_002",
+      "scenarioId": null,
+      "matchedScenarioId": null,
+      "matchConfidence": null,
+      "customerMessage": "测试消息A",
+      "userReply": "测试消息B",
+      "score": null,
+      "dimensionScores": null,
+      "findings": [
+        {
+          "code": "SCENARIO_MATCH_LOW_CONFIDENCE",
+          "severity": "high",
+          "message": "匹配置信度过低 (0.0%)，请人工确认场景或提供明确的 scenarioId"
+        }
+      ],
+      "suggestions": [
+        "场景匹配置信度过低，建议人工确认或提供明确 scenarioId"
+      ],
+      "alerts": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewComment": "",
+      "falsePositiveReason": null,
+      "summary": "场景匹配置信度不足",
+      "standardReply": null,
+      "createdAt": "2026-04-10T12:00:02.615Z",
+      "updatedAt": "2026-04-10T12:00:02.615Z",
+      "meta": {
+        "evaluatorVersion": "v3.0",
+        "source": "evaluation-service",
+        "aiEnhanced": false,
+        "fallbackUsed": false,
+        "timestamp": "2026-04-10T12:00:02.615Z",
+        "error": "匹配置信度过低 (0.0%)，请人工确认场景或提供明确的 scenarioId"
+      }
+    }
+  },
+  {
+    "evaluationId": "eval_1775822402616_mb27lvf8r",
+    "messageId": "msg_1775822402616_11dt9fp9u",
+    "sessionId": "sess_1775822296669_nhvp38ijh",
+    "projectId": "lanton",
+    "mode": "live_monitor",
+    "scenarioId": null,
+    "status": "invalid_input",
+    "alertLevel": "none",
+    "score": 0,
+    "dimensionScores": {},
+    "findings": [
+      {
+        "code": "INVALID_INPUT",
+        "severity": "high",
+        "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
+      }
+    ],
+    "suggestions": [
+      "请检查输入参数是否完整"
+    ],
+    "alerts": [],
+    "summary": "输入参数不合法",
+    "standardReply": null,
+    "matchedScenario": null,
+    "matchConfidence": null,
+    "createdAt": "2026-04-10T12:00:02.616Z",
+    "rawResult": {
+      "status": "invalid_input",
+      "evaluationStatus": "invalid_input",
+      "alertLevel": "none",
+      "reviewStatus": "pending",
+      "projectId": "lanton",
+      "mode": "live_monitor",
+      "sessionId": "sess_1775822296669_nhvp38ijh",
+      "employeeId": "emp_003",
+      "scenarioId": null,
+      "matchedScenarioId": null,
+      "matchConfidence": null,
+      "customerMessage": null,
+      "userReply": "不知道",
+      "score": null,
+      "dimensionScores": null,
+      "findings": [
+        {
+          "code": "INVALID_INPUT",
+          "severity": "high",
+          "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
+        }
+      ],
+      "suggestions": [
+        "请检查输入参数是否完整"
+      ],
+      "alerts": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewComment": "",
+      "falsePositiveReason": null,
+      "summary": "输入参数不合法",
+      "standardReply": null,
+      "createdAt": "2026-04-10T12:00:02.616Z",
+      "updatedAt": "2026-04-10T12:00:02.616Z",
+      "meta": {
+        "evaluatorVersion": "v3.0",
+        "source": "evaluation-service",
+        "aiEnhanced": false,
+        "fallbackUsed": false,
+        "timestamp": "2026-04-10T12:00:02.616Z",
+        "error": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
+      }
+    }
+  }
+]

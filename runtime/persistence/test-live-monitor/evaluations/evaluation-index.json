@@ -1,0 +1,45 @@
+{
+  "byMessage": {
+    "msg_1775822296665_rjua5tzeb": "eval_1775822296665_he80hcq7q",
+    "msg_1775822296667_ncs1to5rf": "eval_1775822296668_buw4cje1s",
+    "msg_1775822296669_b3bhbwwfs": "eval_1775822296669_zvv163bub",
+    "msg_1775822402394_1mnehdqd6": "eval_1775822402612_mwatf9p65",
+    "msg_1775822402614_v3vdzw591": "eval_1775822402615_7s43f5m7a",
+    "msg_1775822402616_11dt9fp9u": "eval_1775822402616_mb27lvf8r"
+  },
+  "bySession": {
+    "sess_1775822296664_5zlkbg7hq": [
+      "eval_1775822296665_he80hcq7q"
+    ],
+    "sess_1775822296667_rj4gua9es": [
+      "eval_1775822296668_buw4cje1s",
+      "eval_1775822402615_7s43f5m7a"
+    ],
+    "sess_1775822296669_nhvp38ijh": [
+      "eval_1775822296669_zvv163bub",
+      "eval_1775822402616_mb27lvf8r"
+    ],
+    "sess_1775822402392_zcg0h0e98": [
+      "eval_1775822402612_mwatf9p65"
+    ]
+  },
+  "byProject": {
+    "lanton": [
+      "eval_1775822296665_he80hcq7q",
+      "eval_1775822296668_buw4cje1s",
+      "eval_1775822296669_zvv163bub",
+      "eval_1775822402612_mwatf9p65",
+      "eval_1775822402615_7s43f5m7a",
+      "eval_1775822402616_mb27lvf8r"
+    ]
+  },
+  "alerts": {
+    "lanton": [
+      {
+        "evaluationId": "eval_1775822402612_mwatf9p65",
+        "alertLevel": "warning",
+        "createdAt": "2026-04-10T12:00:02.612Z"
+      }
+    ]
+  }
+}

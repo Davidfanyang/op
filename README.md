@@ -1,183 +1,128 @@
-# trainer-core
+# Trainer Core - 客服训练引擎
 
-客服训练核心引擎 V1。
+## 项目是什么
 
-当前项目包含三块能力：
+客服回复质量评估引擎，支持规则评分 + AI 增强评估，提供 Telegram Bot 交互界面。
 
-1. **规则评分引擎**：输入场景 + 客服回复，输出分数、问题项、建议、标准回复
-2. **命令行测试脚本**：本地交互输入即可评分
-3. **Telegram Bot**：通过 TG 分步骤输入并返回评分结果
+## 当前能做什么
 
----
+- 基于规则的客服回复评分
+- AI 增强评估（低分/复杂场景自动触发）
+- Telegram Bot 交互训练
+- 多项目/多模式支持（training/live_monitor）
 
-## 目录结构
+## 当前正式入口
 
-```text
-trainer-core/
-├─ bot/                 # Telegram Bot
-├─ core/                # 核心评分逻辑
-├─ data/                # 场景与评分标准数据
-├─ examples/            # 示例输入与本地测试脚本
-├─ index.js             # CLI 入口：读取 JSON 文件评分
-├─ package.json
-└─ README.md
+| 入口 | 用途 | 命令 |
+|------|------|------|
+| `start-bot.js` | 启动 Telegram Bot | `node start-bot.js` |
+| `index.js` | CLI 评估（单次） | `node index.js <input.json>` |
+| `start-live-monitor.js` | 启动实时监听服务 | `node start-live-monitor.js` |
+
+## 当前目录结构
+
+```
+bot/
+  telegram-bot.js          # Telegram Bot 入口
+adapters/
+  telegram/
+    telegram-client.js     # Telegram API 客户端
+  alerts/
+    telegram-alert.js      # 告警发送
+app/
+  telegram/
+    commands.js            # 命令解析
+    formatter.js           # 消息格式化
+core/
+  trainer.js               # 评估主链 (orchestrator)
+  evaluator.js             # 规则评分器
+  feedback.js              # 反馈构建
+  scenario-loader.js       # 场景加载
+  index.js                 # AI 增强链
+  ai-decision.js           # AI 触发决策
+  ai-coach.js              # AI 评估调用
+  ai-validator.js          # AI 输出校验
+  ai-evaluator.js          # AI 评分器
+  router-fallback.js       # 多模型 fallback
+  metrics.js               # 指标统计
+  validation-kit-bridge.js # 外部校验桥接
+services/
+  evaluation-service.js    # 评估服务层
+  project-service.js       # 项目服务（预留）
+session/
+  session-store.js         # 会话存储
+  telegram-session.js      # Telegram 会话管理
+data/
+  scenarios.json           # 场景定义
+  scenarios/               # 项目场景目录
+  standards.json           # 评分标准
+  standards/               # 标准细则
+docs/
+  architecture.md          # 架构文档
+  runbook.md               # 运维手册
+  scenario-schema.md       # 场景 schema
+  telegram-flow.md         # Telegram 流程
+examples/
+  test-input.json          # 测试输入样例
+  test-good.json           # 优秀回复样例
+  test-bad.json            # 问题回复样例
+  score-dialog.js          # 评分示例
+  run-ai-chain.js          # AI 链示例
+tests/
+  smoke-test.js            # 冒烟测试
+runtime/
+  logs/                    # 日志目录
+  locks/                   # 锁文件目录
 ```
 
----
+## 如何本地启动
 
-## 环境要求
-
-- Node.js 18+
-- npm
-
----
-
-## 安装依赖
+### 1. 安装依赖
 
 ```bash
-cd /Users/adime/.openclaw/workspace/trainer-core
 npm install
 ```
 
----
-
-## 环境变量
-
-复制示例文件：
+### 2. 配置环境变量
 
 ```bash
 cp .env.example .env
+# 编辑 .env，添加 TELEGRAM_BOT_TOKEN
 ```
 
-然后按需填写：
-
-```env
-# AI 增强链路（可选）
-OPENROUTER_API_KEY=
-OPENROUTER_MODEL=
-
-# Telegram Bot（运行 TG Bot 必填）
-TELEGRAM_BOT_TOKEN=
-```
-
----
-
-## 运行方式
-
-### 1. 跑默认示例
+### 3. 启动 Bot
 
 ```bash
-npm run start
+# 方式1: 直接启动
+node start-bot.js
+
+# 方式2: 使用脚本
+bash scripts/run-local.sh
+
+# 方式3: 使用 npm
+npm run tg
 ```
 
-等价于：
+### 4. CLI 测试
 
 ```bash
 node index.js examples/test-input.json
 ```
 
----
+## 环境变量
 
-### 2. 跑指定 JSON 文件
+| 变量 | 必填 | 说明 |
+|------|------|------|
+| TELEGRAM_BOT_TOKEN | 是 | Telegram Bot Token |
+| TELEGRAM_ALERT_CHAT_ID | 否 | 告警群组 ID |
+| OPENROUTER_API_KEY | 否 | AI 评估 API Key |
+| GRAY_RELEASE_ENABLED | 否 | 灰度模式开关 |
+| LOCAL_SCORING_API | 否 | 本地评分服务地址 |
 
-```bash
-node index.js examples/test-good.json
-node index.js examples/test-bad.json
-```
+## 命令参考
 
-输入格式：
-
-```json
-{
-  "scenarioId": "lanton_sms_code",
-  "userReply": "您好，请提供您的注册手机号，我们会协助您申请验证码。"
-}
-```
-
----
-
-### 3. 本地交互评分
-
-```bash
-npm run score
-```
-
-功能：
-- 选择场景
-- 输入用户消息
-- 输入客服回复
-- 输出评分和 JSON 结果
-
-也支持参数模式：
-
-```bash
-node examples/score-dialog.js \
-  --scenario lanton_transfer_success_not_received \
-  --customer "我转账成功了但是对方没收到钱，怎么办？" \
-  --reply "您好，请您提供付款账单截图和Lanton绑定手机号，我们会尽快帮您核查处理。"
-```
-
----
-
-### 4. 启动 Telegram Bot
-
-```bash
-npm run tg
-```
-
-支持命令：
-
-- `/start`
-- `/help`
-- `/scenarios`
-- `/score`
-- `/cancel`
-
-交互流程：
-
-1. 选择场景
-2. 输入用户消息
-3. 输入客服回复
-4. 返回评分结果
-
----
-
-## 当前可用场景
-
-### `lanton_sms_code`
-- 标题：注册收不到验证码
-- 用户示例：我注册 Lanton Pay 一直收不到验证码，怎么办？
-
-### `lanton_transfer_success_not_received`
-- 标题：转账成功但对方未到账
-- 用户示例：我这边显示转账成功了，但是对方一直没收到钱，这是怎么回事？
-
----
-
-## 核心输出字段
-
-评分结果主要包含：
-
-- `score`：总分
-- `coachSummary`：整体总结
-- `dimensionScores`：维度分数
-- `findings`：问题项
-- `suggestions`：优化建议
-- `standardReply`：标准参考回复
-
----
-
-## 说明
-
-当前版本是**规则评分引擎优先**：
-
-- 优点：简单、稳定、可解释
-- 限制：还不支持直接对整段多轮对话自动抽取客服回复
-
-如果后续需要，可以继续扩展：
-
-- Telegram 按钮选择场景
-- 直接粘贴整段对话自动评分
-- 批量导入 CSV / Excel
-- Web 页面
-# op
+| 命令 | 说明 |
+|------|------|
+| /start, /score | 开始训练 |
+| /cancel | 取消当前会话 |
+| /help | 显示帮助 |

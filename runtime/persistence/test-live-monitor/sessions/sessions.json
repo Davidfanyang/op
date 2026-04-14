@@ -1,0 +1,47 @@
+[
+  {
+    "sessionId": "sess_1775822296667_rj4gua9es",
+    "projectId": "lanton",
+    "channel": "telegram",
+    "employeeId": "emp_002",
+    "customerId": "cust_456",
+    "status": "active",
+    "createdAt": "2026-04-10T11:58:16.667Z",
+    "updatedAt": "2026-04-10T12:00:02.615Z",
+    "closedAt": null,
+    "metadata": {
+      "source": "live_monitor",
+      "createdBy": "emp_002"
+    }
+  },
+  {
+    "sessionId": "sess_1775822296669_nhvp38ijh",
+    "projectId": "lanton",
+    "channel": "telegram",
+    "employeeId": "emp_003",
+    "customerId": "cust_789",
+    "status": "active",
+    "createdAt": "2026-04-10T11:58:16.669Z",
+    "updatedAt": "2026-04-10T12:00:02.617Z",
+    "closedAt": null,
+    "metadata": {
+      "source": "live_monitor",
+      "createdBy": "emp_003"
+    }
+  },
+  {
+    "sessionId": "sess_1775822402392_zcg0h0e98",
+    "projectId": "lanton",
+    "channel": "telegram",
+    "employeeId": "emp_001",
+    "customerId": "cust_123",
+    "status": "active",
+    "createdAt": "2026-04-10T12:00:02.392Z",
+    "updatedAt": "2026-04-10T12:00:02.613Z",
+    "closedAt": null,
+    "metadata": {
+      "source": "live_monitor",
+      "createdBy": "emp_001"
+    }
+  }
+]

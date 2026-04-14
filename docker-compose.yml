@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  trainer-bot:
+    build: .
+    restart: always
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - OPENROUTER_MODEL=${OPENROUTER_MODEL}
+    volumes:
+      - ./data:/app/data

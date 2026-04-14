@@ -1,6 +1,8 @@
 node_modules/
 .env
+.env.test
 .DS_Store
+.idea/
 npm-debug.log*
 
 runtime/logs/

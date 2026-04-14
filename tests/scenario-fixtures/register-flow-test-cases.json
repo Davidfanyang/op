@@ -1,0 +1,35 @@
+{
+  "description": "注册流程场景测试数据",
+  "scenarioId": "register_flow",
+  "testCases": [
+    {
+      "name": "第一阶段-问候并收集信息",
+      "conversation": [
+        { "role": "customer", "content": "我想注册LantonPay" }
+      ],
+      "currentReply": "您好！请问您已下载APP了吗？我来指引您完成注册。",
+      "expectedLevel": "pass",
+      "stageName": "问候并收集信息"
+    },
+    {
+      "name": "第二阶段-指引注册步骤",
+      "conversation": [
+        { "role": "customer", "content": "我想注册" },
+        { "role": "agent", "content": "您好！请问您已下载APP了吗？" },
+        { "role": "customer", "content": "下载了，但不知道怎么填" }
+      ],
+      "currentReply": "好的！第一步请输入您的手机号，第二步我们会发送验证码，请您填写验证码完成验证。",
+      "expectedLevel": "fail",
+      "stageName": "指引注册步骤"
+    },
+    {
+      "name": "指引不完整",
+      "conversation": [
+        { "role": "customer", "content": "注册时填什么？" }
+      ],
+      "currentReply": "就按提示填就行",
+      "expectedLevel": "fail",
+      "issues": ["缺少关键信息", "回复过短"]
+    }
+  ]
+}

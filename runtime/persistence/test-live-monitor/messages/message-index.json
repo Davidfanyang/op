@@ -1,0 +1,29 @@
+{
+  "bySession": {
+    "sess_1775822296664_5zlkbg7hq": [
+      "msg_1775822296665_rjua5tzeb"
+    ],
+    "sess_1775822296667_rj4gua9es": [
+      "msg_1775822296667_b656hvnq3",
+      "msg_1775822296667_ncs1to5rf",
+      "msg_1775822402614_6vxj9czxo",
+      "msg_1775822402614_v3vdzw591"
+    ],
+    "sess_1775822296669_nhvp38ijh": [
+      "msg_1775822296669_b3bhbwwfs",
+      "msg_1775822402616_11dt9fp9u"
+    ],
+    "sess_1775822402392_zcg0h0e98": [
+      "msg_1775822402393_7a9fhgu2k",
+      "msg_1775822402394_1mnehdqd6"
+    ]
+  },
+  "byEvaluation": {
+    "eval_1775822296665_he80hcq7q": "msg_1775822296665_rjua5tzeb",
+    "eval_1775822296668_buw4cje1s": "msg_1775822296667_ncs1to5rf",
+    "eval_1775822296669_zvv163bub": "msg_1775822296669_b3bhbwwfs",
+    "eval_1775822402612_mwatf9p65": "msg_1775822402394_1mnehdqd6",
+    "eval_1775822402615_7s43f5m7a": "msg_1775822402614_v3vdzw591",
+    "eval_1775822402616_mb27lvf8r": "msg_1775822402616_11dt9fp9u"
+  }
+}
