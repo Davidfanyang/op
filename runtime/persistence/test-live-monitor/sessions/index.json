@@ -4,13 +4,16 @@
       "sess_1775822296664_5zlkbg7hq",
       "sess_1775822296667_rj4gua9es",
       "sess_1775822296669_nhvp38ijh",
-      "sess_1775822402392_zcg0h0e98"
+      "sess_1775822402392_zcg0h0e98",
+      "sess_1776342239978_kva9iozd0",
+      "sess_1776342239983_n25ep3y7u",
+      "sess_1776342239985_vs9b39w38"
     ]
   },
   "byEmployee": {},
   "activeSessions": {
-    "lanton:telegram:emp_001": "sess_1775822402392_zcg0h0e98",
-    "lanton:telegram:emp_002": "sess_1775822296667_rj4gua9es",
-    "lanton:telegram:emp_003": "sess_1775822296669_nhvp38ijh"
+    "lanton:telegram:emp_001": "sess_1776342239978_kva9iozd0",
+    "lanton:telegram:emp_002": "sess_1776342239983_n25ep3y7u",
+    "lanton:telegram:emp_003": "sess_1776342239985_vs9b39w38"
   }
 }

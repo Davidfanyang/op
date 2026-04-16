@@ -3,7 +3,7 @@ function parseCommand(text) {
   
   // 直接命令匹配
   if (['/start', 'start', '开始', '重新开始'].includes(normalized)) return 'start';
-  if (['/score', 'score', '评分', '继续', '再来一题', '下一题'].includes(normalized)) return 'score';
+  if (['/next', 'next', '下一题', '继续'].includes(normalized)) return 'next';
   if (['/cancel', 'cancel', '取消', '停止', '退出'].includes(normalized)) return 'cancel';
   
   // review 命令匹配

@@ -3,7 +3,6 @@
  * 
  * 收集内容：
  * - 每次评估的完整输入输出
- * - 评分分布
  * - 告警触发情况
  * - 模型使用情况
  * - 误报标记（后续人工复核）
@@ -26,12 +25,11 @@ if (!fs.existsSync(DATA_DIR)) {
 let grayStats = {
   startDate: new Date().toISOString(),
   totalEvaluations: 0,
-  scoreDistribution: {
-    '0-20': 0,    // critical
-    '21-40': 0,   // warning
-    '41-60': 0,   // observation
-    '61-80': 0,   // good
-    '81-100': 0   // excellent
+  levelDistribution: {
+    'pass': 0,
+    'borderline': 0,
+    'fail': 0,
+    'risk': 0
   },
   alertStats: {
     total: 0,
@@ -85,7 +83,6 @@ function recordEvaluation(data) {
   const {
     projectId,
     scenarioId,
-    score,
     alertLevel,
     alerts,
     reviewStatus,
@@ -97,7 +94,8 @@ function recordEvaluation(data) {
     metadata,
     evaluationStatus,
     sessionId,
-    employeeId
+    employeeId,
+    level
   } = data;
 
   const timestamp = new Date().toISOString();
@@ -113,7 +111,7 @@ function recordEvaluation(data) {
     evaluationStatus: evaluationStatus || 'ok',
     alertLevel: alertLevel || AlertLevel.NONE,
     reviewStatus: reviewStatus || ReviewStatus.PENDING,
-    score,
+    level: level || 'fail',
     alerts,
     modelSource: modelSource || 'local',
     aiEnhanced: aiEnhanced || false,
@@ -132,12 +130,10 @@ function recordEvaluation(data) {
   // 2. 更新统计数据
   grayStats.totalEvaluations++;
 
-  // 评分分布
-  if (score <= 20) grayStats.scoreDistribution['0-20']++;
-  else if (score <= 40) grayStats.scoreDistribution['21-40']++;
-  else if (score <= 60) grayStats.scoreDistribution['41-60']++;
-  else if (score <= 80) grayStats.scoreDistribution['61-80']++;
-  else grayStats.scoreDistribution['81-100']++;
+  // 等级分布
+  if (level) {
+    grayStats.levelDistribution[level] = (grayStats.levelDistribution[level] || 0) + 1;
+  }
 
   // 告警统计（新体系：observation, warning, critical）
   if (alerts && alerts.length > 0) {
@@ -163,13 +159,13 @@ function recordEvaluation(data) {
   if (!grayStats.scenarioStats[scenarioId]) {
     grayStats.scenarioStats[scenarioId] = {
       count: 0,
-      avgScore: 0,
-      alerts: 0
+      alerts: 0,
+      levelDistribution: { pass: 0, borderline: 0, fail: 0, risk: 0 }
     };
   }
   const s = grayStats.scenarioStats[scenarioId];
   s.count++;
-  s.avgScore = (s.avgScore * (s.count - 1) + score) / s.count;
+  if (level) s.levelDistribution[level] = (s.levelDistribution[level] || 0) + 1;
   if (alerts && alerts.length > 0) s.alerts++;
 
   // 复核状态统计
@@ -181,13 +177,13 @@ function recordEvaluation(data) {
     grayStats.dailyStats[dateKey] = {
       evaluations: 0,
       alerts: 0,
-      avgScore: 0
+      levelDistribution: { pass: 0, borderline: 0, fail: 0, risk: 0 }
     };
   }
   const d = grayStats.dailyStats[dateKey];
   d.evaluations++;
   if (alerts && alerts.length > 0) d.alerts++;
-  d.avgScore = (d.avgScore * (d.evaluations - 1) + score) / d.evaluations;
+  if (level) d.levelDistribution[level] = (d.levelDistribution[level] || 0) + 1;
 
   // 保存统计
   saveStats();
@@ -201,22 +197,12 @@ function getStatsSummary() {
       alertRate: grayStats.totalEvaluations > 0 
         ? (grayStats.alertStats.total / grayStats.totalEvaluations * 100).toFixed(2) + '%'
         : '0%',
-      avgScore: calculateAvgScore(),
       daysRunning: Object.keys(grayStats.dailyStats).length
     }
   };
 }
 
-function calculateAvgScore() {
-  let total = 0;
-  let count = 0;
-  Object.entries(grayStats.scoreDistribution).forEach(([range, num]) => {
-    const mid = parseInt(range.split('-')[0]) + 10;
-    total += mid * num;
-    count += num;
-  });
-  return count > 0 ? (total / count).toFixed(2) : '0';
-}
+
 
 // 标记误报（人工复核用）
 function markFalsePositive(evaluationId, reason, reviewedBy) {

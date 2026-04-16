@@ -1,6 +1,12 @@
 /**
  * Live Monitor HTTP API
  * 提供实时监控接口，供外部系统调用
+ * 
+ * 协议版本: v1.0（标准协议）
+ * - 入口层负责将外部请求转换为标准协议结构
+ * - conversation 使用标准格式 [{role: "user"|"/agent", content: string}]
+ * - metadata 包含 session_id, agent_id, timestamp, entry_type
+ * - rules 必须传入（无规则时为 {}）
  */
 
 const http = require('http');
@@ -108,25 +114,24 @@ class LiveMonitorAPI {
 
   /**
    * 处理评估请求
+   * 
+   * 将外部请求转换为标准协议结构后调用 services 层
    */
   async handleEvaluate(req, res) {
     try {
       const body = await this.parseBody(req);
       
-      // 强制使用 live_monitor 模式
-      const params = {
-        ...body,
-        mode: 'live_monitor'
-      };
-
-      const result = await evaluate(params);
+      // 构建标准协议输入结构
+      const protocolInput = this.buildProtocolInput(body);
+      
+      const result = await evaluate(protocolInput);
 
       // 如果有告警，触发处理器（带限流）
       let alertStatus = null;
       if (result.alerts && result.alerts.length > 0) {
         const context = {
-          sessionId: params.metadata?.sessionId || params.sessionId,
-          employeeId: params.metadata?.employeeId
+          sessionId: protocolInput.metadata.session_id,
+          employeeId: protocolInput.metadata.agent_id
         };
         alertStatus = await this.triggerAlerts(result, context);
         
@@ -148,6 +153,54 @@ class LiveMonitorAPI {
         error: error.message
       }));
     }
+  }
+
+  /**
+   * 将外部请求转换为标准协议结构
+   * 
+   * @param {Object} body - 原始请求体
+   * @returns {Object} 标准协议输入对象
+   */
+  buildProtocolInput(body) {
+    // 提取字段（支持向后兼容）
+    const projectId = body.projectId || body.project;
+    const sessionId = body.metadata?.session_id || body.sessionId || `session_${Date.now()}`;
+    const agentId = body.metadata?.agent_id || body.employeeId || body.agentId || 'unknown';
+    const conversation = body.conversation || [];
+    const currentReply = body.current_reply || body.currentReply || '';
+    
+    // 标准化 conversation 格式（role 统一为 user/agent）
+    const normalizedConversation = conversation.map((turn, index) => ({
+      role: turn.role === 'customer' ? 'user' : (turn.role || 'unknown'),
+      content: turn.content || turn.text || '',
+      _meta: turn.turnIndex !== undefined || turn.ts || turn.timestamp ? {
+        turnIndex: turn.turnIndex || index,
+        ts: turn.ts || turn.timestamp
+      } : undefined
+    })).filter(turn => turn.role && turn.content);
+    
+    return {
+      // 1. project
+      project: projectId,
+      
+      // 2. conversation（多轮结构）
+      conversation: normalizedConversation,
+      
+      // 3. current_reply
+      current_reply: currentReply,
+      
+      // 4. metadata（必填字段）
+      metadata: {
+        source: body.metadata?.source || 'http_api',
+        session_id: sessionId,
+        agent_id: agentId,
+        timestamp: body.metadata?.timestamp || new Date().toISOString(),
+        entry_type: 'live_monitor'
+      },
+      
+      // 5. rules（无规则时传空对象）
+      rules: body.rules || {}
+    };
   }
 
   /**

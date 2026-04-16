@@ -1,119 +1,41 @@
-# 影子运行包 (Shadow Run Package)
+# CE 目录 - 实验性功能 (Community Edition / Experimental)
 
-> 主管可用版 - 3天影子运行验证
+## 目录定位
+本目录包含**实验性功能**和**独立工具脚本**，这些功能：
+1. 尚未完全集成到主业务流程
+2. 作为独立脚本运行，不参与主链路
+3. 可能在未来迁移到正式模块或废弃
 
----
+## 与正式模块的关系
+| ce/ 文件 | 对应正式模块 | 状态 |
+|---------|------------|------|
+| `alert-router.js` | `core/alert-router.js` | 已迁移到 core，待删除 |
+| `training-workbench.js` | `core/training-workbench.js` | 已迁移到 core，待删除 |
+| `show-training-workbench.js` | 脚本工具 | 保留（调试用） |
+| `shadow-run-daily.js` | `scripts/shadow-run-daily.js` | 已复制到 scripts，待删除 |
+| `shadow-run-review.js` | `scripts/shadow-run-review.js` | 已复制到 scripts，待删除 |
+| `training-queue-processor.js` | `scripts/training-queue-processor.js` | 已复制到 scripts，待删除 |
 
-## 📦 包含内容
+## 文档说明
+- `README.md` - 本文件
+- `shadow-run-guide.md` - 影子运行指南（参考文档）
+- `supervisor-decision-card.md` - 主管决策卡片说明（参考文档）
 
-### 核心模块 (core/)
-- `training-workbench.js` - Training工作台 (3视图)
-- `alert-router.js` - Live Monitor告警分流器
+## TODO: 清理计划
+以下文件已迁移到正式模块，应在确认无引用后删除：
+- [ ] `alert-router.js` (已迁移到 core/)
+- [ ] `training-workbench.js` (已迁移到 core/)
+- [ ] `shadow-run-daily.js` (已复制到 scripts/)
+- [ ] `shadow-run-review.js` (已复制到 scripts/)
+- [ ] `training-queue-processor.js` (已复制到 scripts/)
 
-### 脚本 (scripts/)
-- `shadow-run-daily.js` - 每日数据收集脚本
-- `shadow-run-review.js` - 3天后复盘分析脚本
-- `show-training-workbench.js` - 工作台展示脚本
-- `training-queue-processor.js` - Training队列处理工具
+## 职责边界
+### CE 目录应该包含：
+1. 实验性功能原型
+2. 独立运行的调试工具
+3. 参考文档和示例
 
-### 文档 (docs/)
-- `supervisor-decision-card.md` - 主管最小判读模板
-- `shadow-run-guide.md` - 影子运行完整指南
-
----
-
-## 🚀 快速开始
-
-### 1. 查看工作台
-```bash
-node show-training-workbench.js
-```
-
-### 2. 处理Training队列
-```bash
-# 查看待处理
-node training-queue-processor.js list
-
-# 处理记录
-node training-queue-processor.js process <review_id> <decision> <reviewed_by> "<comment>"
-```
-
-### 3. 生成日报
-```bash
-node shadow-run-daily.js 2026-04-11
-```
-
-### 4. 3天后复盘
-```bash
-node shadow-run-review.js
-```
-
----
-
-## 📊 影子运行配置
-
-| 维度 | 配置 |
-|------|------|
-| 项目 | default |
-| Training场景 | greeting_test |
-| Live Monitor入口 | Telegram |
-| 主管 | supervisor_001 |
-| 周期 | 3天 |
-
----
-
-## 🎯 验证目标
-
-### Training 工作台
-- Priority认可率 > 80%
-- Problem Tags准确率 > 75%
-- 日均处理时效 < 24h
-
-### Live Monitor 分流
-- 进入主管流占比 30-40%
-- 告警准确率 > 70%
-- 误报率 < 20%
-
-### 判读模板
-- 决策一致性 > 85%
-- 决策时效 < 2分钟/条
-
----
-
-## 📝 每日操作清单
-
-- [ ] 早上: 查看工作台,处理high priority
-- [ ] 下午: 处理medium priority和live_monitor告警
-- [ ] 下班前: 运行shadow-run-daily.js生成日报
-
----
-
-## 📂 输出文件
-
-日报会保存到:
-```
-runtime/shadow-run/
-├── daily-report-2026-04-11.json
-├── daily-report-2026-04-12.json
-└── daily-report-2026-04-13.json
-```
-
-复盘报告会保存到:
-```
-runtime/shadow-run/
-└── review-analysis-2026-04-14.json
-```
-
----
-
-## ⚠️ 注意事项
-
-1. 不要扩大范围 (只用default项目)
-2. 用真实数据,不用测试数据
-3. 每天及时生成日报
-4. 处理时写清楚备注
-5. 3天内不要修改规则
-
----
-
-**完整指南**: 查看 `shadow-run-guide.md`
+### CE 目录不应该包含：
+1. 已迁移到正式模块的代码（应删除）
+2. 主业务流程代码（应放在 core/ 或 services/）
+3. 生产环境使用的功能（应放在正式模块）

@@ -43,5 +43,50 @@
       "source": "live_monitor",
       "createdBy": "emp_001"
     }
+  },
+  {
+    "sessionId": "sess_1776342239978_kva9iozd0",
+    "projectId": "lanton",
+    "channel": "telegram",
+    "employeeId": "emp_001",
+    "customerId": "cust_123",
+    "status": "active",
+    "createdAt": "2026-04-16T12:23:59.978Z",
+    "updatedAt": "2026-04-16T12:25:40.618Z",
+    "closedAt": null,
+    "metadata": {
+      "source": "live_monitor",
+      "createdBy": "emp_001"
+    }
+  },
+  {
+    "sessionId": "sess_1776342239983_n25ep3y7u",
+    "projectId": "lanton",
+    "channel": "telegram",
+    "employeeId": "emp_002",
+    "customerId": "cust_456",
+    "status": "active",
+    "createdAt": "2026-04-16T12:23:59.983Z",
+    "updatedAt": "2026-04-16T12:25:40.621Z",
+    "closedAt": null,
+    "metadata": {
+      "source": "live_monitor",
+      "createdBy": "emp_002"
+    }
+  },
+  {
+    "sessionId": "sess_1776342239985_vs9b39w38",
+    "projectId": "lanton",
+    "channel": "telegram",
+    "employeeId": "emp_003",
+    "customerId": "cust_789",
+    "status": "active",
+    "createdAt": "2026-04-16T12:23:59.985Z",
+    "updatedAt": "2026-04-16T12:25:40.622Z",
+    "closedAt": null,
+    "metadata": {
+      "source": "live_monitor",
+      "createdBy": "emp_003"
+    }
   }
 ]

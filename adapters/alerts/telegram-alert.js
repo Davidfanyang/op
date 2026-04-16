@@ -137,7 +137,7 @@ class TelegramAlerter {
     // 基础信息
     message += `*项目:* ${result.projectId || 'unknown'}\n`;
     message += `*场景:* ${result.matchedScenario?.title || result.scenarioId || 'unknown'}\n`;
-    message += `*评分:* ${result.score}分\n`;
+    message += `*等级:* ${result.result?.level || 'unknown'}\n`;
     message += `*告警级别:* ${result.alertLevel}\n\n`;
     
     // 严重告警
@@ -158,12 +158,13 @@ class TelegramAlerter {
       message += '\n';
     }
     
-    // 维度得分
-    if (result.dimensionScores) {
-      const ds = result.dimensionScores;
-      message += '*维度得分*\n';
-      message += `态度: ${ds.attitude} | 流程: ${ds.process} | 信息: ${ds.information}\n`;
-      message += `共情: ${ds.empathy} | 清晰: ${ds.clarity}\n\n`;
+    // 问题列表
+    if (result.result?.issues && result.result.issues.length > 0) {
+      message += '🔍 *问题清单*\n';
+      result.result.issues.slice(0, 5).forEach(issue => {
+        message += `• ${issue.message || issue}\n`;
+      });
+      message += '\n';
     }
     
     // 会话ID

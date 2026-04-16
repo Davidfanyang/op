@@ -69,10 +69,10 @@ async function runTests() {
       rawPayload: { chatId: 123456 }
     });
 
-    if (result2.success && result2.evaluationId) {
+    if (result2.success && result2.analysisId) {
       console.log('  ✓ 通过 - outbound 消息触发评估');
       console.log(`    sessionId: ${result2.sessionId}`);
-      console.log(`    evaluationId: ${result2.evaluationId}`);
+      console.log(`    analysisId: ${result2.analysisId}`);
       console.log(`    alertTriggered: ${result2.alertTriggered}`);
       passed++;
     } else {

@@ -1,6 +1,17 @@
+/**
+ * Smoke Test - TG Debug Trainer Mode
+ * 
+ * 协议版本: 
+ * - 输入: 标准协议 v1.0
+ * - 输出: 标准输出协议 v1.0 (scenarioId, scenarioName, stage, result, riskLevel, issues, missing, strengths, nextAction, coachSummary, confidence)
+ * 
+ * 用法: node tests/smoke-test.js
+ * 需要: TELEGRAM_BOT_TOKEN 环境变量
+ */
+
 const path = require('path');
 const dotenv = require('dotenv');
-const { evaluateTraining } = require('../core/trainer');
+const { evaluate } = require('../services/evaluation-service');
 const scenarios = require('../data/scenarios.json');
 
 dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
@@ -34,25 +45,64 @@ function getScenarioByInput(input) {
 }
 
 function buildResultMessage(result, scenario, customerMessage, userReply) {
-  return [
-    `场景：${scenario.title}`,
+  // 使用标准输出协议 v1.0
+  const lines = [
+    `场景：${result.scenarioName || scenario.title}`,
+    `阶段：${result.stage || '未知'}`,
+    '',
     `用户消息：${customerMessage}`,
     `客服回复：${userReply}`,
     '',
-    `总分：${result.score}`,
-    `总结：${result.coachSummary}`,
-    '',
-    '问题项：',
-    ...result.findings.map((f) => `- ${f.message}`),
-    '',
-    '建议：',
-    ...result.suggestions.map((s) => `- ${s}`),
-    '',
-    '标准回复：',
-    result.standardReply,
-    '',
-    '发送 /score 继续测试'
-  ].join('\n');
+    `评估结果：${result.result || 'unknown'}`,
+    `风险等级：${result.riskLevel || 'unknown'}`,
+    `置信度：${Math.round((result.confidence || 0) * 100)}%`,
+    ''
+  ];
+  
+  // 问题项（issues 是字符串数组）
+  if (result.issues && result.issues.length > 0) {
+    lines.push('🔴 问题项：');
+    result.issues.forEach(issue => {
+      lines.push(`• ${issue}`);
+    });
+    lines.push('');
+  }
+  
+  // 缺失信息（missing 是字符串数组）
+  if (result.missing && result.missing.length > 0) {
+    lines.push('⚠️ 缺失信息：');
+    result.missing.forEach(item => {
+      lines.push(`• ${item}`);
+    });
+    lines.push('');
+  }
+  
+  // 优点（strengths 是字符串数组）
+  if (result.strengths && result.strengths.length > 0) {
+    lines.push('✅ 优点：');
+    result.strengths.forEach(item => {
+      lines.push(`• ${item}`);
+    });
+    lines.push('');
+  }
+  
+  // 教练总结
+  if (result.coachSummary) {
+    lines.push('📝 教练总结：');
+    lines.push(result.coachSummary);
+    lines.push('');
+  }
+  
+  // 下一步行动
+  if (result.nextAction) {
+    lines.push('👉 下一步：');
+    lines.push(result.nextAction);
+    lines.push('');
+  }
+  
+  lines.push('发送 /score 继续测试');
+  
+  return lines.join('\n');
 }
 
 async function tg(method, body) {
@@ -113,7 +163,35 @@ async function handleTextMessage(chatId, text) {
   if (session.step === 'await_user_reply') {
     const scenario = session.scenario;
     const customerMessage = session.customerMessage || scenario.customerMessage;
-    const result = evaluateTraining({ scenarioId: scenario.id, userReply: text });
+    
+    // 构建标准协议输入
+    const protocolInput = {
+      project: 'default',
+      conversation: [
+        {
+          role: 'user',
+          content: customerMessage,
+          _meta: { turnIndex: 0, ts: new Date().toISOString() }
+        },
+        {
+          role: 'agent',
+          content: text,
+          _meta: { turnIndex: 1, ts: new Date().toISOString() }
+        }
+      ],
+      current_reply: text,
+      metadata: {
+        source: 'smoke_test',
+        session_id: `smoke_test_${chatId}_${Date.now()}`,
+        agent_id: `user_${chatId}`,
+        timestamp: new Date().toISOString(),
+        entry_type: 'training',
+        scenarioId: scenario.id
+      },
+      rules: {}
+    };
+    
+    const result = await evaluate(protocolInput);
     const message = buildResultMessage(result, scenario, customerMessage, text);
     resetSession(chatId);
     await sendMessage(chatId, message);

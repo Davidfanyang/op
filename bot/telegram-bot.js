@@ -39,7 +39,7 @@ async function handleTextMessage(chatId, text, userInfo = {}) {
     return;
   }
 
-  if (command === 'start' || command === 'score') {
+  if (command === 'start' || command === 'next') {
     session.index = (session.index + 1) % scenarios.length;
     session.scenario = scenarios[session.index];
     session.step = 'await_reply';
@@ -52,14 +52,15 @@ async function handleTextMessage(chatId, text, userInfo = {}) {
 
   if (command === 'cancel') {
     clearSession(chatId);
-    await telegram.sendMessage(chatId, '已取消当前训练会话。发送 /score 重新开始。');
+    await telegram.sendMessage(chatId, '已取消当前训练会话。发送 /start 重新开始。');
     return;
   }
 
   if (command === 'help') {
     await telegram.sendMessage(chatId, 
       '*可用命令：*\n' +
-      '/start 或 /score - 开始新的训练\n' +
+      '/start - 开始新的训练\n' +
+      '/next - 下一题\n' +
       '/cancel - 取消当前会话\n' +
       '/review confirmed [备注] - 确认告警\n' +
       '/review false_positive [原因] [备注] - 标记误报\n' +
@@ -74,25 +75,60 @@ async function handleTextMessage(chatId, text, userInfo = {}) {
   }
 
   if (session.step === 'await_reply') {
-    const result = await evaluate({
-      projectId: session.projectId || DEFAULT_PROJECT,
-      mode: session.mode || DEFAULT_MODE,
-      scenarioId: session.scenario.id,
-      userReply: normalized,
+    // 构建标准协议输入结构
+    const customerMessage = session.scenario?.customerMessage || '';
+    const agentReply = normalized;
+    
+    const protocolInput = {
+      // 1. project
+      project: session.projectId || DEFAULT_PROJECT,
+      
+      // 2. conversation（多轮结构，role 统一为 user/agent）
+      conversation: [
+        {
+          role: 'user',
+          content: customerMessage,
+          _meta: {
+            turnIndex: 0,
+            ts: new Date().toISOString()
+          }
+        },
+        {
+          role: 'agent',
+          content: agentReply,
+          _meta: {
+            turnIndex: 1,
+            ts: new Date().toISOString()
+          }
+        }
+      ],
+      
+      // 3. current_reply（当前客服回复）
+      current_reply: agentReply,
+      
+      // 4. metadata（必填字段）
       metadata: {
-        channel: 'telegram',
-        chatId: chatId.toString(),
-        sessionId: `${chatId}_${Date.now()}`
-      }
-    });
-    const message = formatResultMessage(result, session.scenario, session.scenario.customerMessage, normalized);
+        source: 'telegram',
+        session_id: `${chatId}_${session.scenario?.id || 'unknown'}_${Date.now()}`,
+        agent_id: userInfo.username || userInfo.userId || 'unknown',
+        timestamp: new Date().toISOString(),
+        entry_type: 'training'
+      },
+      
+      // 5. rules（无规则时传空对象）
+      rules: {}
+    };
+    
+    const result = await evaluate(protocolInput);
+    
+    const message = formatResultMessage(result, session.scenario, customerMessage, agentReply);
     await telegram.sendMessage(chatId, message, { parse_mode: 'Markdown' });
     session.step = 'idle';
     setSession(chatId, session);
     return;
   }
   
-  await telegram.sendMessage(chatId, "发送 /score 开始训练。\n/help 查看帮助\n（Bot已加载最新 FAQ 知识库，仅依据 FAQ 场景进行评估）");
+  await telegram.sendMessage(chatId, "发送 /start 开始训练。\n/help 查看帮助\n（Bot已加载最新 FAQ 知识库，仅依据 FAQ 场景进行评估）");
 }
 
 /**

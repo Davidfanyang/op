@@ -482,5 +482,689 @@
         "error": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
       }
     }
+  },
+  {
+    "evaluationId": "eval_1776342239982_59l5jt5kb",
+    "messageId": "msg_1776342239981_p14gc1gab",
+    "sessionId": "sess_1776342239978_kva9iozd0",
+    "projectId": "lanton",
+    "mode": "live_monitor",
+    "scenarioId": null,
+    "status": "invalid_input",
+    "alertLevel": "none",
+    "score": 35,
+    "dimensionScores": {},
+    "findings": [
+      {
+        "code": "INVALID_INPUT",
+        "severity": "high",
+        "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage",
+        "type": "system_error",
+        "expected": "正常分析流程",
+        "actual": "invalid_input"
+      }
+    ],
+    "suggestions": [
+      "请检查输入参数或场景配置"
+    ],
+    "alerts": [],
+    "summary": "系统错误: live_monitor 模式必须提供 scenarioId 或 customerMessage",
+    "standardReply": null,
+    "matchedScenario": null,
+    "matchConfidence": null,
+    "createdAt": "2026-04-16T12:23:59.982Z",
+    "rawResult": {
+      "status": "invalid_input",
+      "evaluationStatus": "invalid_input",
+      "alertLevel": "none",
+      "reviewStatus": "pending",
+      "projectId": "lanton",
+      "mode": "live_monitor",
+      "sessionId": "sess_1776342239978_kva9iozd0",
+      "employeeId": "emp_001",
+      "scenarioId": null,
+      "matchedScenarioId": null,
+      "matchConfidence": null,
+      "customerMessage": null,
+      "currentReply": "您好，请提供手机号",
+      "result": {
+        "level": "fail",
+        "issues": [
+          {
+            "code": "INVALID_INPUT",
+            "severity": "high",
+            "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage",
+            "type": "system_error",
+            "expected": "正常分析流程",
+            "actual": "invalid_input"
+          }
+        ],
+        "missing": [],
+        "nextAction": "请检查输入参数或场景配置"
+      },
+      "coachSummary": "系统错误: live_monitor 模式必须提供 scenarioId 或 customerMessage",
+      "riskLevel": "high",
+      "alerts": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewComment": "",
+      "falsePositiveReason": null,
+      "createdAt": "2026-04-16T12:23:59.981Z",
+      "updatedAt": "2026-04-16T12:23:59.981Z",
+      "meta": {
+        "analyzerVersion": "v4.0",
+        "source": "evaluation-service",
+        "timestamp": "2026-04-16T12:23:59.981Z",
+        "error": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
+      }
+    }
+  },
+  {
+    "evaluationId": "eval_1776342239984_m7t8z1dmw",
+    "messageId": "msg_1776342239984_0rnl3xqcs",
+    "sessionId": "sess_1776342239983_n25ep3y7u",
+    "projectId": "lanton",
+    "mode": "live_monitor",
+    "scenarioId": null,
+    "status": "invalid_input",
+    "alertLevel": "none",
+    "score": 35,
+    "dimensionScores": {},
+    "findings": [
+      {
+        "code": "INVALID_INPUT",
+        "severity": "high",
+        "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage",
+        "type": "system_error",
+        "expected": "正常分析流程",
+        "actual": "invalid_input"
+      }
+    ],
+    "suggestions": [
+      "请检查输入参数或场景配置"
+    ],
+    "alerts": [],
+    "summary": "系统错误: live_monitor 模式必须提供 scenarioId 或 customerMessage",
+    "standardReply": null,
+    "matchedScenario": null,
+    "matchConfidence": null,
+    "createdAt": "2026-04-16T12:23:59.984Z",
+    "rawResult": {
+      "status": "invalid_input",
+      "evaluationStatus": "invalid_input",
+      "alertLevel": "none",
+      "reviewStatus": "pending",
+      "projectId": "lanton",
+      "mode": "live_monitor",
+      "sessionId": "sess_1776342239983_n25ep3y7u",
+      "employeeId": "emp_002",
+      "scenarioId": null,
+      "matchedScenarioId": null,
+      "matchConfidence": null,
+      "customerMessage": null,
+      "currentReply": "测试消息B",
+      "result": {
+        "level": "fail",
+        "issues": [
+          {
+            "code": "INVALID_INPUT",
+            "severity": "high",
+            "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage",
+            "type": "system_error",
+            "expected": "正常分析流程",
+            "actual": "invalid_input"
+          }
+        ],
+        "missing": [],
+        "nextAction": "请检查输入参数或场景配置"
+      },
+      "coachSummary": "系统错误: live_monitor 模式必须提供 scenarioId 或 customerMessage",
+      "riskLevel": "high",
+      "alerts": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewComment": "",
+      "falsePositiveReason": null,
+      "createdAt": "2026-04-16T12:23:59.984Z",
+      "updatedAt": "2026-04-16T12:23:59.984Z",
+      "meta": {
+        "analyzerVersion": "v4.0",
+        "source": "evaluation-service",
+        "timestamp": "2026-04-16T12:23:59.984Z",
+        "error": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
+      }
+    }
+  },
+  {
+    "evaluationId": "eval_1776342239986_jreifco0r",
+    "messageId": "msg_1776342239985_tpyoj3t72",
+    "sessionId": "sess_1776342239985_vs9b39w38",
+    "projectId": "lanton",
+    "mode": "live_monitor",
+    "scenarioId": null,
+    "status": "invalid_input",
+    "alertLevel": "none",
+    "score": 35,
+    "dimensionScores": {},
+    "findings": [
+      {
+        "code": "INVALID_INPUT",
+        "severity": "high",
+        "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage",
+        "type": "system_error",
+        "expected": "正常分析流程",
+        "actual": "invalid_input"
+      }
+    ],
+    "suggestions": [
+      "请检查输入参数或场景配置"
+    ],
+    "alerts": [],
+    "summary": "系统错误: live_monitor 模式必须提供 scenarioId 或 customerMessage",
+    "standardReply": null,
+    "matchedScenario": null,
+    "matchConfidence": null,
+    "createdAt": "2026-04-16T12:23:59.986Z",
+    "rawResult": {
+      "status": "invalid_input",
+      "evaluationStatus": "invalid_input",
+      "alertLevel": "none",
+      "reviewStatus": "pending",
+      "projectId": "lanton",
+      "mode": "live_monitor",
+      "sessionId": "sess_1776342239985_vs9b39w38",
+      "employeeId": "emp_003",
+      "scenarioId": null,
+      "matchedScenarioId": null,
+      "matchConfidence": null,
+      "customerMessage": null,
+      "currentReply": "不知道",
+      "result": {
+        "level": "fail",
+        "issues": [
+          {
+            "code": "INVALID_INPUT",
+            "severity": "high",
+            "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage",
+            "type": "system_error",
+            "expected": "正常分析流程",
+            "actual": "invalid_input"
+          }
+        ],
+        "missing": [],
+        "nextAction": "请检查输入参数或场景配置"
+      },
+      "coachSummary": "系统错误: live_monitor 模式必须提供 scenarioId 或 customerMessage",
+      "riskLevel": "high",
+      "alerts": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewComment": "",
+      "falsePositiveReason": null,
+      "createdAt": "2026-04-16T12:23:59.986Z",
+      "updatedAt": "2026-04-16T12:23:59.986Z",
+      "meta": {
+        "analyzerVersion": "v4.0",
+        "source": "evaluation-service",
+        "timestamp": "2026-04-16T12:23:59.986Z",
+        "error": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
+      }
+    }
+  },
+  {
+    "evaluationId": "eval_1776342259492_azzvp43bd",
+    "messageId": "msg_1776342259491_muv53wswz",
+    "sessionId": "sess_1776342239978_kva9iozd0",
+    "projectId": "lanton",
+    "mode": "live_monitor",
+    "scenarioId": null,
+    "status": "invalid_input",
+    "alertLevel": "none",
+    "score": 35,
+    "dimensionScores": {},
+    "findings": [
+      {
+        "code": "INVALID_INPUT",
+        "severity": "high",
+        "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage",
+        "type": "system_error",
+        "expected": "正常分析流程",
+        "actual": "invalid_input"
+      }
+    ],
+    "suggestions": [
+      "请检查输入参数或场景配置"
+    ],
+    "alerts": [],
+    "summary": "系统错误: live_monitor 模式必须提供 scenarioId 或 customerMessage",
+    "standardReply": null,
+    "matchedScenario": null,
+    "matchConfidence": null,
+    "createdAt": "2026-04-16T12:24:19.492Z",
+    "rawResult": {
+      "status": "invalid_input",
+      "evaluationStatus": "invalid_input",
+      "alertLevel": "none",
+      "reviewStatus": "pending",
+      "projectId": "lanton",
+      "mode": "live_monitor",
+      "sessionId": "sess_1776342239978_kva9iozd0",
+      "employeeId": "emp_001",
+      "scenarioId": null,
+      "matchedScenarioId": null,
+      "matchConfidence": null,
+      "customerMessage": null,
+      "currentReply": "您好，请提供手机号",
+      "result": {
+        "level": "fail",
+        "issues": [
+          {
+            "code": "INVALID_INPUT",
+            "severity": "high",
+            "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage",
+            "type": "system_error",
+            "expected": "正常分析流程",
+            "actual": "invalid_input"
+          }
+        ],
+        "missing": [],
+        "nextAction": "请检查输入参数或场景配置"
+      },
+      "coachSummary": "系统错误: live_monitor 模式必须提供 scenarioId 或 customerMessage",
+      "riskLevel": "high",
+      "alerts": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewComment": "",
+      "falsePositiveReason": null,
+      "createdAt": "2026-04-16T12:24:19.491Z",
+      "updatedAt": "2026-04-16T12:24:19.491Z",
+      "meta": {
+        "analyzerVersion": "v4.0",
+        "source": "evaluation-service",
+        "timestamp": "2026-04-16T12:24:19.491Z",
+        "error": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
+      }
+    }
+  },
+  {
+    "evaluationId": "eval_1776342259494_xlag7hbam",
+    "messageId": "msg_1776342259494_xpuu7g5ww",
+    "sessionId": "sess_1776342239983_n25ep3y7u",
+    "projectId": "lanton",
+    "mode": "live_monitor",
+    "scenarioId": null,
+    "status": "invalid_input",
+    "alertLevel": "none",
+    "score": 35,
+    "dimensionScores": {},
+    "findings": [
+      {
+        "code": "INVALID_INPUT",
+        "severity": "high",
+        "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage",
+        "type": "system_error",
+        "expected": "正常分析流程",
+        "actual": "invalid_input"
+      }
+    ],
+    "suggestions": [
+      "请检查输入参数或场景配置"
+    ],
+    "alerts": [],
+    "summary": "系统错误: live_monitor 模式必须提供 scenarioId 或 customerMessage",
+    "standardReply": null,
+    "matchedScenario": null,
+    "matchConfidence": null,
+    "createdAt": "2026-04-16T12:24:19.494Z",
+    "rawResult": {
+      "status": "invalid_input",
+      "evaluationStatus": "invalid_input",
+      "alertLevel": "none",
+      "reviewStatus": "pending",
+      "projectId": "lanton",
+      "mode": "live_monitor",
+      "sessionId": "sess_1776342239983_n25ep3y7u",
+      "employeeId": "emp_002",
+      "scenarioId": null,
+      "matchedScenarioId": null,
+      "matchConfidence": null,
+      "customerMessage": null,
+      "currentReply": "测试消息B",
+      "result": {
+        "level": "fail",
+        "issues": [
+          {
+            "code": "INVALID_INPUT",
+            "severity": "high",
+            "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage",
+            "type": "system_error",
+            "expected": "正常分析流程",
+            "actual": "invalid_input"
+          }
+        ],
+        "missing": [],
+        "nextAction": "请检查输入参数或场景配置"
+      },
+      "coachSummary": "系统错误: live_monitor 模式必须提供 scenarioId 或 customerMessage",
+      "riskLevel": "high",
+      "alerts": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewComment": "",
+      "falsePositiveReason": null,
+      "createdAt": "2026-04-16T12:24:19.494Z",
+      "updatedAt": "2026-04-16T12:24:19.494Z",
+      "meta": {
+        "analyzerVersion": "v4.0",
+        "source": "evaluation-service",
+        "timestamp": "2026-04-16T12:24:19.494Z",
+        "error": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
+      }
+    }
+  },
+  {
+    "evaluationId": "eval_1776342259496_kko2uhqrd",
+    "messageId": "msg_1776342259496_k45mtx4r5",
+    "sessionId": "sess_1776342239985_vs9b39w38",
+    "projectId": "lanton",
+    "mode": "live_monitor",
+    "scenarioId": null,
+    "status": "invalid_input",
+    "alertLevel": "none",
+    "score": 35,
+    "dimensionScores": {},
+    "findings": [
+      {
+        "code": "INVALID_INPUT",
+        "severity": "high",
+        "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage",
+        "type": "system_error",
+        "expected": "正常分析流程",
+        "actual": "invalid_input"
+      }
+    ],
+    "suggestions": [
+      "请检查输入参数或场景配置"
+    ],
+    "alerts": [],
+    "summary": "系统错误: live_monitor 模式必须提供 scenarioId 或 customerMessage",
+    "standardReply": null,
+    "matchedScenario": null,
+    "matchConfidence": null,
+    "createdAt": "2026-04-16T12:24:19.496Z",
+    "rawResult": {
+      "status": "invalid_input",
+      "evaluationStatus": "invalid_input",
+      "alertLevel": "none",
+      "reviewStatus": "pending",
+      "projectId": "lanton",
+      "mode": "live_monitor",
+      "sessionId": "sess_1776342239985_vs9b39w38",
+      "employeeId": "emp_003",
+      "scenarioId": null,
+      "matchedScenarioId": null,
+      "matchConfidence": null,
+      "customerMessage": null,
+      "currentReply": "不知道",
+      "result": {
+        "level": "fail",
+        "issues": [
+          {
+            "code": "INVALID_INPUT",
+            "severity": "high",
+            "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage",
+            "type": "system_error",
+            "expected": "正常分析流程",
+            "actual": "invalid_input"
+          }
+        ],
+        "missing": [],
+        "nextAction": "请检查输入参数或场景配置"
+      },
+      "coachSummary": "系统错误: live_monitor 模式必须提供 scenarioId 或 customerMessage",
+      "riskLevel": "high",
+      "alerts": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewComment": "",
+      "falsePositiveReason": null,
+      "createdAt": "2026-04-16T12:24:19.496Z",
+      "updatedAt": "2026-04-16T12:24:19.496Z",
+      "meta": {
+        "analyzerVersion": "v4.0",
+        "source": "evaluation-service",
+        "timestamp": "2026-04-16T12:24:19.496Z",
+        "error": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
+      }
+    }
+  },
+  {
+    "evaluationId": "eval_1776342340617_nhqy24kwc",
+    "messageId": "msg_1776342340616_abuwsff3u",
+    "sessionId": "sess_1776342239978_kva9iozd0",
+    "projectId": "lanton",
+    "mode": "live_monitor",
+    "scenarioId": null,
+    "status": "invalid_input",
+    "alertLevel": "none",
+    "score": 35,
+    "dimensionScores": {},
+    "findings": [
+      {
+        "code": "INVALID_INPUT",
+        "severity": "high",
+        "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage",
+        "type": "system_error",
+        "expected": "正常分析流程",
+        "actual": "invalid_input"
+      }
+    ],
+    "suggestions": [
+      "请检查输入参数或场景配置"
+    ],
+    "alerts": [],
+    "summary": "系统错误: live_monitor 模式必须提供 scenarioId 或 customerMessage",
+    "standardReply": null,
+    "matchedScenario": null,
+    "matchConfidence": null,
+    "createdAt": "2026-04-16T12:25:40.617Z",
+    "rawResult": {
+      "status": "invalid_input",
+      "evaluationStatus": "invalid_input",
+      "alertLevel": "none",
+      "reviewStatus": "pending",
+      "projectId": "lanton",
+      "mode": "live_monitor",
+      "sessionId": "sess_1776342239978_kva9iozd0",
+      "employeeId": "emp_001",
+      "scenarioId": null,
+      "matchedScenarioId": null,
+      "matchConfidence": null,
+      "customerMessage": null,
+      "currentReply": "您好，请提供手机号",
+      "result": {
+        "level": "fail",
+        "issues": [
+          {
+            "code": "INVALID_INPUT",
+            "severity": "high",
+            "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage",
+            "type": "system_error",
+            "expected": "正常分析流程",
+            "actual": "invalid_input"
+          }
+        ],
+        "missing": [],
+        "nextAction": "请检查输入参数或场景配置"
+      },
+      "coachSummary": "系统错误: live_monitor 模式必须提供 scenarioId 或 customerMessage",
+      "riskLevel": "high",
+      "alerts": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewComment": "",
+      "falsePositiveReason": null,
+      "createdAt": "2026-04-16T12:25:40.617Z",
+      "updatedAt": "2026-04-16T12:25:40.617Z",
+      "meta": {
+        "analyzerVersion": "v4.0",
+        "source": "evaluation-service",
+        "timestamp": "2026-04-16T12:25:40.617Z",
+        "error": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
+      }
+    }
+  },
+  {
+    "evaluationId": "eval_1776342340620_v2ajzghht",
+    "messageId": "msg_1776342340619_68rgp0y3v",
+    "sessionId": "sess_1776342239983_n25ep3y7u",
+    "projectId": "lanton",
+    "mode": "live_monitor",
+    "scenarioId": null,
+    "status": "invalid_input",
+    "alertLevel": "none",
+    "score": 35,
+    "dimensionScores": {},
+    "findings": [
+      {
+        "code": "INVALID_INPUT",
+        "severity": "high",
+        "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage",
+        "type": "system_error",
+        "expected": "正常分析流程",
+        "actual": "invalid_input"
+      }
+    ],
+    "suggestions": [
+      "请检查输入参数或场景配置"
+    ],
+    "alerts": [],
+    "summary": "系统错误: live_monitor 模式必须提供 scenarioId 或 customerMessage",
+    "standardReply": null,
+    "matchedScenario": null,
+    "matchConfidence": null,
+    "createdAt": "2026-04-16T12:25:40.620Z",
+    "rawResult": {
+      "status": "invalid_input",
+      "evaluationStatus": "invalid_input",
+      "alertLevel": "none",
+      "reviewStatus": "pending",
+      "projectId": "lanton",
+      "mode": "live_monitor",
+      "sessionId": "sess_1776342239983_n25ep3y7u",
+      "employeeId": "emp_002",
+      "scenarioId": null,
+      "matchedScenarioId": null,
+      "matchConfidence": null,
+      "customerMessage": null,
+      "currentReply": "测试消息B",
+      "result": {
+        "level": "fail",
+        "issues": [
+          {
+            "code": "INVALID_INPUT",
+            "severity": "high",
+            "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage",
+            "type": "system_error",
+            "expected": "正常分析流程",
+            "actual": "invalid_input"
+          }
+        ],
+        "missing": [],
+        "nextAction": "请检查输入参数或场景配置"
+      },
+      "coachSummary": "系统错误: live_monitor 模式必须提供 scenarioId 或 customerMessage",
+      "riskLevel": "high",
+      "alerts": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewComment": "",
+      "falsePositiveReason": null,
+      "createdAt": "2026-04-16T12:25:40.620Z",
+      "updatedAt": "2026-04-16T12:25:40.620Z",
+      "meta": {
+        "analyzerVersion": "v4.0",
+        "source": "evaluation-service",
+        "timestamp": "2026-04-16T12:25:40.620Z",
+        "error": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
+      }
+    }
+  },
+  {
+    "evaluationId": "eval_1776342340621_zkem1lfbr",
+    "messageId": "msg_1776342340621_2gfe8exig",
+    "sessionId": "sess_1776342239985_vs9b39w38",
+    "projectId": "lanton",
+    "mode": "live_monitor",
+    "scenarioId": null,
+    "status": "invalid_input",
+    "alertLevel": "none",
+    "score": 35,
+    "dimensionScores": {},
+    "findings": [
+      {
+        "code": "INVALID_INPUT",
+        "severity": "high",
+        "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage",
+        "type": "system_error",
+        "expected": "正常分析流程",
+        "actual": "invalid_input"
+      }
+    ],
+    "suggestions": [
+      "请检查输入参数或场景配置"
+    ],
+    "alerts": [],
+    "summary": "系统错误: live_monitor 模式必须提供 scenarioId 或 customerMessage",
+    "standardReply": null,
+    "matchedScenario": null,
+    "matchConfidence": null,
+    "createdAt": "2026-04-16T12:25:40.621Z",
+    "rawResult": {
+      "status": "invalid_input",
+      "evaluationStatus": "invalid_input",
+      "alertLevel": "none",
+      "reviewStatus": "pending",
+      "projectId": "lanton",
+      "mode": "live_monitor",
+      "sessionId": "sess_1776342239985_vs9b39w38",
+      "employeeId": "emp_003",
+      "scenarioId": null,
+      "matchedScenarioId": null,
+      "matchConfidence": null,
+      "customerMessage": null,
+      "currentReply": "不知道",
+      "result": {
+        "level": "fail",
+        "issues": [
+          {
+            "code": "INVALID_INPUT",
+            "severity": "high",
+            "message": "live_monitor 模式必须提供 scenarioId 或 customerMessage",
+            "type": "system_error",
+            "expected": "正常分析流程",
+            "actual": "invalid_input"
+          }
+        ],
+        "missing": [],
+        "nextAction": "请检查输入参数或场景配置"
+      },
+      "coachSummary": "系统错误: live_monitor 模式必须提供 scenarioId 或 customerMessage",
+      "riskLevel": "high",
+      "alerts": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewComment": "",
+      "falsePositiveReason": null,
+      "createdAt": "2026-04-16T12:25:40.621Z",
+      "updatedAt": "2026-04-16T12:25:40.621Z",
+      "meta": {
+        "analyzerVersion": "v4.0",
+        "source": "evaluation-service",
+        "timestamp": "2026-04-16T12:25:40.621Z",
+        "error": "live_monitor 模式必须提供 scenarioId 或 customerMessage"
+      }
+    }
   }
 ]

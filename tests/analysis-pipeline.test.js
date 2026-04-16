@@ -5,6 +5,11 @@
  * loadScenario -> detectScenario -> detectStage -> checkCurrentReply -> analyzeGaps -> buildFeedback
  * 
  * 验证新的输入输出格式
+ * 
+ * 协议版本: v1.0（标准协议）
+ * - 使用 project, conversation, current_reply, metadata, rules
+ * - conversation 使用标准格式 [{role: "user"|"agent", content: string}]
+ * - metadata 包含 session_id, agent_id, timestamp, entry_type
  */
 
 const assert = require('assert');

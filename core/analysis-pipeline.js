@@ -46,30 +46,35 @@ async function analyzeTurn(input) {
   // 1. 校验输入
   validateAnalyzeTurnInput(input);
 
-  const { projectId, mode, conversation, currentReply, metadata = {} } = input;
+  // 2. 向后兼容：支持新旧字段
+  const projectId = input.projectId || input.project;
+  const mode = input.mode || input.metadata?.entry_type;
+  const currentReply = input.currentReply || input.current_reply;
+  const conversation = input.conversation;
+  const metadata = input.metadata || {};
 
-  // 2. 标准化对话格式(兼容 text/content 字段)
+  // 3. 标准化对话格式(兼容 text/content 字段)
   const normalizedConversation = normalizeConversation(conversation);
 
-  // 3. 加载场景
+  // 4. 加载场景
   const scenario = loadScenario(normalizedConversation, metadata);
 
-  // 4. 检测场景匹配
+  // 5. 检测场景匹配
   const scenarioDetection = detectScenario(scenario, normalizedConversation);
 
-  // 5. 检测当前阶段
+  // 6. 检测当前阶段
   const stageResult = detectStage(scenario, normalizedConversation);
 
-  // 6. 检查当前回复
+  // 7. 检查当前回复
   const replyCheck = checkCurrentReply(currentReply, stageResult, scenario);
 
-  // 7. 分析差距
+  // 8. 分析差距
   const gapAnalysis = analyzeGaps(replyCheck, stageResult, scenario);
 
-  // 8. 构建反馈
+  // 9. 构建反馈
   const feedback = buildFeedback(gapAnalysis, stageResult, scenario, mode);
 
-  // 9. 注入元数据
+  // 10. 注入元数据
   feedback.projectId = projectId;
   feedback.meta = {
     mode,
@@ -95,7 +100,11 @@ async function analyzeTurn(input) {
 async function analyzeConversation(input) {
   validateAnalyzeConversationInput(input);
 
-  const { projectId, mode, conversation, metadata = {} } = input;
+  // 向后兼容：支持新旧字段
+  const projectId = input.projectId || input.project;
+  const mode = input.mode || input.metadata?.entry_type;
+  const conversation = input.conversation;
+  const metadata = input.metadata || {};
 
   // 标准化对话
   const normalizedConversation = normalizeConversation(conversation);
@@ -118,7 +127,7 @@ async function analyzeConversation(input) {
       projectId,
       mode,
       conversation: conversationUpToNow,
-      currentReply: agentTurn.text,
+      currentReply: agentTurn.content || agentTurn.text,
       metadata: { ...metadata, turnIndex: i }
     });
 
@@ -159,9 +168,10 @@ function loadScenario(conversation, metadata) {
   }
 
   // 否则从对话中检测场景(基于关键词)
+  // 向后兼容：支持 role: 'customer' 和 'user'
   const customerMessages = conversation
-    .filter(turn => turn.role === 'customer')
-    .map(turn => turn.text.toLowerCase())
+    .filter(turn => turn.role === 'customer' || turn.role === 'user')
+    .map(turn => (turn.text || turn.content || '').toLowerCase())
     .join(' ');
 
   // 遍历所有场景找匹配
@@ -191,9 +201,10 @@ function loadScenario(conversation, metadata) {
  * 检测场景匹配
  */
 function detectScenario(scenario, conversation) {
+  // 向后兼容：支持 role: 'customer' 和 'user'
   const customerMessages = conversation
-    .filter(turn => turn.role === 'customer')
-    .map(turn => turn.text.toLowerCase())
+    .filter(turn => turn.role === 'customer' || turn.role === 'user')
+    .map(turn => (turn.text || turn.content || '').toLowerCase())
     .join(' ');
 
   const keywords = extractScenarioKeywords(scenario);
@@ -472,11 +483,15 @@ function validateAnalyzeTurnInput(input) {
     throw new Error('INVALID_INPUT: input 必须是对象');
   }
 
-  if (!input.projectId || typeof input.projectId !== 'string') {
-    throw new Error('INVALID_INPUT: 缺少 projectId');
+  // 向后兼容：支持 projectId 和 project
+  const hasProject = input.projectId || input.project;
+  if (!hasProject || typeof hasProject !== 'string') {
+    throw new Error('INVALID_INPUT: 缺少 projectId 或 project');
   }
 
-  if (!input.mode || !['training', 'live_monitor'].includes(input.mode)) {
+  // 向后兼容：支持 mode 和 metadata.entry_type
+  const mode = input.mode || input.metadata?.entry_type;
+  if (!mode || !['training', 'live_monitor'].includes(mode)) {
     throw new Error('INVALID_INPUT: mode 必须是 "training" 或 "live_monitor"');
   }
 
@@ -484,17 +499,20 @@ function validateAnalyzeTurnInput(input) {
     throw new Error('INVALID_INPUT: 缺少 conversation 数组');
   }
 
-  if (!input.currentReply || typeof input.currentReply !== 'string') {
-    throw new Error('INVALID_INPUT: 缺少 currentReply');
+  // 向后兼容：支持 currentReply 和 current_reply
+  const currentReply = input.currentReply || input.current_reply;
+  if (!currentReply || typeof currentReply !== 'string') {
+    throw new Error('INVALID_INPUT: 缺少 currentReply 或 current_reply');
   }
 
-  // 校验 conversation 格式
+  // 校验 conversation 格式（支持 role: user/customer 和 content/text）
   input.conversation.forEach((turn, index) => {
-    if (!turn.role || !['customer', 'agent'].includes(turn.role)) {
-      throw new Error(`INVALID_INPUT: conversation[${index}] 的 role 必须是 "customer" 或 "agent"`);
+    const role = turn.role;
+    if (!role || !['user', 'customer', 'agent'].includes(role)) {
+      throw new Error(`INVALID_INPUT: conversation[${index}].role 必须是 "user"/"customer" 或 "agent"`);
     }
     if (!turn.text && !turn.content) {
-      throw new Error(`INVALID_INPUT: conversation[${index}] 缺少 text 字段`);
+      throw new Error(`INVALID_INPUT: conversation[${index}] 缺少 text 或 content 字段`);
     }
   });
 }
@@ -507,11 +525,15 @@ function validateAnalyzeConversationInput(input) {
     throw new Error('INVALID_INPUT: input 必须是对象');
   }
 
-  if (!input.projectId || typeof input.projectId !== 'string') {
-    throw new Error('INVALID_INPUT: 缺少 projectId');
+  // 向后兼容：支持 projectId 和 project
+  const hasProject = input.projectId || input.project;
+  if (!hasProject || typeof hasProject !== 'string') {
+    throw new Error('INVALID_INPUT: 缺少 projectId 或 project');
   }
 
-  if (!input.mode || !['training', 'live_monitor'].includes(input.mode)) {
+  // 向后兼容：支持 mode 和 metadata.entry_type
+  const mode = input.mode || input.metadata?.entry_type;
+  if (!mode || !['training', 'live_monitor'].includes(mode)) {
     throw new Error('INVALID_INPUT: mode 必须是 "training" 或 "live_monitor"');
   }
 

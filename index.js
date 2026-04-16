@@ -1,6 +1,16 @@
+/**
+ * CLI 评估工具
+ * 
+ * 用法: node index.js <input-json-file>
+ * 
+ * 协议版本: v1.0（标准协议）
+ * - 输入文件应使用标准协议格式
+ * - 支持向后兼容旧字段格式
+ */
+
 const fs = require('fs');
 const path = require('path');
-const { evaluateTraining } = require('./core/trainer');
+const { evaluate } = require('./services/evaluation-service');
 
 async function main() {
   const inputFile = process.argv[2];
@@ -32,7 +42,7 @@ async function main() {
   }
   
   try {
-    const output = await evaluateTraining(input);
+    const output = await evaluate(input);
     console.log(JSON.stringify(output, null, 2));
   } catch (err) {
     console.error('评估失败:', err);

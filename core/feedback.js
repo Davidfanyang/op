@@ -8,9 +8,10 @@
  *   stage: { id, name, description, expectedActions, mustInclude, mustAvoid },
  *   
  *   // 分析结果
- *   result: { level, issues, missing, nextAction },
+ *   result: { level, issues, missing, strengths, nextAction },
  *   coachSummary: string,        // 教练式诊断总结
- *   riskLevel: string,           // none | low | medium | high
+ *   riskLevel: string,           // none | low | medium | high | critical
+ *   confidence: number,          // 置信度 0-1
  *   
  *   // 元数据
  *   meta: { analyzerVersion, mode, source, timestamp }
@@ -24,13 +25,42 @@
  * @returns {Object} 标准诊断输出结构
  */
 function buildDiagnosticFeedback(analysisResult, scenario) {
+  // 1. 整理问题列表（增强解释）
+  const issues = (analysisResult.result?.issues || []).map(issue => ({
+    ...issue,
+    // 增强问题解释
+    explanation: issue.explanation || explainIssue(issue),
+    // 严重程度映射
+    severity: issue.severity || mapSeverityFromLevel(analysisResult.result?.level)
+  }));
+
+  // 2. 整理缺失项（增强解释）
+  const missing = (analysisResult.result?.missing || []).map(item => ({
+    ...item,
+    // 增强缺失项解释
+    explanation: item.explanation || explainMissing(item, analysisResult.stage),
+    // 建议补充内容
+    suggestion: item.suggestion || suggestForMissing(item)
+  }));
+
+  // 3. 整理优势项
+  const strengths = analysisResult.result?.strengths || [];
+
+  // 4. 生成下一步建议
+  const nextAction = analysisResult.result?.nextAction || 
+                     generateNextAction(analysisResult, scenario);
+
+  // 5. 生成教练总结
+  const coachSummary = analysisResult.coachSummary || 
+                       generateCoachSummary(analysisResult, issues, missing, strengths);
+
   return {
     // 场景与阶段
     scenario: analysisResult.scenario || {
-      id: scenario.id,
-      title: scenario.title,
-      matchedStage: null,
-      stageName: 'unknown'
+      id: scenario?.id || 'unknown',
+      title: scenario?.title || '未知场景',
+      matchedStage: analysisResult.stage?.id || null,
+      stageName: analysisResult.stage?.name || 'unknown'
     },
 
     stage: analysisResult.stage || {
@@ -39,20 +69,24 @@ function buildDiagnosticFeedback(analysisResult, scenario) {
       description: '',
       expectedActions: [],
       mustInclude: [],
-      mustAvoid: []
+      mustAvoid: [],
+      // 当前阶段解释
+      explanation: '无法识别当前对话阶段'
     },
 
     // 分析结果
-    result: analysisResult.result || {
-      level: 'fail',
-      issues: [],
-      missing: [],
-      nextAction: '无'
+    result: {
+      level: analysisResult.result?.level || 'fail',
+      issues,
+      missing,
+      strengths,
+      nextAction
     },
 
     // 诊断总结
-    coachSummary: analysisResult.coachSummary || '分析完成',
-    riskLevel: analysisResult.riskLevel || 'none',
+    coachSummary,
+    riskLevel: analysisResult.riskLevel || mapRiskLevel(analysisResult.result?.level),
+    confidence: analysisResult.confidence || 0.5,
 
     // 元数据
     meta: {
@@ -66,62 +100,152 @@ function buildDiagnosticFeedback(analysisResult, scenario) {
 }
 
 /**
- * 向后兼容: 构建旧版反馈格式(逐步废弃)
- * @deprecated 使用 buildDiagnosticFeedback 替代
+ * 解释问题
  */
-function buildFeedback(result, scenario) {
-  console.warn('[Feedback] buildFeedback 已废弃，请使用 buildDiagnosticFeedback');
+function explainIssue(issue) {
+  const severityMap = {
+    'critical': '这是一个严重问题，会直接影响服务质量',
+    'high': '这是一个重要问题，需要立即改进',
+    'medium': '这是一个需要注意的问题，建议优化',
+    'low': '这是一个轻微问题，可以在后续对话中改进'
+  };
   
-  // 将旧版 score 格式转换为新版诊断格式
-  return buildDiagnosticFeedback({
-    scenario: {
-      id: scenario.id,
-      title: scenario.title,
-      matchedStage: 'legacy',
-      stageName: '旧版评分模式'
-    },
-    stage: {
-      id: 'legacy',
-      name: '旧版模式',
-      description: '兼容旧版评分系统',
-      expectedActions: [],
-      mustInclude: [],
-      mustAvoid: []
-    },
-    result: {
-      level: convertScoreToLevel(result.score),
-      issues: result.findings || [],
-      missing: [],
-      nextAction: result.suggestions?.[0] || '无'
-    },
-    coachSummary: result.coachSummary || result.summary || '评估完成',
-    riskLevel: convertScoreToRiskLevel(result.score),
-    meta: result.meta || {}
-  }, scenario);
+  const severity = issue.severity || 'medium';
+  const baseExplanation = severityMap[severity] || '需要关注此问题';
+  
+  return issue.message 
+    ? `${baseExplanation}: ${issue.message}`
+    : baseExplanation;
 }
 
 /**
- * 将旧版分数转换为等级
+ * 根据等级映射严重程度
  */
-function convertScoreToLevel(score) {
-  if (score >= 70) return 'pass';
-  if (score >= 50) return 'borderline';
-  if (score >= 30) return 'fail';
-  return 'risk';
+function mapSeverityFromLevel(level) {
+  const severityMap = {
+    'pass': 'low',
+    'borderline': 'medium',
+    'fail': 'high',
+    'risk': 'critical'
+  };
+  return severityMap[level] || 'medium';
 }
 
 /**
- * 将旧版分数转换为风险等级
+ * 解释缺失项
  */
-function convertScoreToRiskLevel(score) {
-  if (score >= 70) return 'none';
-  if (score >= 50) return 'low';
-  if (score >= 30) return 'medium';
-  return 'high';
+function explainMissing(item, stage) {
+  const stageName = stage?.name || '当前阶段';
+  const itemName = typeof item === 'string' ? item : (item.name || item.key || '该项');
+  
+  return `在「${stageName}」阶段，缺少必要的内容: ${itemName}`;
+}
+
+/**
+ * 为缺失项生成建议
+ */
+function suggestForMissing(item) {
+  const itemName = typeof item === 'string' ? item : (item.name || item.key || '');
+  
+  const suggestionMap = {
+    '身份验证': '请在回复中添加身份验证步骤，确认客户身份',
+    '问题确认': '请先确认客户的具体问题，避免误解',
+    '解决方案': '请提供明确的解决方案或处理步骤',
+    '风险提示': '请添加必要的风险提示，确保客户知情',
+    '安抚表达': '请增加安抚性表达，缓解客户情绪',
+    '信息收集': '请收集必要的信息以便更好地处理问题'
+  };
+  
+  return suggestionMap[itemName] || `请在回复中补充: ${itemName}`;
+}
+
+/**
+ * 生成下一步建议
+ */
+function generateNextAction(analysisResult, scenario) {
+  const level = analysisResult.result?.level || 'fail';
+  const issues = analysisResult.result?.issues || [];
+  const missing = analysisResult.result?.missing || [];
+  
+  // 根据等级生成建议
+  if (level === 'pass') {
+    return '回复质量良好，可以发送到客户';
+  }
+  
+  if (level === 'borderline') {
+    if (missing.length > 0) {
+      return `建议补充缺失内容后再发送: ${missing.slice(0, 2).join('、')}`;
+    }
+    return '回复基本合格，建议优化细节后再发送';
+  }
+  
+  if (level === 'fail') {
+    if (issues.length > 0) {
+      const criticalIssue = issues.find(i => i.severity === 'high' || i.severity === 'critical');
+      if (criticalIssue) {
+        return `需要先解决关键问题: ${criticalIssue.message || criticalIssue}`;
+      }
+    }
+    return '回复需要大幅改进，建议参考标准话术重新组织';
+  }
+  
+  // risk 等级
+  return '回复存在风险，不建议直接发送，请重新组织回复内容';
+}
+
+/**
+ * 生成教练总结
+ */
+function generateCoachSummary(analysisResult, issues, missing, strengths) {
+  const level = analysisResult.result?.level || 'fail';
+  const stage = analysisResult.stage?.name || '当前阶段';
+  
+  const levelSummary = {
+    'pass': '回复质量优秀',
+    'borderline': '回复基本合格，但仍有改进空间',
+    'fail': '回复存在明显不足，需要改进',
+    'risk': '回复存在风险，不建议发送'
+  };
+  
+  let summary = levelSummary[level] || '分析完成';
+  
+  // 添加阶段信息
+  summary += `。在「${stage}」阶段`;
+  
+  // 添加具体问题
+  if (issues.length > 0) {
+    summary += `，发现 ${issues.length} 个问题`;
+  }
+  
+  // 添加缺失项
+  if (missing.length > 0) {
+    summary += `，缺少 ${missing.length} 项必要内容`;
+  }
+  
+  // 添加优势
+  if (strengths.length > 0) {
+    summary += `。优点是: ${strengths.slice(0, 2).join('、')}`;
+  }
+  
+  summary += '。';
+  
+  return summary;
+}
+
+/**
+ * 根据等级映射风险等级
+ */
+function mapRiskLevel(level) {
+  const riskMap = {
+    'pass': 'none',
+    'borderline': 'low',
+    'fail': 'medium',
+    'risk': 'high'
+  };
+  return riskMap[level] || 'medium';
 }
 
 module.exports = { 
-  buildDiagnosticFeedback,
-  buildFeedback // 向后兼容
+  buildDiagnosticFeedback
 };
 

@@ -1,5 +1,5 @@
 /**
- * 评估服务层 v4.0 - 对话分析统一入口
+ * 评估服务层 v4.1 - 对话分析统一入口
  * 
  * 职责：
  * 1. 组织对话分析流程
@@ -7,6 +7,13 @@
  * 3. 统一调用 trainer 主链 (analyzeTurn / analyzeConversation)
  * 4. 支持 training 和 live_monitor 两种模式
  * 5. 模式分流：training → training_queue, live_monitor → supervisor_group
+ * 
+ * 协议版本: v1.0（标准协议）
+ * - 使用 projectId/project 字段（向后兼容）
+ * - 使用 mode/metadata.entry_type 字段（向后兼容）
+ * - 使用 currentReply/current_reply 字段（向后兼容）
+ * - conversation 使用标准格式 [{role: "user"|"agent", content: string}]
+ * - rules 字段已纳入标准协议
  */
 
 const { analyzeTurn, analyzeConversation } = require('../core/trainer');
@@ -87,15 +94,42 @@ async function evaluate(params) {
     }
   }
 
-  // 3. 组织调用 trainer 主链
+  // 3. 组织调用 trainer 主链（使用标准协议，向后兼容）
   try {
+    // 标准化 conversation 格式
+    const normalizedConversation = (params.conversation || []).map(turn => ({
+      role: turn.role === 'customer' ? 'user' : (turn.role || 'unknown'),
+      content: turn.content || turn.text || '',
+      _meta: turn.turnIndex !== undefined || turn.ts || turn.timestamp ? {
+        turnIndex: turn.turnIndex,
+        ts: turn.ts || turn.timestamp
+      } : undefined
+    })).filter(turn => turn.role && turn.content);
+
     const trainerInput = {
+      // 向后兼容：支持 projectId 和 project
       projectId: params.projectId,
+      project: params.project,
+      
+      // 向后兼容：支持 mode 和 metadata.entry_type
       mode: params.mode,
-      scenarioId: scenarioId,
-      conversation: params.conversation,
+      metadata: {
+        ...(params.metadata || {}),
+        entry_type: params.metadata?.entry_type || params.mode
+      },
+      
+      // conversation 使用标准格式
+      conversation: normalizedConversation,
+      
+      // 向后兼容：支持 currentReply 和 current_reply
       currentReply: params.currentReply,
-      metadata: params.metadata || {}
+      current_reply: params.current_reply,
+      
+      // 场景标识
+      scenarioId: scenarioId,
+      
+      // rules 字段（可选，协议适配层会自动加载）
+      rules: params.rules || {}
     };
 
     const result = await analyzeTurn(trainerInput);
@@ -123,7 +157,6 @@ async function evaluate(params) {
       recordEvaluation({
         projectId: params.projectId,
         scenarioId: normalized.scenarioId,
-        score: convertLevelToScore(normalized.result.level), // 兼容旧版
         alertLevel: normalized.alertLevel,
         alerts: normalized.alerts,
         reviewStatus: normalized.reviewStatus,
@@ -162,12 +195,36 @@ async function evaluateConversation(params) {
   }
 
   try {
+    // 标准化 conversation 格式
+    const normalizedConversation = (params.conversation || []).map(turn => ({
+      role: turn.role === 'customer' ? 'user' : (turn.role || 'unknown'),
+      content: turn.content || turn.text || '',
+      _meta: turn.turnIndex !== undefined || turn.ts || turn.timestamp ? {
+        turnIndex: turn.turnIndex,
+        ts: turn.ts || turn.timestamp
+      } : undefined
+    })).filter(turn => turn.role && turn.content);
+
     const result = await analyzeConversation({
+      // 向后兼容：支持 projectId 和 project
       projectId: params.projectId,
+      project: params.project,
+      
+      // 向后兼容：支持 mode 和 metadata.entry_type
       mode: params.mode,
+      metadata: {
+        ...(params.metadata || {}),
+        entry_type: params.metadata?.entry_type || params.mode
+      },
+      
+      // conversation 使用标准格式
+      conversation: normalizedConversation,
+      
+      // 场景标识
       scenarioId: params.scenarioId,
-      conversation: params.conversation,
-      metadata: params.metadata
+      
+      // rules 字段
+      rules: params.rules || {}
     });
 
     return result;
@@ -177,18 +234,23 @@ async function evaluateConversation(params) {
 }
 
 /**
- * 输入校验
+ * 输入校验（向后兼容）
  */
 function validateInput(params) {
   if (!params || typeof params !== 'object') {
     return { valid: false, error: '参数必须是对象' };
   }
 
-  const required = ['projectId', 'mode', 'conversation', 'currentReply'];
-  const missing = required.filter(key => !params[key]);
+  // 向后兼容：支持 projectId 和 project
+  const hasProject = params.projectId || params.project;
+  const hasMode = params.mode || params.metadata?.entry_type;
+  const hasCurrentReply = params.currentReply || params.current_reply;
+  
+  const required = [hasProject, hasMode, params.conversation, hasCurrentReply];
+  const missing = required.filter(x => !x);
   
   if (missing.length > 0) {
-    return { valid: false, error: `缺少必要字段: ${missing.join(', ')}` };
+    return { valid: false, error: `缺少必要字段: projectId/project, mode/entry_type, conversation, currentReply/current_reply` };
   }
 
   if (!Array.isArray(params.conversation)) {
@@ -196,15 +258,15 @@ function validateInput(params) {
   }
 
   const validModes = ['training', 'live_monitor'];
-  if (!validModes.includes(params.mode)) {
+  if (!validModes.includes(hasMode)) {
     return { valid: false, error: `mode 必须是: ${validModes.join(' | ')}` };
   }
 
-  if (params.mode === 'training' && !params.scenarioId) {
+  if (hasMode === 'training' && !params.scenarioId) {
     return { valid: false, error: 'training 模式必须提供 scenarioId' };
   }
 
-  if (params.mode === 'live_monitor' && !params.scenarioId && !params.customerMessage && !params.metadata?.customerMessage) {
+  if (hasMode === 'live_monitor' && !params.scenarioId && !params.customerMessage && !params.metadata?.customerMessage) {
     return { valid: false, error: 'live_monitor 模式必须提供 scenarioId 或 customerMessage' };
   }
 
@@ -235,6 +297,13 @@ function validateConversationInput(params) {
 
 /**
  * 告警检查 - 基于 riskLevel
+ * 
+ * TODO: 职责错位检查
+ * 本函数包含告警判断逻辑，理论上应归属于 core/alert-router.js
+ * 当前保留在 services 层是因为：
+ * 1. 需要适配不同的模式（training vs live_monitor）
+ * 2. 告警阈值可能因业务需求调整
+ * 建议后续迁移到 core 层，services 仅调用
  */
 function checkAlerts(result, mode = 'live_monitor') {
   const alerts = [];
@@ -287,6 +356,10 @@ function checkAlerts(result, mode = 'live_monitor') {
 
 /**
  * 计算 alertLevel 四档
+ * 
+ * TODO: 职责错位检查
+ * 本函数负责告警等级计算，属于判断逻辑
+ * 建议后续与 checkAlerts 一起迁移到 core/alert-router.js
  */
 function calculateAlertLevel(alerts) {
   if (!alerts || alerts.length === 0) {
@@ -561,18 +634,7 @@ async function createReviewAndAlert(result, params) {
   }
 }
 
-/**
- * 兼容旧版: 将等级转换为分数
- */
-function convertLevelToScore(level) {
-  const scoreMap = {
-    'pass': 85,
-    'borderline': 60,
-    'fail': 35,
-    'risk': 15
-  };
-  return scoreMap[level] || 0;
-}
+
 
 module.exports = {
   evaluate,

@@ -1,5 +1,5 @@
 /**
- * Live Monitor Service v4.0 - 实时监听服务
+ * Live Monitor Service v4.1 - 实时监听服务
  * 
  * 职责：
  * 1. 接收监听输入并标准化
@@ -11,6 +11,10 @@
  * 核心变更:
  * - 基于完整对话上下文进行分析
  * - 不再只看单轮 customerMessage + agentReply
+ * 
+ * 协议版本: v1.0（标准协议）
+ * - conversation 使用标准格式 [{role: "user"|"agent", content: string}]
+ * - 使用 projectId/project, mode/entry_type, currentReply/current_reply（向后兼容）
  */
 
 const { evaluate } = require('./evaluation-service');
@@ -138,24 +142,51 @@ class LiveMonitorService {
   }
 
   /**
-   * 触发对话分析 - 基于 conversation 上下文
+   * 触发对话分析 - 基于 conversation 上下文（使用标准协议）
    */
   async _analyzeMessage(message, session, input) {
     // 获取完整对话历史
     const conversationHistory = await this._buildConversationHistory(session.sessionId, input);
     
-    // 构建分析参数
+    // 标准化 conversation 格式（role: customer → user）
+    const normalizedConversation = conversationHistory.map(turn => ({
+      role: turn.role === 'customer' ? 'user' : (turn.role || 'unknown'),
+      content: turn.content || turn.text || '',
+      _meta: turn.turnIndex !== undefined || turn.timestamp ? {
+        turnIndex: turn.turnIndex,
+        ts: turn.timestamp
+      } : undefined
+    })).filter(turn => turn.role && turn.content);
+    
+    // 构建分析参数（使用标准协议，向后兼容）
     const analysisParams = {
+      // 向后兼容：支持 projectId 和 project
       projectId: input.projectId,
+      project: input.project,
+      
+      // 模式固定为 live_monitor
       mode: 'live_monitor',
-      currentReply: input.content,
-      conversation: conversationHistory,
       metadata: {
-        sessionId: session.sessionId,
-        employeeId: input.employeeId,
+        ...(input.metadata || {}),
+        session_id: session.sessionId,
+        sessionId: session.sessionId, // 向后兼容
+        agent_id: input.employeeId,
+        employeeId: input.employeeId, // 向后兼容
         customerId: input.customerId,
-        messageId: message.messageId
-      }
+        messageId: message.messageId,
+        entry_type: 'live_monitor',
+        timestamp: input.timestamp || new Date().toISOString()
+      },
+      
+      // conversation 使用标准格式
+      conversation: normalizedConversation,
+      
+      // 向后兼容：支持 currentReply 和 current_reply
+      currentReply: input.content,
+      current_reply: input.content,
+      
+      // rules 字段
+      rules: input.rules || {}
     };
 
     // 如果提供了 scenarioId，直接使用
@@ -196,7 +227,7 @@ class LiveMonitorService {
   }
 
   /**
-   * 构建完整对话历史
+   * 构建完整对话历史（使用标准协议格式）
    */
   async _buildConversationHistory(sessionId, currentInput) {
     // 获取最近的消息历史
@@ -205,10 +236,11 @@ class LiveMonitorService {
       { limit: 20, order: 'asc' } // 获取最近20条消息
     );
 
-    // 转换为 ConversationTurn 格式
+    // 转换为标准 ConversationTurn 格式
+    // 注意：role 使用标准协议格式（user/agent），而非旧格式（customer/agent）
     const conversation = recentMessages.map((msg, index) => ({
       turnIndex: index,
-      role: msg.direction === 'inbound' ? 'customer' : 'agent',
+      role: msg.direction === 'inbound' ? 'user' : 'agent',
       content: msg.content,
       timestamp: msg.timestamp,
       metadata: {
@@ -237,6 +269,12 @@ class LiveMonitorService {
 
   /**
    * 判断是否应创建 review item
+   * 
+   * TODO: 职责错位检查
+   * 本函数包含告警判断逻辑（基于 status、alertLevel、riskLevel、issues）
+   * 理论上应归属于 core/alert-router.js 或新增 core/review-decider.js
+   * 当前保留在 services 层是因为需要结合业务需求（何时创建 review）
+   * 建议后续将判断逻辑迁移到 core，services 仅调用
    */
   _shouldCreateReview(analysis) {
     if (analysis.status === 'alert_triggered') {

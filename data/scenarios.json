@@ -28,14 +28,14 @@
   {"id": "lanton_same_name_transfer", "title": "同名转账（USD/KHR互换）", "customerMessage": "怎么把瑞尔换成美元？", "standardReply": "请在App首页点击「同名转账」，选择需购买及付款的币种并输入金额，系统会自动显示汇率及实际扣款金额，确认即可完成。"},
   {"id": "lanton_scan_currency_fail", "title": "扫码支付无法切换美元", "customerMessage": "银行扫码支付LantonPay时，无法切换美金支付。", "standardReply": "因央行新政策落实中，部分平台银行未完成聚合码更新。暂时请您在收款后使用同名转账自行兑换成美金。"},
   {"id": "lanton_crypto_not_supported", "title": "Lanton不支持数字货币", "customerMessage": "LantonPay怎么充值USDT？", "standardReply": "您好，Lanton是柬埔寨央行监管的支付平台，仅支持法定货币的收付功能，不支持数字货币。"},
-  {"id": "lanton_intl_transfer_wechat", "title": "国际转账到微信操作流程", "customerMessage": "怎么把钱转账到微信？", "standardReply": "在首页选择【国际转账】，币种选CNY，支付方式选WeChat Pay。务必确填写真实姓名拼音和微信绑定手机号，并前往微信小程序"微汇款"签收。"},
+  {"id": "lanton_intl_transfer_wechat", "title": "国际转账到微信操作流程", "customerMessage": "怎么把钱转账到微信？", "standardReply": "在首页选择【国际转账】，币种选CNY，支付方式选WeChat Pay。务必确填写真实姓名拼音和微信绑定手机号，并前往微信小程序\"微汇款\"签收。"},
   {"id": "pai_deposit_methods", "title": "Pai入金方式", "customerMessage": "Pai App有哪些入金方式？", "standardReply": "您好！目前支持：1.数字货币充值(如USDT)；2.其他PAI用户转账；3.OTC快捷交易(买USDT)。"},
   {"id": "pai_cash_delivery", "title": "PAI取现流程", "customerMessage": "Pai钱包怎么取现金？", "standardReply": "请提供：Pai钱包ID、取现金额、取现时间和所在地区。我们将为您报价并安排预约取现。"},
   {"id": "pai_intl_transfer_bank_time", "title": "Pai国际转账到银行卡时效", "customerMessage": "国际转账到中国银行卡多久能到账？", "standardReply": "工作时间（08:00—21:00）内申请实时到账；夜间申请次日上班时间处理。单笔限额24,500元人民币，手续费每笔4USDT。"},
   {"id": "pai_intl_transfer_failed_reason", "title": "Pai国际转账失败原因", "customerMessage": "为什么我的国际转账提现失败了？", "standardReply": "您好！请提供提现账单截图及手机号。失败可能由于银行卡不支持、外汇额度已满或收款人信息填写有误。"},
-  {"id": "pai_intl_transfer_info_req", "title": "Pai国际转账信息填写要求", "customerMessage": "国际转账收款人信息怎么填？", "standardReply": "请使用大写拼音或英文输入姓名和地址，请勿包含空格。填写地址和城市时不要带"省"或"市"字样，以免导致失败。"},
+  {"id": "pai_intl_transfer_info_req", "title": "Pai国际转账信息填写要求", "customerMessage": "国际转账收款人信息怎么填？", "standardReply": "请使用大写拼音或英文输入姓名和地址，请勿包含空格。填写地址和城市时不要带\"省\"或\"市\"字样，以免导致失败。"},
   {"id": "pai_usdt_intl_transfer", "title": "如何使用USDT进行国际转账", "customerMessage": "Pai里面怎么用USDT转账变成法币？", "standardReply": "首页点击【国际转账】，选择国家、币种，填写收/付款人信息（拼音或英文），核对金额后支付即可。"},
-  {"id": "pai_wechat_receiver_info", "title": "国际转账微信收款人填写", "customerMessage": "转账到微信，收款人怎么填写？", "standardReply": "请在"微信收款信息"处填写微信绑定的手机号码，并确保这是国内微信风控要求的合理汇款关系（如本人或亲属）。"},
+  {"id": "pai_wechat_receiver_info", "title": "国际转账微信收款人填写", "customerMessage": "转账到微信，收款人怎么填写？", "standardReply": "请在\"微信收款信息\"处填写微信绑定的手机号码，并确保这是国内微信风控要求的合理汇款关系（如本人或亲属）。"},
   {"id": "pai_wechat_long_time", "title": "国际转账微信一直显示提现中", "customerMessage": "转账到微信一直没到账，还在提现中？", "standardReply": "您好！请打开微信搜索小程序【跨境汇款·微汇款】，点击【我要收款】创建收款名片并进行签收确认。72小时未领取会自动退回。"},
   {"id": "pai_wechat_invalid_info", "title": "国际转账微信收款信息无效", "customerMessage": "提现到微信显示收款人信息无效。", "standardReply": "您好，请您核对收款人姓名是否填写正确，并确认是否包含空格。如有错误建议修改后重新提交提现申请。"},
   {"id": "pai_delivery_service", "title": "Pai送现服务", "customerMessage": "我想了解一下送现服务。", "standardReply": "您好😊 请您协助提供以下信息方便报价：钱包ID、送现金额、预计送现时间、送现地点（区域或详细地址）。"},
@@ -46,7 +46,7 @@
   {"id": "pai_crypto_not_received", "title": "数字货币充值未到账", "customerMessage": "我充值了USDT，为什么没到账？", "standardReply": "您好，请提供Pai钱包ID、充值截图、交易哈希(TxID)和充值钱包地址，我们会立即为您反馈核实。"},
   {"id": "pai_crypto_withdraw_status", "title": "数字货币提币状态咨询", "customerMessage": "提币一直没到账，正常吗？", "standardReply": "您好～您的提币已发起，一般5-8分钟到账。如遇网络拥堵可能延迟，资金在链上很安全，请耐心等待。"},
   {"id": "pai_crypto_network_busy", "title": "大量提币失败/延迟", "customerMessage": "提币失败了，钱退回来了。", "standardReply": "目前链上网络异常繁忙，导致转账延迟或失败。资金已原路退回，请您放心，建议网络稳定后重新发起。"},
-  {"id": "pai_smart_contract_deposit", "title": "合约充值未到账(人工处理)", "customerMessage": "用授权扣款（合约）充值的钱没到账。", "standardReply": "您好，您使用的是"授权扣款"合约交易。资金安全，我们需人工为您核实补账。强烈建议您尽快取消该合约的授权权限保障安全。"},
+  {"id": "pai_smart_contract_deposit", "title": "合约充值未到账(人工处理)", "customerMessage": "用授权扣款（合约）充值的钱没到账。", "standardReply": "您好，您使用的是\"授权扣款\"合约交易。资金安全，我们需人工为您核实补账。强烈建议您尽快取消该合约的授权权限保障安全。"},
   {"id": "pai_smart_contract_reject", "title": "合约充值未到账(不处理)", "customerMessage": "我用DApp发起的充值怎么没到账？", "standardReply": "您好，平台仅支持常规钱包主动发起的链上转账，通过智能合约或批量操作产生的充值暂不支持入账处理，请使用个人钱包直接转账。"},
   {"id": "pai_supported_chains", "title": "支持的链类型", "customerMessage": "充提支持哪些网络链？", "standardReply": "支持 TRON（TRC20）、ETH（ERC20）及 BSC（BEP20）三种网络，请务必选择一致的链类型，仅支持 USDT 币种。"},
   {"id": "pai_address_flagged", "title": "钱包地址被标记", "customerMessage": "我的钱包地址被提示有风险/被标记了。", "standardReply": "经核实，您当前地址因历史链上交易与高风险地址关联被第三方标记，非我方平台产生且无法解除，建议您注册新账户使用。"},
@@ -93,5 +93,5 @@
   {"id": "pai_account_frozen_24h", "title": "账户冻结24小时后解决方案", "customerMessage": "账户冻结已经过了24小时了，能解冻了吗？", "standardReply": "安全验证中，可选：1.补齐10月16日来汇旺充值的2%手续费；2.从链上转入同等USDT进行资金验证，验证完退回。推荐后续走链上充值。"},
   {"id": "pai_wealth_management", "title": "理财功能及利率", "customerMessage": "理财产品有哪些？利息怎么算？", "standardReply": "支持活期理财（聚宝盈年化7.3%，余额宝年化3.65%）和定期理财（12个月，年化7%）。活期随存随取，通常30分钟内到账。"},
   {"id": "pai_multisig_renewal", "title": "多签续费流程", "customerMessage": "多签账户怎么续费？", "standardReply": "在有效期剩7天时点击页面顶部【续费】，费用从绑定的私人账户余额扣除，请务必点击续费以延续原账户，重新购买会生成新账户。"},
-  {"id": "pai_cs_support", "title": "客服联系与多语言", "customerMessage": "客服支持哪些语言？", "standardReply": "Pai客服支持中文、英文、越南语、高棉语4种语言，系统会自动识别。您可以在App"我的"-"语言设置"中切换界面语言。"}
+  {"id": "pai_cs_support", "title": "客服联系与多语言", "customerMessage": "客服支持哪些语言？", "standardReply": "Pai客服支持中文、英文、越南语、高棉语4种语言，系统会自动识别。您可以在App\"我的\"-\"语言设置\"中切换界面语言。"}
 ]

@@ -1,9 +1,12 @@
 // 本地对话评分脚本
 // 用途：输入场景、用户消息、客服回复，直接得到评分结果
+//
+// 协议版本: v1.0（标准协议）
+// - 使用标准协议调用 evaluate 函数
 
 const readline = require('readline');
 const scenarios = require('../data/scenarios.json');
-const { evaluateTraining } = require('../core/trainer');
+const { evaluate } = require('../services/evaluation-service');
 
 function createRl() {
   return readline.createInterface({
@@ -130,10 +133,35 @@ async function runInteractive() {
     }
 
     const actualCustomerMessage = customerMessage || scenario.customerMessage;
-    const result = evaluateTraining({
-      scenarioId: scenario.id,
-      userReply
-    });
+    
+    // 构建标准协议输入
+    const protocolInput = {
+      project: 'default',
+      conversation: [
+        {
+          role: 'user',
+          content: actualCustomerMessage,
+          _meta: { turnIndex: 0, ts: new Date().toISOString() }
+        },
+        {
+          role: 'agent',
+          content: userReply,
+          _meta: { turnIndex: 1, ts: new Date().toISOString() }
+        }
+      ],
+      current_reply: userReply,
+      metadata: {
+        source: 'score_dialog',
+        session_id: `score_dialog_${scenario.id}_${Date.now()}`,
+        agent_id: 'interactive_user',
+        timestamp: new Date().toISOString(),
+        entry_type: 'training',
+        scenarioId: scenario.id
+      },
+      rules: {}
+    };
+    
+    const result = await evaluate(protocolInput);
 
     renderResult(result, scenario, actualCustomerMessage, userReply);
   } finally {
@@ -150,10 +178,35 @@ async function runWithArgs() {
   const scenarioId = normalizeScenarioId(args.scenarioId);
   const scenario = getScenarioOrThrow(scenarioId);
   const customerMessage = args.customerMessage || scenario.customerMessage;
-  const result = evaluateTraining({
-    scenarioId: scenario.id,
-    userReply: args.userReply
-  });
+  
+  // 构建标准协议输入
+  const protocolInput = {
+    project: 'default',
+    conversation: [
+      {
+        role: 'user',
+        content: customerMessage,
+        _meta: { turnIndex: 0, ts: new Date().toISOString() }
+      },
+      {
+        role: 'agent',
+        content: args.userReply,
+        _meta: { turnIndex: 1, ts: new Date().toISOString() }
+      }
+    ],
+    current_reply: args.userReply,
+    metadata: {
+      source: 'score_dialog',
+      session_id: `score_dialog_${scenario.id}_${Date.now()}`,
+      agent_id: 'interactive_user',
+      timestamp: new Date().toISOString(),
+      entry_type: 'training',
+      scenarioId: scenario.id
+    },
+    rules: {}
+  };
+  
+  const result = await evaluate(protocolInput);
 
   renderResult(result, scenario, customerMessage, args.userReply);
   return true;

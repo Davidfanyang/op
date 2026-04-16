@@ -3,6 +3,10 @@
  * 
  * 使用 scenario-fixtures 中的数据运行测试
  * 验证 analyzeTurn 能稳定输出结构化诊断
+ * 
+ * 协议版本: v1.0（标准协议）
+ * - conversation 使用标准格式 [{role: "user"|"agent", content: string}]
+ * - 使用 current_reply 替代 currentReply
  */
 
 const assert = require('assert');
@@ -15,10 +19,12 @@ const { getScenarioById } = require('../core/scenario-loader');
 
 function createConversation(turns) {
   return turns.map((turn, index) => ({
-    turnIndex: index,
-    role: turn.role,
+    role: turn.role === 'customer' ? 'user' : turn.role,
     content: turn.content,
-    timestamp: new Date().toISOString()
+    _meta: {
+      turnIndex: index,
+      ts: turn.timestamp || new Date().toISOString()
+    }
   }));
 }
 
@@ -42,23 +48,33 @@ async function runFixtureTest(fixtureFile) {
       
       const conversation = createConversation(testCase.conversation);
       const result = await analyzeTurn({
+        project: fixture.projectId || 'default',
         scenario,
         conversation,
-        currentReply: testCase.currentReply
+        current_reply: testCase.currentReply,
+        metadata: {
+          source: 'test',
+          session_id: `test_${fixture.scenarioId}_${Date.now()}`,
+          agent_id: 'test_agent',
+          timestamp: new Date().toISOString(),
+          entry_type: 'training'
+        },
+        rules: {}
       });
       
       // 验证输出结构
-      assert(result.scenario, '应包含 scenario 信息');
+      assert(result.scenarioId, '应包含 scenarioId');
+      assert(result.scenarioName, '应包含 scenarioName');
       assert(result.stage, '应包含 stage 信息');
-      assert(result.result, '应包含 result 信息');
-      assert(result.result.level, '应包含 level');
+      assert(result.result, '应包含 result');
+      assert(['pass', 'borderline', 'fail', 'risk'].includes(result.result), 'result 应为有效等级');
       assert(result.riskLevel, '应包含 riskLevel');
       assert(result.coachSummary, '应包含 coachSummary');
       
       // 验证等级
       if (testCase.expectedLevel) {
-        assert(result.result.level === testCase.expectedLevel, 
-          `等级应为 ${testCase.expectedLevel}，实际为 ${result.result.level}`);
+        assert(result.result === testCase.expectedLevel, 
+          `等级应为 ${testCase.expectedLevel}，实际为 ${result.result}`);
       }
       
       // 验证风险等级
@@ -69,16 +85,16 @@ async function runFixtureTest(fixtureFile) {
       
       // 验证缺失关键词
       if (testCase.missingKeywords) {
-        const missingText = result.result.missing.join('');
+        const missingText = result.missing.join('');
         testCase.missingKeywords.forEach(kw => {
-          assert(missingText.includes(kw) || result.result.issues.some(i => i.message.includes(kw)),
+          assert(missingText.includes(kw) || result.issues.some(i => i.includes(kw)),
             `应缺失关键词: ${kw}`);
         });
       }
       
       // 验证禁忌内容
       if (testCase.forbiddenKeywords) {
-        const hasForbidden = result.result.issues.some(i => i.type === 'forbidden_content');
+        const hasForbidden = result.issues.some(i => i.includes('禁忌内容') || i.includes('全局禁忌'));
         assert(hasForbidden, '应检测到禁忌内容');
       }
       

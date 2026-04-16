@@ -1,5 +1,6 @@
 {
   "description": "SMS验证码场景测试数据 - 反例集合",
+  "projectId": "lanton",
   "scenarioId": "lanton_sms_code",
   "testCases": [
     {

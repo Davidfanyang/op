@@ -1,5 +1,6 @@
 {
   "description": "注册流程场景测试数据",
+  "projectId": "default",
   "scenarioId": "register_flow",
   "testCases": [
     {

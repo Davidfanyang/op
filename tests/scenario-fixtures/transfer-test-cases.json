@@ -1,5 +1,6 @@
 {
   "description": "转账未到账场景测试数据",
+  "projectId": "lanton",
   "scenarioId": "lanton_transfer_success_not_received",
   "testCases": [
     {
