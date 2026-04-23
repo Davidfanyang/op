@@ -91,19 +91,80 @@ class MySQLPool {
   }
 
   /**
+   * 转换 ISO 8601  datetime 为 MySQL DATETIME 格式
+   * @param {string|Date} datetime - ISO 8601 字符串或 Date 对象
+   * @returns {string} MySQL DATETIME 格式: 'YYYY-MM-DD HH:MM:SS'
+   */
+  _toMySQLDatetime(datetime) {
+    if (!datetime) return null;
+    
+    // 如果已经是 Date 对象
+    if (datetime instanceof Date) {
+      return datetime.toISOString().replace('T', ' ').substring(0, 19);
+    }
+    
+    // 如果是 ISO 8601 字符串
+    if (typeof datetime === 'string') {
+      // 如果已经是 MySQL 格式，直接返回
+      if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(datetime)) {
+        return datetime;
+      }
+      
+      // 转换 ISO 8601 到 MySQL 格式
+      try {
+        const date = new Date(datetime);
+        if (isNaN(date.getTime())) {
+          console.warn('[MySQLPool] Invalid datetime value:', datetime);
+          return null;
+        }
+        return date.toISOString().replace('T', ' ').substring(0, 19);
+      } catch (e) {
+        console.error('[MySQLPool] Failed to parse datetime:', datetime, e.message);
+        return null;
+      }
+    }
+    
+    return datetime;
+  }
+
+  /**
    * 执行查询
    * @param {string} sql - SQL语句
    * @param {Array} params - 参数
-   * @returns {Promise<Array>} [rows, fields]
+   * @returns {Promise<Array|Object>} 对于SELECT返回[rows, fields]，对于UPDATE/INSERT/DELETE返回result对象
    */
   async query(sql, params = []) {
     if (!this.pool) {
       await this.connect();
     }
     
+    // 转换所有 datetime 参数（更严格的检查）
+    const convertedParams = params.map((param, index) => {
+      // 只转换明确的 ISO 8601 格式（包含 'T' 和 'Z' 或时区偏移）
+      if (typeof param === 'string' && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(param)) {
+        const converted = this._toMySQLDatetime(param);
+        if (converted === null) {
+          console.warn(`[MySQLPool] Param ${index} datetime conversion failed, using original:`, param);
+          return param; // 转换失败时使用原值
+        }
+        console.debug(`[MySQLPool] Converted datetime param ${index}: ${param} -> ${converted}`);
+        return converted;
+      }
+      return param;
+    });
+    
     try {
-      const [rows, fields] = await this.pool.execute(sql, params);
-      return [rows, fields];
+      const [result, fields] = await this.pool.execute(sql, convertedParams);
+      
+      // 对于 UPDATE/INSERT/DELETE，返回完整的 result 对象（包含 affectedRows, insertId 等）
+      // 对于 SELECT，返回 [rows, fields]
+      if (fields === undefined) {
+        // UPDATE/INSERT/DELETE 语句
+        return result;
+      } else {
+        // SELECT 语句
+        return [result, fields];
+      }
     } catch (err) {
       console.error('[MySQLPool] Query error:', err.message, { sql: sql.substring(0, 100) });
       throw err;
@@ -139,7 +200,7 @@ class MySQLPool {
    * @returns {Promise<number|string>} insertId
    */
   async insert(sql, params = []) {
-    const [result] = await this.query(sql, params);
+    const result = await this.query(sql, params);
     return result.insertId;
   }
 
@@ -150,7 +211,7 @@ class MySQLPool {
    * @returns {Promise<number>} affectedRows
    */
   async update(sql, params = []) {
-    const [result] = await this.query(sql, params);
+    const result = await this.query(sql, params);
     return result.affectedRows;
   }
 
