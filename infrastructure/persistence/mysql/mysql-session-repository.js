@@ -26,6 +26,21 @@ class MySQLSessionRepository extends SessionRepository {
   _rowToObject(row) {
     if (!row) return null;
     
+    // 处理 metadata_json 字段（可能已经是对象，也可能是字符串）
+    let metadata = {};
+    if (row.metadata_json) {
+      if (typeof row.metadata_json === 'string') {
+        try {
+          metadata = JSON.parse(row.metadata_json);
+        } catch (e) {
+          console.error('[MySQLSessionRepository] Failed to parse metadata_json:', e.message);
+          metadata = {};
+        }
+      } else if (typeof row.metadata_json === 'object') {
+        metadata = row.metadata_json;
+      }
+    }
+    
     return {
       sessionId: row.session_id,
       projectId: row.project_id,
@@ -37,7 +52,7 @@ class MySQLSessionRepository extends SessionRepository {
       status: row.status,
       startedAt: row.started_at,
       endedAt: row.ended_at,
-      metadata: row.metadata_json ? JSON.parse(row.metadata_json) : {},
+      metadata: metadata,
       createdAt: row.created_at,
       updatedAt: row.updated_at
     };

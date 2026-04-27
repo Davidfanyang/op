@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trainer Core - 基础统计看板</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        h2 {
+            margin: 30px 0 15px 0;
+            color: #333;
+            font-size: 20px;
+            border-left: 4px solid #1890ff;
+            padding-left: 12px;
+        }
+
+        /* 筛选区 */
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filters input, .filters select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .filters button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #1890ff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #40a9ff;
+        }
+
+        .btn-secondary {
+            background: #d9d9d9;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #bfbfbf;
+        }
+
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card h3 {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #1890ff;
+        }
+
+        .stat-card.warning .value {
+            color: #faad14;
+        }
+
+        .stat-card.danger .value {
+            color: #ff4d4f;
+        }
+
+        .stat-card.success .value {
+            color: #52c41a;
+        }
+
+        /* 区域容器 */
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* 表格 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        th {
+            background: #fafafa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        /* 信息网格 */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .info-item {
+            padding: 15px;
+            background: #fafafa;
+            border-radius: 4px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 20px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .info-value.large {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1890ff;
+        }
+
+        /* 标签 */
+        .tag {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .tag-scenario {
+            background: #e6f7ff;
+            color: #1890ff;
+        }
+
+        /* 消息提示 */
+        .error-message {
+            background: #fff2f0;
+            border: 1px solid #ffccc7;
+            color: #ff4d4f;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        /* 分布条 */
+        .distribution-bar {
+            margin-top: 10px;
+        }
+
+        .distribution-item {
+            margin-bottom: 10px;
+        }
+
+        .distribution-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .distribution-track {
+            height: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .distribution-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1890ff, #40a9ff);
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>基础统计看板</h1>
+
+        <!-- 筛选区 -->
+        <div class="filters">
+            <input type="text" id="filter-project" placeholder="项目">
+            <input type="datetime-local" id="filter-start-time">
+            <input type="datetime-local" id="filter-end-time">
+            <button class="btn-primary" onclick="loadAllStats()">查询</button>
+            <button class="btn-secondary" onclick="resetFilters()">重置</button>
+            <button class="btn-secondary" onclick="loadAllStats()">🔄 刷新</button>
+        </div>
+
+        <!-- 消息提示 -->
+        <div id="message-container"></div>
+
+        <!-- 总览统计卡片 -->
+        <h2>总览统计</h2>
+        <div class="stats-grid" id="overview-cards">
+            <div class="stat-card">
+                <h3>训练会话数</h3>
+                <div class="value" id="stat-training-sessions">-</div>
+            </div>
+            <div class="stat-card">
+                <h3>实时质检会话数</h3>
+                <div class="value" id="stat-quality-sessions">-</div>
+            </div>
+            <div class="stat-card">
+                <h3>质检分析数</h3>
+                <div class="value" id="stat-evaluations">-</div>
+            </div>
+            <div class="stat-card warning">
+                <h3>Unknown 数量</h3>
+                <div class="value" id="stat-unknown">-</div>
+            </div>
+            <div class="stat-card danger">
+                <h3>告警数量</h3>
+                <div class="value" id="stat-alerts">-</div>
+            </div>
+            <div class="stat-card">
+                <h3>待审核数量</h3>
+                <div class="value" id="stat-pending">-</div>
+            </div>
+            <div class="stat-card success">
+                <h3>已审核数量</h3>
+                <div class="value" id="stat-reviewed">-</div>
+            </div>
+            <div class="stat-card">
+                <h3>知识库数量</h3>
+                <div class="value" id="stat-knowledge">-</div>
+            </div>
+        </div>
+
+        <!-- 训练统计 -->
+        <h2>训练统计</h2>
+        <div class="section" id="training-section">
+            <div class="info-grid" id="training-stats">
+                <div class="loading">加载中...</div>
+            </div>
+        </div>
+
+        <!-- 质检统计 -->
+        <h2>质检统计</h2>
+        <div class="section" id="quality-section">
+            <div class="info-grid" id="quality-stats">
+                <div class="loading">加载中...</div>
+            </div>
+        </div>
+
+        <!-- 告警统计 -->
+        <h2>告警统计</h2>
+        <div class="section" id="alerts-section">
+            <div class="info-grid" id="alerts-stats">
+                <div class="loading">加载中...</div>
+            </div>
+            <div id="alerts-distribution"></div>
+        </div>
+
+        <!-- 审核统计 -->
+        <h2>审核统计</h2>
+        <div class="section" id="reviews-section">
+            <div class="info-grid" id="reviews-stats">
+                <div class="loading">加载中...</div>
+            </div>
+        </div>
+
+        <!-- 知识库统计 -->
+        <h2>知识库统计</h2>
+        <div class="section" id="knowledge-section">
+            <div class="info-grid" id="knowledge-stats">
+                <div class="loading">加载中...</div>
+            </div>
+            <div id="knowledge-distribution"></div>
+        </div>
+
+        <!-- 趋势 -->
+        <h2>时间趋势</h2>
+        <div class="section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>训练会话</th>
+                        <th>质检会话</th>
+                        <th>分析数</th>
+                        <th>Unknown</th>
+                        <th>告警</th>
+                        <th>审核</th>
+                    </tr>
+                </thead>
+                <tbody id="trend-table-body">
+                    <tr>
+                        <td colspan="7" class="loading">加载中...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 客服维度 -->
+        <h2>客服维度统计</h2>
+        <div class="section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>客服ID</th>
+                        <th>训练会话</th>
+                        <th>训练轮次</th>
+                        <th>质检会话</th>
+                        <th>质检分析</th>
+                        <th>Unknown</th>
+                        <th>告警</th>
+                        <th>严重告警</th>
+                    </tr>
+                </thead>
+                <tbody id="agents-table-body">
+                    <tr>
+                        <td colspan="8" class="loading">加载中...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="/web/api-client.js"></script>
+    <script src="/web/scenario-labels.js"></script>
+    <script src="/web/dashboard-page.js"></script>
+</body>
+</html>

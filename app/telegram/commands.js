@@ -6,8 +6,20 @@ function parseCommand(text) {
   if (['/next', 'next', '下一题', '继续'].includes(normalized)) return 'next';
   if (['/cancel', 'cancel', '取消', '停止', '退出'].includes(normalized)) return 'cancel';
   
+  // 训练命令匹配
+  if (normalized.startsWith('/train') || normalized.startsWith('train')) return 'train';
+  if (['/status', 'status', '状态', '训练状态'].includes(normalized)) return 'status';
+  if (['/stop', 'stop', '停止训练', '结束训练'].includes(normalized)) return 'stop';
+  
   // review 命令匹配
   if (normalized.startsWith('/review')) return 'review';
+  
+  // 帮助命令
+  if (['/help', 'help', '帮助'].includes(normalized)) return 'help';
+  
+  // 训练统计命令
+  if (['/training_pending', 'training_pending'].includes(normalized)) return 'training_pending';
+  if (['/training_stats', 'training_stats', '训练统计'].includes(normalized)) return 'training_stats';
   
   return null;
 }

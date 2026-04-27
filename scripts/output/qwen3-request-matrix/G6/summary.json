@@ -1,0 +1,22 @@
+{
+  "groupId": "G6",
+  "config": {
+    "id": "G6",
+    "numPredict": 1024,
+    "format": null,
+    "promptVersion": "minimal",
+    "messageMode": "system_user",
+    "think": false
+  },
+  "totalRounds": 3,
+  "parseSuccessCount": 0,
+  "validSuccessCount": 0,
+  "highRiskSuccessCount": 0,
+  "usableSuccessCount": 0,
+  "doneReasonLengthCount": 3,
+  "truncatedCount": 3,
+  "failureTypeBreakdown": {
+    "truncated_output": 3
+  },
+  "timestamp": "2026-04-22T10:44:15.312Z"
+}

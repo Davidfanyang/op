@@ -15,9 +15,29 @@ require('dotenv').config();
 const { LiveMonitorAPI } = require('./adapters/http/live-monitor-api');
 const { TelegramAlerter } = require('./adapters/alerts/telegram-alert');
 
+// 存储配置
+const repositoryType = process.env.REPOSITORY_TYPE || 'mysql';
+const mysqlConfig = {
+  host: process.env.MYSQL_HOST || 'localhost',
+  port: parseInt(process.env.MYSQL_PORT || '3306'),
+  user: process.env.MYSQL_USER || 'root',
+  password: process.env.MYSQL_PASSWORD || '',
+  database: process.env.MYSQL_DATABASE || 'trainer_core'
+};
+
+console.log('\n========================================');
+console.log('存储配置');
+console.log('========================================');
+console.log(`repositoryType: ${repositoryType}`);
+console.log(`database: ${mysqlConfig.database}`);
+console.log(`mysql host: ${mysqlConfig.host}:${mysqlConfig.port}`);
+console.log('========================================\n');
+
 // 创建 API 服务
 const api = new LiveMonitorAPI({
-  port: process.env.LIVE_MONITOR_PORT || 3001
+  port: process.env.LIVE_MONITOR_PORT || 3001,
+  repositoryType: repositoryType,
+  mysql: mysqlConfig
 });
 
 // 创建 Telegram 告警器

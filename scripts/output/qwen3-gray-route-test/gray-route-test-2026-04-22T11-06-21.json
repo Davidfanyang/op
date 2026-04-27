@@ -1,0 +1,141 @@
+{
+  "timestamp": "2026-04-22T11:06:21.157Z",
+  "totalCases": 8,
+  "passed": 7,
+  "failed": 1,
+  "passRate": 87.5,
+  "results": [
+    {
+      "id": "case_1_not_hit_taskType",
+      "name": "未命中灰度 - 任务类型不匹配",
+      "context": {
+        "taskType": "other_task",
+        "entrySource": "training",
+        "scenario": "transfer_not_received"
+      },
+      "expectedRoute": "original_direct",
+      "expectedHit": false,
+      "passed": true
+    },
+    {
+      "id": "case_2_not_hit_entry",
+      "name": "未命中灰度 - 入口不匹配",
+      "context": {
+        "taskType": "quality_evaluation",
+        "entrySource": "live_monitor",
+        "scenario": "transfer_not_received"
+      },
+      "expectedRoute": "original_direct",
+      "expectedHit": false,
+      "passed": true
+    },
+    {
+      "id": "case_3_not_hit_scenario",
+      "name": "未命中灰度 - 场景不匹配",
+      "context": {
+        "taskType": "quality_evaluation",
+        "entrySource": "training",
+        "scenario": "unknown_scenario"
+      },
+      "expectedRoute": "original_direct",
+      "expectedHit": false,
+      "passed": true
+    },
+    {
+      "id": "case_4_hit_qwen3_success",
+      "name": "命中灰度且 qwen3 成功",
+      "context": {
+        "taskType": "quality_evaluation",
+        "entrySource": "training",
+        "scenario": "transfer_not_received"
+      },
+      "expectedRoute": "qwen3_adapter",
+      "expectedHit": true,
+      "mockQwen3": "success",
+      "passed": false,
+      "error": "Expected route=qwen3_adapter, got route=fallback_original"
+    },
+    {
+      "id": "case_5_hit_qwen3_failure",
+      "name": "命中灰度但 qwen3 失败 - 自动回退",
+      "context": {
+        "taskType": "quality_evaluation",
+        "entrySource": "training",
+        "scenario": "withdraw_pending"
+      },
+      "expectedRoute": "fallback_original",
+      "expectedHit": true,
+      "mockQwen3": "failure",
+      "failureType": "invalid_fields",
+      "passed": true
+    },
+    {
+      "id": "case_6_hit_qwen3_timeout",
+      "name": "命中灰度但 qwen3 超时 - 自动回退",
+      "context": {
+        "taskType": "quality_evaluation",
+        "entrySource": "review",
+        "scenario": "payment_deducted_failed"
+      },
+      "expectedRoute": "fallback_original",
+      "expectedHit": true,
+      "mockQwen3": "failure",
+      "failureType": "timeout",
+      "passed": true
+    },
+    {
+      "id": "case_7_hit_qwen3_json_parse_failed",
+      "name": "命中灰度但 qwen3 JSON 解析失败 - 自动回退",
+      "context": {
+        "taskType": "quality_evaluation",
+        "entrySource": "test_entry",
+        "scenario": "service_response_poor"
+      },
+      "expectedRoute": "fallback_original",
+      "expectedHit": true,
+      "mockQwen3": "failure",
+      "failureType": "json_parse_failed",
+      "passed": true
+    },
+    {
+      "id": "case_8_total_switch_off",
+      "name": "总开关关闭 - 无论条件是否命中都走原逻辑",
+      "context": {
+        "taskType": "quality_evaluation",
+        "entrySource": "training",
+        "scenario": "transfer_not_received"
+      },
+      "expectedRoute": "original_direct",
+      "expectedHit": false,
+      "forceSwitchOff": true,
+      "passed": true
+    }
+  ],
+  "stats": {
+    "totalHits": 4,
+    "qwen3Success": 0,
+    "qwen3Failure": 4,
+    "fallbackCount": 4,
+    "originalDirectCount": 4,
+    "failureTypes": {
+      "request_failed": 0,
+      "timeout": 0,
+      "empty_response": 0,
+      "no_json_found": 0,
+      "json_parse_failed": 0,
+      "truncated_output": 0,
+      "invalid_fields": 0,
+      "risky_suggested_reply": 0
+    },
+    "qwen3TotalDuration": 0,
+    "fallbackTotalDuration": 0,
+    "totalDuration": 0,
+    "parseSuccessCount": 0,
+    "usableSuccessCount": 0,
+    "qwen3AvgDuration": 0,
+    "fallbackAvgDuration": 0,
+    "parseSuccessRate": 0,
+    "usableSuccessRate": 0,
+    "fallbackRate": 1
+  }
+}

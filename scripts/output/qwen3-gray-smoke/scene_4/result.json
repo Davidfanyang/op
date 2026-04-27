@@ -1,0 +1,32 @@
+{
+  "id": "scene_4",
+  "name": "客服回复敷衍",
+  "success": true,
+  "durationMs": 3415,
+  "grayHit": true,
+  "route": "fallback_original",
+  "qwenSuccess": false,
+  "fallbackUsed": true,
+  "failureType": "risky_suggested_reply",
+  "replyRisk": null,
+  "validationErrors": [],
+  "raw": {
+    "route": "fallback_original",
+    "qwenFailure": {
+      "failureType": "risky_suggested_reply",
+      "error": "JSON parsed but suggested_reply contains risky claims"
+    },
+    "result": {
+      "success": true,
+      "source": "original_mock",
+      "input": {
+        "conversationText": "用户：你们到底什么时候处理？\n客服：等等看。"
+      },
+      "context": {
+        "taskType": "quality_evaluation",
+        "entrySource": "test_entry",
+        "scenario": "service_response_poor"
+      }
+    }
+  }
+}

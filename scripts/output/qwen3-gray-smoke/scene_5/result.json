@@ -1,0 +1,74 @@
+{
+  "id": "scene_5",
+  "name": "用户信息严重缺失",
+  "success": true,
+  "durationMs": 2771,
+  "grayHit": true,
+  "route": "qwen3_adapter",
+  "qwenSuccess": true,
+  "fallbackUsed": false,
+  "failureType": null,
+  "replyRisk": "no_obvious_risk",
+  "validationErrors": [],
+  "raw": {
+    "route": "qwen3_adapter",
+    "result": {
+      "success": true,
+      "failureType": null,
+      "error": null,
+      "requestConfig": {
+        "model": "qwen3:4b",
+        "format": "json",
+        "num_predict": 1024,
+        "temperature": 0,
+        "think": false
+      },
+      "rawResponse": {
+        "model": "qwen3:4b",
+        "created_at": "2026-04-22T17:53:12.147469Z",
+        "message": {
+          "role": "assistant",
+          "content": "{\n  \"score\": 0,\n  \"problem_type\": \"unknown\",\n  \"scenario\": \"user_misunderstanding\",\n  \"issues\": [\n    \"用户未明确问题内容\"\n  ],\n  \"missing_info\": [\n    \"用户具体问题描述\"\n  ],\n  \"suggested_reply\": \"请详细说明您遇到的问题，例如：订单状态、支付问题等。\",\n  \"confidence\": 0.8\n}"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 2769135250,
+        "load_duration": 43699000,
+        "prompt_eval_count": 201,
+        "prompt_eval_duration": 95558291,
+        "eval_count": 91,
+        "eval_duration": 2531117960
+      },
+      "processed": {
+        "success": true,
+        "selectedSource": "message.content",
+        "candidates": [
+          {
+            "source": "message.content",
+            "index": 0,
+            "length": 231,
+            "hasParsed": true
+          }
+        ],
+        "truncated": false,
+        "validationErrors": [],
+        "replyRisk": "no_obvious_risk",
+        "replyRiskDetails": []
+      },
+      "data": {
+        "score": 0,
+        "problem_type": "unknown",
+        "scenario": "user_misunderstanding",
+        "issues": [
+          "用户未明确问题内容"
+        ],
+        "missing_info": [
+          "用户具体问题描述"
+        ],
+        "suggested_reply": "请详细说明您遇到的问题，例如：订单状态、支付问题等。",
+        "confidence": 0.8
+      },
+      "retryCount": 0
+    }
+  }
+}

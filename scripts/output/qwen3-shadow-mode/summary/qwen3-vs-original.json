@@ -1,0 +1,60 @@
+{
+  "generatedAt": "2026-04-22T23:30:06.732Z",
+  "total": 50,
+  "problemType": {
+    "agreementRate": 1,
+    "agree": 50,
+    "disagree": 0,
+    "confusionMatrix": {
+      "known->known": 45,
+      "unknown->unknown": 5
+    }
+  },
+  "score": {
+    "originalAvg": 68.62,
+    "qwen3Avg": 75.3,
+    "meanDiff": 6.68,
+    "meanAbsDiff": 17.96,
+    "maxDiff": 62,
+    "stdDiff": 21.97,
+    "correlation": 0.569,
+    "scoreRanges": {
+      "0-60": {
+        "original": 8,
+        "qwen3": 5
+      },
+      "61-70": {
+        "original": 18,
+        "qwen3": 3
+      },
+      "71-80": {
+        "original": 20,
+        "qwen3": 0
+      },
+      "81-90": {
+        "original": 4,
+        "qwen3": 42
+      },
+      "91-100": {
+        "original": 0,
+        "qwen3": 0
+      }
+    }
+  },
+  "riskLevel": {
+    "agreementRate": 0,
+    "agree": 0,
+    "disagree": 50,
+    "confusionMatrix": {
+      "low->risky_reply_detected": 29,
+      "high->no_obvious_risk": 5,
+      "medium->risky_reply_detected": 13,
+      "medium->no_obvious_risk": 3
+    }
+  },
+  "highScoreMisjudge": {
+    "count": 0,
+    "rate": 0,
+    "total": 50
+  }
+}

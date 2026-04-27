@@ -1,0 +1,52 @@
+{
+  "success": false,
+  "failureType": "truncated_output",
+  "error": "JSON parsed successfully but output was truncated (high-risk)",
+  "sourceTried": [
+    "message.content"
+  ],
+  "selectedSource": "message.content",
+  "raw": "{\n  \"score\": 25,\n  \"problem_type\": \"known\",\n  \"scenario\": \"转账后对方未收到款项\",\n  \"issues\": [\"客服回复过于简短，未提供解决方案\", \"未询问必要信息如转账ID\"],\n  \"missing_info\": [\"转账ID\", \"转账金额\", \"转账时间\"],\n  \"suggested_reply\": \"请提供转账ID和对方账户信息，以便我们检查转账状态。\",\n  \"confidence\": 0.8\n}",
+  "cleaned": null,
+  "candidates": [
+    {
+      "source": "message.content",
+      "index": 1807,
+      "length": 238,
+      "hasParsed": true
+    },
+    {
+      "source": "message.content",
+      "index": 3004,
+      "length": 267,
+      "hasParsed": true
+    },
+    {
+      "source": "message.content",
+      "index": 3495,
+      "length": 267,
+      "hasParsed": true
+    }
+  ],
+  "data": {
+    "score": 25,
+    "problem_type": "known",
+    "scenario": "转账后对方未收到款项",
+    "issues": [
+      "客服回复过于简短，未提供解决方案",
+      "未询问必要信息如转账ID"
+    ],
+    "missing_info": [
+      "转账ID",
+      "转账金额",
+      "转账时间"
+    ],
+    "suggested_reply": "请提供转账ID和对方账户信息，以便我们检查转账状态。",
+    "confidence": 0.8
+  },
+  "truncated": true,
+  "truncationReason": "done_reason_is_length",
+  "validationErrors": [],
+  "replyRisk": "no_obvious_risk",
+  "replyRiskDetails": []
+}

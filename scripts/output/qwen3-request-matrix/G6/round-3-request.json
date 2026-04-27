@@ -1,0 +1,19 @@
+{
+  "model": "qwen3:4b",
+  "messages": [
+    {
+      "role": "system",
+      "content": "输出JSON格式评估结果：{\"score\": 整数, \"problem_type\": \"known或unknown\", \"scenario\": \"字符串\", \"issues\": [], \"missing_info\": [], \"suggested_reply\": \"字符串\", \"confidence\": 0-1数字}\n\n只输出JSON，禁止任何解释。"
+    },
+    {
+      "role": "user",
+      "content": "用户：我转账成功了，但是对方没收到。\n客服：你等等。"
+    }
+  ],
+  "stream": false,
+  "options": {
+    "temperature": 0,
+    "num_predict": 1024
+  },
+  "think": false
+}

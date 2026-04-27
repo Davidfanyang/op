@@ -1,0 +1,86 @@
+{
+  "timestamp": "2026-04-23T08:38:13.283Z",
+  "taskType": "quality_evaluation",
+  "entrySource": "test_entry",
+  "scenario": "info_missing",
+  "shadowDecision": "shadow_mode_hit",
+  "original": {
+    "success": true,
+    "source": "mock_from_conversations",
+    "analysisResult": {
+      "score": 56,
+      "problem_type": "unknown",
+      "riskLevel": "high"
+    }
+  },
+  "qwen3": {
+    "called": true,
+    "success": true,
+    "failureType": null,
+    "route": "qwen3_adapter",
+    "retryCount": 0,
+    "durationMs": 4986,
+    "replyRisk": "no_obvious_risk",
+    "risk_level": "low"
+  },
+  "data": {
+    "score": 0,
+    "problem_type": "unknown",
+    "scenario": "用户问题模糊且未提供具体信息"
+  },
+  "ruleScore": {
+    "qwen_raw_score": 0,
+    "rule_score": 0,
+    "base_score": 0,
+    "deductions": [
+      {
+        "reason": "issues_count",
+        "points": 12,
+        "detail": "4 个问题，每个扣 3 分"
+      },
+      {
+        "reason": "missing_info_count",
+        "points": 8,
+        "detail": "4 个缺失信息，每个扣 2 分"
+      },
+      {
+        "reason": "no_action_path",
+        "points": 6,
+        "detail": "未检测到明确的处理动作"
+      },
+      {
+        "reason": "insufficient_info",
+        "points": 4,
+        "detail": "missing_info >= 2（当前 4 个）"
+      },
+      {
+        "reason": "unknown_problem",
+        "points": 3,
+        "detail": "问题类型为 unknown，保守扣分"
+      }
+    ],
+    "meta": {
+      "issuesCount": 4,
+      "missingInfoCount": 4,
+      "detectedFlags": [
+        "no_action_path",
+        "insufficient_info",
+        "unknown_problem",
+        "bad_sample_cap",
+        "adjustment_capped"
+      ],
+      "totalDeduction": 33,
+      "totalAddition": 0,
+      "adjustment": 0,
+      "score_source": "qwen_raw_plus_rules"
+    }
+  },
+  "dualScore": {
+    "original_score": 56,
+    "qwen_raw_score": 0,
+    "rule_score": 0,
+    "score_gap_rule": -56,
+    "score_gap_qwen": -56,
+    "final_score_source": "original"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "groupId": "G8",
+  "config": {
+    "id": "G8",
+    "numPredict": 1024,
+    "format": null,
+    "promptVersion": "compact",
+    "messageMode": "system_user",
+    "think": null
+  },
+  "totalRounds": 3,
+  "parseSuccessCount": 3,
+  "validSuccessCount": 0,
+  "highRiskSuccessCount": 3,
+  "usableSuccessCount": 0,
+  "doneReasonLengthCount": 3,
+  "truncatedCount": 3,
+  "failureTypeBreakdown": {
+    "truncated_output": 3
+  },
+  "timestamp": "2026-04-22T10:47:26.085Z"
+}

@@ -491,8 +491,8 @@ function validateAnalyzeTurnInput(input) {
 
   // 向后兼容：支持 mode 和 metadata.entry_type
   const mode = input.mode || input.metadata?.entry_type;
-  if (!mode || !['training', 'live_monitor'].includes(mode)) {
-    throw new Error('INVALID_INPUT: mode 必须是 "training" 或 "live_monitor"');
+  if (!mode || !['training', 'live_monitor', 'suggestion_generation'].includes(mode)) {
+    throw new Error('INVALID_INPUT: mode 必须是 "training"、"live_monitor" 或 "suggestion_generation"');
   }
 
   if (!input.conversation || !Array.isArray(input.conversation)) {
@@ -533,8 +533,8 @@ function validateAnalyzeConversationInput(input) {
 
   // 向后兼容：支持 mode 和 metadata.entry_type
   const mode = input.mode || input.metadata?.entry_type;
-  if (!mode || !['training', 'live_monitor'].includes(mode)) {
-    throw new Error('INVALID_INPUT: mode 必须是 "training" 或 "live_monitor"');
+  if (!mode || !['training', 'live_monitor', 'suggestion_generation'].includes(mode)) {
+    throw new Error('INVALID_INPUT: mode 必须是 "training"、"live_monitor" 或 "suggestion_generation"');
   }
 
   if (!input.conversation || !Array.isArray(input.conversation)) {

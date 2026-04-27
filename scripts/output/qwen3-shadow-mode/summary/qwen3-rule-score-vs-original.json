@@ -1,0 +1,67 @@
+{
+  "total": 50,
+  "problemType": {
+    "agreementRate": 0.98,
+    "agree": 49,
+    "disagree": 1,
+    "confusionMatrix": {
+      "known->known": 44,
+      "unknown->unknown": 5,
+      "unknown->known": 1
+    }
+  },
+  "qwenRawScore": {
+    "originalAvg": 66.08,
+    "qwenAvg": 75.3,
+    "meanDiff": 9.219999999999999,
+    "meanAbsDiff": 19.3,
+    "maxDiff": 51,
+    "stdDiff": 12.061923561356204,
+    "correlation": 0.6932140126019984
+  },
+  "ruleScore": {
+    "originalAvg": 66.08,
+    "ruleAvg": 70.4,
+    "meanDiff": 4.320000000000007,
+    "meanAbsDiff": 6.12,
+    "maxDiff": 14,
+    "stdDiff": 4.4074482413296705,
+    "correlation": 0.7114045474671173
+  },
+  "qwenVsRule": {
+    "meanDiff": 14.3,
+    "correlation": 0.9853230589610282
+  },
+  "highScoreMisjudge": {
+    "count": 0,
+    "rate": 0,
+    "total": 2
+  },
+  "scoreRanges": {
+    "0-60": {
+      "original": 12,
+      "qwen": 5,
+      "rule": 5
+    },
+    "61-70": {
+      "original": 23,
+      "qwen": 3,
+      "rule": 6
+    },
+    "71-80": {
+      "original": 14,
+      "qwen": 0,
+      "rule": 39
+    },
+    "81-90": {
+      "original": 1,
+      "qwen": 42,
+      "rule": 0
+    },
+    "91-100": {
+      "original": 0,
+      "qwen": 0,
+      "rule": 0
+    }
+  }
+}

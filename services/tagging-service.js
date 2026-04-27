@@ -183,20 +183,34 @@ class TaggingService {
     const paginatedReviews = filteredReviews.slice(startIndex, endIndex);
 
     // 4. 构建返回数据
-    const list = paginatedReviews.map(review => ({
-      review_id: review.reviewId,
-      evaluation_id: review.evaluationId,
-      suggestion_id: review.suggestionId,
-      session_id: review.sessionId,
-      is_correct: review.finalAccepted === 1,
-      problem_type: review.problemTags ? JSON.parse(review.problemTags)[0] : null,
-      should_store: review.knowledgeId === 'pending_faq',
-      faq_eligible: review.knowledgeId === 'pending_faq',
-      corrected_answer: review.finalReply,
-      review_comment: review.reviewNote,
-      reviewer_id: review.reviewerId,
-      tagged_at: review.reviewedAt ? new Date(review.reviewedAt).toISOString() : null
-    }));
+    const list = paginatedReviews.map(review => {
+      // 兼容两种格式：JSON数组 ["known"] 或纯字符串 "known"
+      let problemType = null;
+      if (review.problemTags) {
+        try {
+          const parsed = JSON.parse(review.problemTags);
+          problemType = Array.isArray(parsed) ? parsed[0] : parsed;
+        } catch (e) {
+          // 如果解析失败，直接使用原始值
+          problemType = review.problemTags;
+        }
+      }
+      
+      return {
+        review_id: review.reviewId,
+        evaluation_id: review.evaluationId,
+        suggestion_id: review.suggestionId,
+        session_id: review.sessionId,
+        is_correct: review.finalAccepted === 1,
+        problem_type: problemType,
+        should_store: review.knowledgeId === 'pending_faq',
+        faq_eligible: review.knowledgeId === 'pending_faq',
+        corrected_answer: review.finalReply,
+        review_comment: review.reviewNote,
+        reviewer_id: review.reviewerId,
+        tagged_at: review.reviewedAt ? new Date(review.reviewedAt).toISOString() : null
+      };
+    });
 
     return {
       list,

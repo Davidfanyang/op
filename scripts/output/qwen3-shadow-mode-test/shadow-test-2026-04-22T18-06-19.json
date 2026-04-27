@@ -1,0 +1,73 @@
+{
+  "timestamp": "2026-04-22T18:06:19.046Z",
+  "totalCases": 4,
+  "passed": 4,
+  "failed": 0,
+  "passRate": 100,
+  "results": [
+    {
+      "id": "case_1_shadow_disabled",
+      "name": "总开关关闭",
+      "context": {
+        "taskType": "quality_evaluation",
+        "entrySource": "test_entry",
+        "scenario": "transfer_not_received"
+      },
+      "expected": {
+        "shadowHit": false,
+        "originalReturns": true
+      },
+      "passed": true
+    },
+    {
+      "id": "case_2_whitelist_not_match",
+      "name": "白名单不匹配",
+      "context": {
+        "taskType": "other_task",
+        "entrySource": "live_monitor",
+        "scenario": "unknown_scenario"
+      },
+      "expected": {
+        "shadowHit": false,
+        "originalReturns": true
+      },
+      "passed": true
+    },
+    {
+      "id": "case_3_shadow_hit_qwen3_success",
+      "name": "命中 shadow，qwen3 成功",
+      "context": {
+        "taskType": "quality_evaluation",
+        "entrySource": "test_entry",
+        "scenario": "transfer_not_received"
+      },
+      "input": {
+        "conversationText": "用户：我转账成功了，但是对方没收到。\n客服：你等等。"
+      },
+      "expected": {
+        "shadowHit": true,
+        "originalReturns": true,
+        "qwen3Success": true
+      },
+      "passed": true
+    },
+    {
+      "id": "case_4_shadow_hit_qwen3_failure",
+      "name": "命中 shadow，qwen3 失败",
+      "context": {
+        "taskType": "quality_evaluation",
+        "entrySource": "test_entry",
+        "scenario": "service_response_poor"
+      },
+      "input": {
+        "conversationText": "用户：你们到底什么时候处理？\n客服：等等看。"
+      },
+      "expected": {
+        "shadowHit": true,
+        "originalReturns": true,
+        "qwen3Success": false
+      },
+      "passed": true
+    }
+  ]
+}

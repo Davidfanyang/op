@@ -1,0 +1,62 @@
+{
+  "timestamp": "2026-04-22T10:03:41.827Z",
+  "model": "qwen3:4b",
+  "totalRounds": 3,
+  "successRounds": 0,
+  "failureRounds": 3,
+  "highRiskRounds": 0,
+  "doneReasonLengthCount": 3,
+  "truncatedOutputCount": 3,
+  "jsonParseSuccessCount": 0,
+  "fieldValidPassCount": 0,
+  "rounds": [
+    {
+      "round": 1,
+      "timestamp": "2026-04-22T10:02:50.242Z",
+      "doneReason": "length",
+      "sourceTried": [
+        "message.content"
+      ],
+      "selectedSource": null,
+      "success": false,
+      "failureType": "truncated_output",
+      "truncated": true,
+      "parseSuccess": false,
+      "highRisk": false,
+      "fieldErrors": 0,
+      "replyRisk": null
+    },
+    {
+      "round": 2,
+      "timestamp": "2026-04-22T10:03:09.470Z",
+      "doneReason": "length",
+      "sourceTried": [
+        "message.content"
+      ],
+      "selectedSource": null,
+      "success": false,
+      "failureType": "truncated_output",
+      "truncated": true,
+      "parseSuccess": false,
+      "highRisk": false,
+      "fieldErrors": 0,
+      "replyRisk": null
+    },
+    {
+      "round": 3,
+      "timestamp": "2026-04-22T10:03:26.688Z",
+      "doneReason": "length",
+      "sourceTried": [
+        "message.content"
+      ],
+      "selectedSource": null,
+      "success": false,
+      "failureType": "truncated_output",
+      "truncated": true,
+      "parseSuccess": false,
+      "highRisk": false,
+      "fieldErrors": 0,
+      "replyRisk": null
+    }
+  ]
+}

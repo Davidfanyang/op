@@ -1,0 +1,73 @@
+{
+  "timestamp": "2026-04-23T08:39:43.967Z",
+  "taskType": "quality_evaluation",
+  "entrySource": "test_entry",
+  "scenario": "service_response_poor",
+  "shadowDecision": "shadow_mode_hit",
+  "original": {
+    "success": true,
+    "source": "mock_from_conversations",
+    "analysisResult": {
+      "score": 65,
+      "problem_type": "known",
+      "riskLevel": "medium"
+    }
+  },
+  "qwen3": {
+    "called": true,
+    "success": true,
+    "failureType": null,
+    "route": "qwen3_adapter",
+    "retryCount": 0,
+    "durationMs": 5359,
+    "replyRisk": "no_obvious_risk",
+    "risk_level": "low"
+  },
+  "data": {
+    "score": 65,
+    "problem_type": "known",
+    "scenario": "转账未到账"
+  },
+  "ruleScore": {
+    "qwen_raw_score": 65,
+    "rule_score": 54,
+    "base_score": 65,
+    "deductions": [
+      {
+        "reason": "issues_count",
+        "points": 9,
+        "detail": "3 个问题，每个扣 3 分"
+      },
+      {
+        "reason": "missing_info_count",
+        "points": 6,
+        "detail": "3 个缺失信息，每个扣 2 分"
+      },
+      {
+        "reason": "insufficient_info",
+        "points": 4,
+        "detail": "missing_info >= 2（当前 3 个）"
+      }
+    ],
+    "meta": {
+      "issuesCount": 3,
+      "missingInfoCount": 3,
+      "detectedFlags": [
+        "insufficient_info",
+        "bad_sample_cap"
+      ],
+      "totalDeduction": 19,
+      "totalAddition": 8,
+      "adjustment": -11,
+      "score_source": "qwen_raw_plus_rules"
+    }
+  },
+  "dualScore": {
+    "original_score": 65,
+    "qwen_raw_score": 65,
+    "rule_score": 54,
+    "score_gap_rule": -11,
+    "score_gap_qwen": 0,
+    "final_score_source": "original"
+  }
+}

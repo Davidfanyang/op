@@ -1,0 +1,40 @@
+{
+  "success": true,
+  "failureType": null,
+  "error": null,
+  "sourceTried": [
+    "message.content"
+  ],
+  "selectedSource": "message.content",
+  "raw": "{\n  \"score\": 0,\n  \"problem_type\": \"unknown\",\n  \"scenario\": \"transfer_issue\",\n  \"issues\": [\n    \"客服未提供任何解决方案\",\n    \"未确认转账状态\"\n  ],\n  \"missing_info\": [\n    \"转账金额\",\n    \"转账时间\",\n    \"收款方信息\"\n  ],\n  \"suggested_reply\": \"请提供转账金额、转账时间及收款方信息，以便我们核实转账状态并协助处理。\",\n  \"confidence\": 0.85\n}",
+  "cleaned": null,
+  "candidates": [
+    {
+      "source": "message.content",
+      "index": 0,
+      "length": 272,
+      "hasParsed": true
+    }
+  ],
+  "data": {
+    "score": 0,
+    "problem_type": "unknown",
+    "scenario": "transfer_issue",
+    "issues": [
+      "客服未提供任何解决方案",
+      "未确认转账状态"
+    ],
+    "missing_info": [
+      "转账金额",
+      "转账时间",
+      "收款方信息"
+    ],
+    "suggested_reply": "请提供转账金额、转账时间及收款方信息，以便我们核实转账状态并协助处理。",
+    "confidence": 0.85
+  },
+  "truncated": false,
+  "truncationReason": null,
+  "validationErrors": [],
+  "replyRisk": "no_obvious_risk",
+  "replyRiskDetails": []
+}

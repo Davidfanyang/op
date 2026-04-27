@@ -1,0 +1,73 @@
+{
+  "sceneId": "scene_1",
+  "sceneName": "转账成功但对方未收到",
+  "roundIndex": 2,
+  "timestamp": "2026-04-22T10:54:31.553Z",
+  "input": {
+    "conversationText": "用户：我转账成功了，但是对方没收到。\n客服：你等等。"
+  },
+  "result": {
+    "success": true,
+    "failureType": null,
+    "error": null,
+    "requestConfig": {
+      "model": "qwen3:4b",
+      "format": "json",
+      "num_predict": 1024,
+      "temperature": 0,
+      "think": false
+    },
+    "rawResponse": {
+      "model": "qwen3:4b",
+      "created_at": "2026-04-22T10:54:34.853772Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"score\": 0,\n  \"problem_type\": \"unknown\",\n  \"scenario\": \"transfer_issue\",\n  \"issues\": [\n    \"客服未提供任何解决方案\",\n    \"未确认转账状态\"\n  ],\n  \"missing_info\": [\n    \"转账金额\",\n    \"转账时间\",\n    \"收款方信息\"\n  ],\n  \"suggested_reply\": \"请提供转账金额、转账时间及收款方信息，以便我们核实转账状态并协助处理。\",\n  \"confidence\": 0.85\n}"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 3298891167,
+      "load_duration": 80611417,
+      "prompt_eval_count": 209,
+      "prompt_eval_duration": 33596583,
+      "eval_count": 110,
+      "eval_duration": 3083202960
+    },
+    "processed": {
+      "success": true,
+      "selectedSource": "message.content",
+      "candidates": [
+        {
+          "source": "message.content",
+          "index": 0,
+          "length": 272,
+          "hasParsed": true
+        }
+      ],
+      "truncated": false,
+      "validationErrors": [],
+      "replyRisk": "no_obvious_risk",
+      "replyRiskDetails": []
+    },
+    "data": {
+      "score": 0,
+      "problem_type": "unknown",
+      "scenario": "transfer_issue",
+      "issues": [
+        "客服未提供任何解决方案",
+        "未确认转账状态"
+      ],
+      "missing_info": [
+        "转账金额",
+        "转账时间",
+        "收款方信息"
+      ],
+      "suggested_reply": "请提供转账金额、转账时间及收款方信息，以便我们核实转账状态并协助处理。",
+      "confidence": 0.85
+    },
+    "retryCount": 0
+  },
+  "isSuccess": true,
+  "isParseSuccess": true,
+  "hasHighRisk": false
+}

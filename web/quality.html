@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trainer Core - 质检记录查询</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* 统计卡片 */
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card h3 {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #1890ff;
+        }
+
+        .stat-card.warning .value {
+            color: #faad14;
+        }
+
+        .stat-card.danger .value {
+            color: #ff4d4f;
+        }
+
+        /* 筛选区 */
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filters input, .filters select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .filters button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #1890ff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #40a9ff;
+        }
+
+        .btn-secondary {
+            background: #d9d9d9;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #bfbfbf;
+        }
+
+        /* 表格 */
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        th {
+            background: #fafafa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .action-link {
+            color: #1890ff;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .action-link:hover {
+            text-decoration: underline;
+        }
+
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            max-width: 1400px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .close-btn {
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        /* 详情区块 */
+        .detail-section {
+            margin-bottom: 25px;
+        }
+
+        .detail-section h3 {
+            margin-bottom: 15px;
+            color: #333;
+            border-left: 4px solid #1890ff;
+            padding-left: 10px;
+        }
+
+        /* 消息时间线 */
+        .message-timeline {
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 15px;
+            background: #fafafa;
+            border-radius: 4px;
+        }
+
+        .message-item {
+            margin-bottom: 15px;
+            display: flex;
+        }
+
+        .message-item.user {
+            justify-content: flex-start;
+        }
+
+        .message-item.agent {
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .message-item.user .message-bubble {
+            background: #e6f7ff;
+        }
+
+        .message-item.agent .message-bubble {
+            background: #f6ffed;
+        }
+
+        .message-meta {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 5px;
+        }
+
+        .message-content {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* 信息网格 */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .info-item {
+            padding: 12px;
+            background: #fafafa;
+            border-radius: 4px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* 标签 */
+        .tag {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .tag-known {
+            background: #f6ffed;
+            color: #52c41a;
+        }
+
+        .tag-unknown {
+            background: #fff7e6;
+            color: #fa8c16;
+        }
+
+        .tag-alert {
+            background: #fff2f0;
+            color: #ff4d4f;
+        }
+
+        .tag-no-alert {
+            background: #f0f0f0;
+            color: #999;
+        }
+
+        /* JSON 显示 */
+        .json-display {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* 状态 */
+        .status-active {
+            color: #52c41a;
+        }
+
+        .status-closed {
+            color: #999;
+        }
+
+        /* 消息提示 */
+        .error-message {
+            background: #fff2f0;
+            border: 1px solid #ffccc7;
+            color: #ff4d4f;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .success-message {
+            background: #f6ffed;
+            border: 1px solid #b7eb8f;
+            color: #52c41a;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        /* 分页 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+        }
+
+        .pagination button {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: #1890ff;
+            color: white;
+            border-color: #1890ff;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>质检记录查询</h1>
+
+        <!-- 统计卡片 -->
+        <div class="stats-cards" id="stats-cards">
+            <div class="stat-card">
+                <h3>总会话数</h3>
+                <div class="value" id="stat-sessions">-</div>
+            </div>
+            <div class="stat-card">
+                <h3>总消息数</h3>
+                <div class="value" id="stat-messages">-</div>
+            </div>
+            <div class="stat-card">
+                <h3>总分析数</h3>
+                <div class="value" id="stat-evaluations">-</div>
+            </div>
+            <div class="stat-card warning">
+                <h3>Unknown 数量</h3>
+                <div class="value" id="stat-unknown">-</div>
+            </div>
+            <div class="stat-card danger">
+                <h3>告警数量</h3>
+                <div class="value" id="stat-alerts">-</div>
+            </div>
+        </div>
+
+        <!-- 筛选区 -->
+        <div class="filters">
+            <input type="text" id="filter-project" placeholder="项目">
+            <input type="text" id="filter-agent-id" placeholder="客服ID">
+            <select id="filter-scenario">
+                <option value="">全部场景</option>
+                <option value="same_scenario">同类问题场景</option>
+                <option value="account_locked">账户锁定处理</option>
+                <option value="transfer_not_received">转账成功未到账</option>
+                <option value="general_unknown">未知问题咨询</option>
+                <option value="final_verification">最终验收验证</option>
+                <option value="knowledge_api_test">知识库接口验证</option>
+                <option value="test">测试场景</option>
+            </select>
+            <select id="filter-problem-type">
+                <option value="">全部问题类型</option>
+                <option value="known">Known</option>
+                <option value="unknown">Unknown</option>
+            </select>
+            <select id="filter-has-alert">
+                <option value="">全部</option>
+                <option value="true">有告警</option>
+                <option value="false">无告警</option>
+            </select>
+            <select id="filter-alert-level">
+                <option value="">全部告警等级</option>
+                <option value="none">无</option>
+                <option value="warning">警告</option>
+                <option value="critical">严重</option>
+            </select>
+            <input type="datetime-local" id="filter-start-time">
+            <input type="datetime-local" id="filter-end-time">
+            <button class="btn-primary" onclick="loadSessions()">查询</button>
+            <button class="btn-secondary" onclick="resetFilters()">重置</button>
+        </div>
+
+        <!-- 消息提示 -->
+        <div id="message-container"></div>
+
+        <!-- 会话列表 -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>会话ID</th>
+                        <th>项目</th>
+                        <th>客服</th>
+                        <th>状态</th>
+                        <th>消息数</th>
+                        <th>分析数</th>
+                        <th>最新场景</th>
+                        <th>问题类型</th>
+                        <th>告警</th>
+                        <th>告警等级</th>
+                        <th>开始时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="sessions-table-body">
+                    <tr>
+                        <td colspan="12" class="loading">加载中...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 分页 -->
+        <div class="pagination" id="pagination"></div>
+    </div>
+
+    <!-- 详情模态框 -->
+    <div id="detail-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>会话详情</h2>
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+            </div>
+
+            <div id="detail-content">
+                <div class="loading">加载中...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Evaluation 详情模态框 -->
+    <div id="eval-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>分析详情</h2>
+                <span class="close-btn" onclick="closeEvalModal()">&times;</span>
+            </div>
+
+            <div id="eval-detail-content">
+                <div class="loading">加载中...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/web/api-client.js"></script>
+    <script src="/web/scenario-labels.js"></script>
+    <script src="/web/quality-page.js"></script>
+</body>
+</html>

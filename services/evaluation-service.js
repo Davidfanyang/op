@@ -44,44 +44,53 @@ const ALERT_CONFIG = {
 
 /**
  * 统一对话分析接口
- * @param {Object} params - 分析参数
- * @param {string} params.projectId - 项目ID
- * @param {string} params.mode - 模式 ('training' | 'live_monitor')
- * @param {string} params.scenarioId - 场景ID (training模式必填)
- * @param {Array} params.conversation - 完整对话历史
- * @param {string} params.currentReply - 当前客服回复(待分析)
- * @param {string} params.customerMessage - 客户消息 (live_monitor模式用于自动匹配场景)
- * @param {Object} params.metadata - 元数据
+ * 
+ * 协议版本: v1.0（标准协议）
+ * @param {Object} params - 标准协议输入
+ * @param {string} params.project - 项目标识（必填）
+ * @param {Array} params.conversation - 完整对话历史（必填）
+ * @param {string} params.current_reply - 当前客服回复（必填）
+ * @param {Object} params.metadata - 元数据（必填，包含 entry_type, scenarioId 等）
+ * @param {Object} params.rules - 规则对象（必填，无规则时传 {}）
  * @returns {Promise<Object>} 标准分析结果
  */
 async function evaluate(params) {
-  // 1. 输入校验
+  // 1. 输入校验（标准协议）
   const validation = validateInput(params);
   if (!validation.valid) {
     return createErrorResult('invalid_input', validation.error, params);
   }
 
-  // 2. 根据模式处理场景
-  let scenarioId = params.scenarioId;
+  // 2. 根据 entry_type 处理场景
+  const entryType = params.metadata.entry_type;
+  let scenarioId = params.metadata.scenarioId;
   let matchedScenario = null;
   let matchConfidence = null;
   let matchWarning = null;
   
-  if (params.mode === 'live_monitor') {
+  if (entryType === 'live_monitor') {
     // live_monitor 模式：自动匹配场景
-    const customerMessage = params.customerMessage || params.metadata?.customerMessage;
-    if (customerMessage && !params.scenarioId) {
-      const matchResult = matchScenario(customerMessage, params.projectId);
+    const customerMessage = params.conversation.find(t => t.role === 'user')?.content;
+    if (customerMessage && !scenarioId) {
+      const matchResult = matchScenario(customerMessage, params.project);
       matchedScenario = matchResult.scenario;
       matchConfidence = matchResult.confidence;
       matchWarning = matchResult.warning || null;
       
+      // 匹配置信度低时，进入 unknown 分支（而不是报错）
       if (matchResult.matchType === 'low_confidence') {
-        return createErrorResult(
-          'scenario_match_low_confidence',
-          `匹配置信度过低 (${(matchConfidence * 100).toFixed(1)}%)，请人工确认场景或提供明确的 scenarioId`,
-          params
-        );
+        console.log('[Evaluation] 匹配置信度过低，进入 unknown 分支');
+        scenarioId = 'unknown';
+        matchedScenario = {
+          id: 'unknown',
+          title: '未知问题',
+          customerMessage: customerMessage || '',
+          problemType: 'unknown',
+          needReview: true
+        };
+        matchConfidence = matchResult.confidence || 0;
+      } else if (matchedScenario) {
+        scenarioId = matchedScenario.id;
       }
       
       if (matchedScenario) {
@@ -89,57 +98,49 @@ async function evaluate(params) {
       }
     }
     
+    // 如果无法匹配场景，进入 unknown 分支（而不是报错）
     if (!scenarioId) {
-      return createErrorResult('scenario_not_found', '无法匹配场景，请提供 customerMessage 或 scenarioId', params);
+      console.log('[Evaluation] 无法匹配场景，进入 unknown 分支');
+      scenarioId = 'unknown';
+      matchedScenario = {
+        id: 'unknown',
+        title: '未知问题',
+        customerMessage: customerMessage || '',
+        problemType: 'unknown',
+        needReview: true
+      };
+      matchConfidence = 0;
     }
+  } else if (entryType === 'training' && !scenarioId) {
+    // training 模式必须提供 scenarioId
+    return createErrorResult('scenario_not_found', 'training 模式必须提供 metadata.scenarioId', params);
+  } else if (entryType === 'suggestion_generation') {
+    // suggestion_generation 模式：不需要场景匹配，通过 rules 传递生成上下文
+    // scenarioId 可选，不强制要求
   }
 
-  // 3. 组织调用 trainer 主链（使用标准协议，向后兼容）
+  // 3. 调用 trainer 主链（使用标准协议）
   try {
-    // 标准化 conversation 格式
-    const normalizedConversation = (params.conversation || []).map(turn => ({
-      role: turn.role === 'customer' ? 'user' : (turn.role || 'unknown'),
-      content: turn.content || turn.text || '',
-      _meta: turn.turnIndex !== undefined || turn.ts || turn.timestamp ? {
-        turnIndex: turn.turnIndex,
-        ts: turn.ts || turn.timestamp
-      } : undefined
-    })).filter(turn => turn.role && turn.content);
-
+    // 构建标准协议输入（直接传给 analyzeTurn）
     const trainerInput = {
-      // 向后兼容：支持 projectId 和 project
-      projectId: params.projectId,
       project: params.project,
-      
-      // 向后兼容：支持 mode 和 metadata.entry_type
-      mode: params.mode,
-      metadata: {
-        ...(params.metadata || {}),
-        entry_type: params.metadata?.entry_type || params.mode
-      },
-      
-      // conversation 使用标准格式
-      conversation: normalizedConversation,
-      
-      // 向后兼容：支持 currentReply 和 current_reply
-      currentReply: params.currentReply,
+      conversation: params.conversation,
       current_reply: params.current_reply,
-      
-      // 场景标识
-      scenarioId: scenarioId,
-      
-      // rules 字段（可选，协议适配层会自动加载）
+      metadata: {
+        ...params.metadata,
+        scenarioId: scenarioId  // 将 scenarioId 传入 metadata
+      },
       rules: params.rules || {}
     };
 
     const result = await analyzeTurn(trainerInput);
     
-    // 4. 计算告警等级(基于 riskLevel)
-    result.alerts = checkAlerts(result, params.mode);
+    // 4. 计算告警等级（基于 riskLevel）
+    result.alerts = checkAlerts(result, entryType);
     result.scenarioId = scenarioId;
     
     // live_monitor 模式额外添加匹配信息
-    if (params.mode === 'live_monitor') {
+    if (entryType === 'live_monitor') {
       result.matchedScenario = matchedScenario ? {
         id: matchedScenario.id,
         title: matchedScenario.title,
@@ -153,17 +154,17 @@ async function evaluate(params) {
     const normalized = normalizeResult(result, params);
     
     // 6. 灰度数据收集（仅 live_monitor）
-    if (params.mode === 'live_monitor') {
+    if (entryType === 'live_monitor') {
       recordEvaluation({
-        projectId: params.projectId,
+        projectId: params.project,
         scenarioId: normalized.scenarioId,
         alertLevel: normalized.alertLevel,
         alerts: normalized.alerts,
         reviewStatus: normalized.reviewStatus,
         riskLevel: normalized.riskLevel,
         level: normalized.result.level,
-        customerMessage: params.customerMessage,
-        userReply: params.currentReply,
+        customerMessage: params.conversation.find(t => t.role === 'user')?.content,
+        userReply: params.current_reply,
         metadata: params.metadata
       });
     }
@@ -234,40 +235,65 @@ async function evaluateConversation(params) {
 }
 
 /**
- * 输入校验（向后兼容）
+ * 输入校验（标准协议 v1.0）
  */
 function validateInput(params) {
   if (!params || typeof params !== 'object') {
     return { valid: false, error: '参数必须是对象' };
   }
 
-  // 向后兼容：支持 projectId 和 project
-  const hasProject = params.projectId || params.project;
-  const hasMode = params.mode || params.metadata?.entry_type;
-  const hasCurrentReply = params.currentReply || params.current_reply;
+  // 标准协议必填字段
+  if (!params.project) {
+    return { valid: false, error: '缺少必填字段: project' };
+  }
   
-  const required = [hasProject, hasMode, params.conversation, hasCurrentReply];
-  const missing = required.filter(x => !x);
+  if (!params.conversation || !Array.isArray(params.conversation)) {
+    return { valid: false, error: '缺少必填字段: conversation（必须是数组）' };
+  }
   
-  if (missing.length > 0) {
-    return { valid: false, error: `缺少必要字段: projectId/project, mode/entry_type, conversation, currentReply/current_reply` };
+  if (!params.current_reply) {
+    return { valid: false, error: '缺少必填字段: current_reply' };
   }
-
-  if (!Array.isArray(params.conversation)) {
-    return { valid: false, error: 'conversation 必须是数组' };
+  
+  if (!params.metadata || typeof params.metadata !== 'object') {
+    return { valid: false, error: '缺少必填字段: metadata' };
   }
-
-  const validModes = ['training', 'live_monitor'];
-  if (!validModes.includes(hasMode)) {
-    return { valid: false, error: `mode 必须是: ${validModes.join(' | ')}` };
+  
+  // metadata 必填子字段
+  const requiredMetadata = ['source', 'session_id', 'agent_id', 'timestamp', 'entry_type'];
+  const missingMetadata = requiredMetadata.filter(key => !params.metadata[key]);
+  if (missingMetadata.length > 0) {
+    return { valid: false, error: `metadata 缺少必填字段: ${missingMetadata.join(', ')}` };
   }
-
-  if (hasMode === 'training' && !params.scenarioId) {
-    return { valid: false, error: 'training 模式必须提供 scenarioId' };
+  
+  // 校验 entry_type
+  const validEntryTypes = ['training', 'live_monitor', 'suggestion_generation'];
+  if (!validEntryTypes.includes(params.metadata.entry_type)) {
+    return { valid: false, error: `metadata.entry_type 必须是: ${validEntryTypes.join(' | ')}` };
   }
-
-  if (hasMode === 'live_monitor' && !params.scenarioId && !params.customerMessage && !params.metadata?.customerMessage) {
-    return { valid: false, error: 'live_monitor 模式必须提供 scenarioId 或 customerMessage' };
+  
+  // training 模式必须提供 scenarioId
+  if (params.metadata.entry_type === 'training' && !params.metadata.scenarioId) {
+    return { valid: false, error: 'training 模式必须提供 metadata.scenarioId' };
+  }
+  
+  // live_monitor 模式必须提供 scenarioId 或能从用户消息匹配
+  if (params.metadata.entry_type === 'live_monitor') {
+    const hasUserMessage = params.conversation.some(t => t.role === 'user' && t.content);
+    if (!params.metadata.scenarioId && !hasUserMessage) {
+      return { valid: false, error: 'live_monitor 模式必须提供 metadata.scenarioId 或包含用户消息' };
+    }
+  }
+  
+  // conversation 格式校验
+  for (let i = 0; i < params.conversation.length; i++) {
+    const turn = params.conversation[i];
+    if (!turn.role || !turn.content) {
+      return { valid: false, error: `conversation[${i}] 必须包含 role 和 content` };
+    }
+    if (!['user', 'agent'].includes(turn.role)) {
+      return { valid: false, error: `conversation[${i}].role 必须是 'user' 或 'agent'` };
+    }
   }
 
   return { valid: true };
@@ -472,7 +498,7 @@ function createErrorResult(status, errorMessage, params = {}) {
  * 标准化结果
  */
 function normalizeResult(result, params) {
-  const mode = params.mode;
+  const entryType = params.metadata?.entry_type;
   const alerts = result.alerts || [];
   const alertLevel = calculateAlertLevel(alerts);
   const now = new Date().toISOString();
@@ -487,24 +513,29 @@ function normalizeResult(result, params) {
     alertLevel,
     reviewStatus: ReviewStatus.PENDING,
     
-    projectId: params.projectId,
-    mode: params.mode,
-    sessionId: params.metadata?.sessionId || null,
-    employeeId: params.metadata?.employeeId || null,
+    project: params.project,
+    entry_type: entryType,
+    session_id: params.metadata?.session_id || null,
+    agent_id: params.metadata?.agent_id || null,
     
-    scenarioId: result.scenarioId || params.scenarioId,
+    scenarioId: result.scenarioId || params.metadata?.scenarioId,
     matchedScenarioId: result.matchedScenario?.id || null,
     matchConfidence: result.matchConfidence || null,
     
-    customerMessage: params.customerMessage || params.metadata?.customerMessage || null,
-    currentReply: params.currentReply,
+    customerMessage: params.conversation?.find(t => t.role === 'user')?.content || null,
+    current_reply: params.current_reply,
     
     // 新增字段
-    scenario: result.scenario,
+    scenarioName: result.scenario?.title || result.scenarioName,
     stage: result.stage,
     result: result.result,
     coachSummary: result.coachSummary,
     riskLevel: result.riskLevel,
+    confidence: result.confidence,
+    issues: result.issues || [],
+    missing: result.missing || [],
+    strengths: result.strengths || [],
+    nextAction: result.nextAction,
     
     reviewedBy: null,
     reviewedAt: null,
@@ -531,7 +562,7 @@ function normalizeResult(result, params) {
 
   normalized.alerts = alerts;
   
-  if (mode === 'live_monitor') {
+  if (entryType === 'live_monitor') {
     normalized.matchedScenario = result.matchedScenario || null;
     normalized.matchWarning = result.matchWarning || null;
   }
@@ -543,11 +574,11 @@ function normalizeResult(result, params) {
  * 模式分流
  */
 async function routeAlert(result, params) {
-  const mode = params.mode;
-  const config = ALERT_CONFIG[mode];
+  const entryType = params.metadata?.entry_type;
+  const config = ALERT_CONFIG[entryType];
   
   if (!config || !config.enabled) {
-    console.log(`[AlertRouter] ${mode} 模式告警已禁用`);
+    console.log(`[AlertRouter] ${entryType} 模式告警已禁用`);
     return;
   }
   
@@ -555,25 +586,25 @@ async function routeAlert(result, params) {
   const shouldAlert = riskLevel === 'high' || riskLevel === 'medium';
   
   if (!shouldAlert) {
-    console.log(`[AlertRouter] ${mode} 模式风险等级 ${riskLevel}，不触发告警`);
+    console.log(`[AlertRouter] ${entryType} 模式风险等级 ${riskLevel}，不触发告警`);
     return;
   }
   
-  console.log(`[AlertRouter] ${mode} 模式风险等级 ${riskLevel}，触发告警，出口: ${config.channel}`);
+  console.log(`[AlertRouter] ${entryType} 模式风险等级 ${riskLevel}，触发告警，出口: ${config.channel}`);
   
   switch (config.channel) {
     case 'training_queue':
-      console.log(`[AlertRouter] 进入训练监督队列: ${result.sessionId || 'unknown'}`);
+      console.log(`[AlertRouter] 进入训练监督队列: ${result.session_id || 'unknown'}`);
       await createReviewForTraining(result, params);
       break;
       
     case 'supervisor_group':
-      console.log(`[AlertRouter] 推送到主管群: ${result.sessionId || 'unknown'}`);
+      console.log(`[AlertRouter] 推送到主管群: ${result.session_id || 'unknown'}`);
       await createReviewAndAlert(result, params);
       break;
       
     case 'both':
-      console.log(`[AlertRouter] 同时进入训练队列和主管群: ${result.sessionId || 'unknown'}`);
+      console.log(`[AlertRouter] 同时进入训练队列和主管群: ${result.session_id || 'unknown'}`);
       await createReviewForTraining(result, params);
       await createReviewAndAlert(result, params);
       break;
@@ -586,12 +617,20 @@ async function routeAlert(result, params) {
 async function createReviewForTraining(result, params) {
   try {
     const { RepositoryFactory } = require('../repositories');
-    const repos = RepositoryFactory.getMySQLRepositories();
+    const defaultFactory = require('../repositories').getDefaultFactory();
+    
+    // 如果未使用 MySQL 模式，跳过 review 创建
+    if (defaultFactory.config.type !== 'mysql') {
+      console.log(`[AlertRouter] 未启用 MySQL，跳过 training review 创建`);
+      return;
+    }
+    
+    const repos = defaultFactory.getMySQLRepositories();
     
     const reviewData = {
-      projectId: params.projectId,
+      projectId: params.project,
       mode: 'training',
-      sessionId: params.metadata?.sessionId || result.sessionId,
+      sessionId: params.metadata?.session_id || result.session_id,
       messageId: params.metadata?.messageId,
       evaluationId: result.evaluationId,
       alertLevel: result.alertLevel,
@@ -608,14 +647,21 @@ async function createReviewForTraining(result, params) {
 
 async function createReviewAndAlert(result, params) {
   try {
-    const { RepositoryFactory } = require('../repositories');
-    const repos = RepositoryFactory.getMySQLRepositories();
+    const defaultFactory = require('../repositories').getDefaultFactory();
+    
+    // 如果未使用 MySQL 模式，跳过 review 和告警
+    if (defaultFactory.config.type !== 'mysql') {
+      console.log(`[AlertRouter] 未启用 MySQL，跳过 live monitor review 和告警`);
+      return;
+    }
+    
+    const repos = defaultFactory.getMySQLRepositories();
     const { TelegramAlerter } = require('../adapters/alerts/telegram-alert');
     
     const reviewData = {
-      projectId: params.projectId,
+      projectId: params.project,
       mode: 'live_monitor',
-      sessionId: params.metadata?.sessionId || result.sessionId,
+      sessionId: params.metadata?.session_id || result.session_id,
       messageId: params.metadata?.messageId,
       evaluationId: result.evaluationId,
       alertLevel: result.alertLevel,

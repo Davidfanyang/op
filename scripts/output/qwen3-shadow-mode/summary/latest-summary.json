@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-04-24T11:04:29.914Z",
+  "timeRange": {
+    "earliest": "2026-04-23T08:37:17.454Z",
+    "latest": "2026-04-24T11:04:29.898Z"
+  },
+  "total": 52,
+  "qwen3Called": 52,
+  "qwen3Success": 8,
+  "qwen3Failure": 44,
+  "successRate": 0.15384615384615385,
+  "avgDurationMs": 4461.75,
+  "riskyReplyCount": 44,
+  "failureTypeCounts": {
+    "risky_suggested_reply": 44
+  },
+  "scenarioCounts": {
+    "complex_case": 39,
+    "info_missing": 5,
+    "transfer_not_received": 5,
+    "service_response_poor": 3
+  },
+  "scenarioSuccessRates": {
+    "complex_case": 0,
+    "info_missing": 1,
+    "transfer_not_received": 0,
+    "service_response_poor": 1
+  }
+}

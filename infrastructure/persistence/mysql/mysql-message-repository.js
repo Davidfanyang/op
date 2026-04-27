@@ -116,17 +116,18 @@ class MySQLMessageRepository extends MessageRepository {
    */
   async findBySessionId(sessionId, options = {}) {
     const order = options.order === 'asc' ? 'ASC' : 'DESC';
-    const limit = options.limit || 100;
-    const offset = options.offset || 0;
+    const limit = parseInt(options.limit) || 100;
+    const offset = parseInt(options.offset) || 0;
     
+    // 注意：LIMIT 和 OFFSET 不能参数化，需要直接嵌入 SQL（已做整数转换防止注入）
     const sql = `
       SELECT * FROM messages 
       WHERE session_id = ?
       ORDER BY sent_at ${order}
-      LIMIT ? OFFSET ?
+      LIMIT ${limit} OFFSET ${offset}
     `;
     
-    const rows = await this.pool.queryMany(sql, [sessionId, limit, offset]);
+    const rows = await this.pool.queryMany(sql, [sessionId]);
     return rows.map(row => this._rowToObject(row));
   }
 

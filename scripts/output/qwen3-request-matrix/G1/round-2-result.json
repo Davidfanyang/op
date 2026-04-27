@@ -1,0 +1,18 @@
+{
+  "success": false,
+  "failureType": "truncated_output",
+  "error": "output truncated (done_reason_is_length), no valid JSON found",
+  "sourceTried": [
+    "message.content"
+  ],
+  "selectedSource": null,
+  "raw": "首先，用户说：“我转账成功了，但是对方没收到。” 意思是“I transferred successfully, but the recipient didn't receive it.”\n\n客服回复：“你等等。” 意思是“Wait a moment.”\n\n我需要分析这个对话并以JSON格式输出评估结果。JSON必须包含以下字段：\n\n- score: 0-100的整数\n\n- problem_type: \"known\"或\"unknown\"\n\n- scenario: 字符串\n\n- issues: 数组，存在的问题列表\n\n- missing_info: 数组，缺失的信息列表\n\n- suggested_reply: 字符串，建议的客服回复\n\n- confidence: 0.0-1.0的数字\n\n严格要求：\n\n1. 只输出合法JSON，不要任何解释、markdown或其他文本\n\n2. 所有字段都必须存在且类型正确\n\n3. score必须是整数\n\n4. confidence必须在0到1之间\n\n首先，理解问题类型。用户说转账成功了但对方没收到。这可能是一个支付问题或转账问题。客服只回复“你等等。”，意思是“Wait a moment.”，这很简短，没有提供任何帮助。\n\n- problem_type: 我需要判断是“known”还是“unknown”。在客服质量评估中，“known”可能表示问题类型已知（即客服能识别问题），而“unknown”表示问题类型未知。这里，用户描述了问题：转账成功但对方没收到。客服应该知道这是转账问题，所以problem_type应该是“known”，因为客服能识别问题类型（转账问题）。\n\n- scenario: 字符串，表示识别到的场景。场景可能是“转账失败”或“资金未到账”。用户说转账成功了但对方没收到，所以场景可能是“转账后对方未收到款项”。\n\n- issues: 数组，存在的问题列表。客服回复太简短，没有解决问题。问题包括：客服没有提供任何解决方案，没有询问细节，没有确认转账信息。\n\n- missing_info: 数组，缺失的信息列表。用户没有提供转账ID、金额、时间等信息，客服需要这些来帮助。\n\n- suggested_reply: 字符串，建议的客服回复。我应该建议一个有帮助的回复，比如询问转账详情、检查银行系统等。\n\n- confidence: 0.0-1.0的: 评估置信度。我需要估计这个评估的置信度。由于用户描述了问题，客服应该",
+  "cleaned": null,
+  "candidates": [],
+  "data": null,
+  "truncated": true,
+  "truncationReason": "done_reason_is_length",
+  "validationErrors": [],
+  "replyRisk": null,
+  "replyRiskDetails": []
+}

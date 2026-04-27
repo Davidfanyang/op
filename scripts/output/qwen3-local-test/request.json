@@ -1,0 +1,19 @@
+{
+  "model": "qwen3:4b",
+  "messages": [
+    {
+      "role": "system",
+      "content": "你是客服质量评估助手。请分析以下对话并以JSON格式输出评估结果。只输出JSON，不要任何解释。"
+    },
+    {
+      "role": "user",
+      "content": "用户：我转账成功了，但是对方没收到。\n客服：你等等。"
+    }
+  ],
+  "think": false,
+  "stream": false,
+  "options": {
+    "temperature": 0,
+    "num_predict": 512
+  }
+}

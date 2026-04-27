@@ -1,0 +1,145 @@
+{
+  "timestamp": "2026-04-22T10:47:26.085Z",
+  "model": "qwen3:4b",
+  "totalGroups": 8,
+  "totalRounds": 24,
+  "scenario": "用户：我转账成功了，但是对方没收到。\n客服：你等等。",
+  "groups": [
+    {
+      "groupId": "G1",
+      "numPredict": 512,
+      "format": null,
+      "promptVersion": "full",
+      "messageMode": "system_user",
+      "think": false,
+      "parseSuccessCount": 0,
+      "validSuccessCount": 0,
+      "usableSuccessCount": 0,
+      "doneReasonLengthCount": 3,
+      "truncatedCount": 3,
+      "failureTypeBreakdown": {
+        "truncated_output": 3
+      }
+    },
+    {
+      "groupId": "G2",
+      "numPredict": 1024,
+      "format": null,
+      "promptVersion": "full",
+      "messageMode": "system_user",
+      "think": false,
+      "parseSuccessCount": 0,
+      "validSuccessCount": 0,
+      "usableSuccessCount": 0,
+      "doneReasonLengthCount": 3,
+      "truncatedCount": 3,
+      "failureTypeBreakdown": {
+        "truncated_output": 3
+      }
+    },
+    {
+      "groupId": "G3",
+      "numPredict": 2048,
+      "format": null,
+      "promptVersion": "full",
+      "messageMode": "system_user",
+      "think": false,
+      "parseSuccessCount": 3,
+      "validSuccessCount": 0,
+      "usableSuccessCount": 0,
+      "doneReasonLengthCount": 3,
+      "truncatedCount": 3,
+      "failureTypeBreakdown": {
+        "truncated_output": 3
+      }
+    },
+    {
+      "groupId": "G4",
+      "numPredict": 1024,
+      "format": "json",
+      "promptVersion": "full",
+      "messageMode": "system_user",
+      "think": false,
+      "parseSuccessCount": 3,
+      "validSuccessCount": 3,
+      "usableSuccessCount": 3,
+      "doneReasonLengthCount": 0,
+      "truncatedCount": 0,
+      "failureTypeBreakdown": {
+        "success": 3
+      }
+    },
+    {
+      "groupId": "G5",
+      "numPredict": 1024,
+      "format": null,
+      "promptVersion": "compact",
+      "messageMode": "system_user",
+      "think": false,
+      "parseSuccessCount": 3,
+      "validSuccessCount": 0,
+      "usableSuccessCount": 0,
+      "doneReasonLengthCount": 3,
+      "truncatedCount": 3,
+      "failureTypeBreakdown": {
+        "truncated_output": 3
+      }
+    },
+    {
+      "groupId": "G6",
+      "numPredict": 1024,
+      "format": null,
+      "promptVersion": "minimal",
+      "messageMode": "system_user",
+      "think": false,
+      "parseSuccessCount": 0,
+      "validSuccessCount": 0,
+      "usableSuccessCount": 0,
+      "doneReasonLengthCount": 3,
+      "truncatedCount": 3,
+      "failureTypeBreakdown": {
+        "truncated_output": 3
+      }
+    },
+    {
+      "groupId": "G7",
+      "numPredict": 1024,
+      "format": null,
+      "promptVersion": "compact",
+      "messageMode": "single_user",
+      "think": false,
+      "parseSuccessCount": 0,
+      "validSuccessCount": 0,
+      "usableSuccessCount": 0,
+      "doneReasonLengthCount": 3,
+      "truncatedCount": 3,
+      "failureTypeBreakdown": {
+        "truncated_output": 3
+      }
+    },
+    {
+      "groupId": "G8",
+      "numPredict": 1024,
+      "format": null,
+      "promptVersion": "compact",
+      "messageMode": "system_user",
+      "think": null,
+      "parseSuccessCount": 3,
+      "validSuccessCount": 0,
+      "usableSuccessCount": 0,
+      "doneReasonLengthCount": 3,
+      "truncatedCount": 3,
+      "failureTypeBreakdown": {
+        "truncated_output": 3
+      }
+    }
+  ],
+  "bestGroup": "G4",
+  "bestGroupReason": {
+    "usableSuccess": "3/3",
+    "validSuccess": "3/3",
+    "parseSuccess": "3/3",
+    "doneReasonLengthRate": "0/3",
+    "truncatedRate": "0/3"
+  }
+}

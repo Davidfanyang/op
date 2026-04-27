@@ -1,0 +1,17 @@
+[
+  {
+    "sessionId": "sess_1776552235719_lim2m0bnc",
+    "projectId": "default",
+    "channel": "telegram",
+    "employeeId": "e2e_agent_003",
+    "customerId": "unknown",
+    "status": "active",
+    "createdAt": "2026-04-18T22:43:55.719Z",
+    "updatedAt": "2026-04-18T22:43:55.722Z",
+    "closedAt": null,
+    "metadata": {
+      "source": "live_monitor",
+      "createdBy": "e2e_agent_003"
+    }
+  }
+]

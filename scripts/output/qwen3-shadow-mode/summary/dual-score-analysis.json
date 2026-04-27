@@ -1,0 +1,75 @@
+{
+  "timestamp": "2026-04-23T08:42:09.580Z",
+  "total": 50,
+  "valid": 50,
+  "gapDistribution": {
+    "≤5": 14,
+    "≤10": 7,
+    "≤20": 24,
+    ">20": 5
+  },
+  "highRiskSamples": {
+    "count": 2,
+    "rate": 0.04,
+    "top10": [
+      {
+        "original_score": 60,
+        "rule_score": 80,
+        "score_gap_rule": 20,
+        "qwen_raw_score": 85
+      },
+      {
+        "original_score": 60,
+        "rule_score": 80,
+        "score_gap_rule": 20,
+        "qwen_raw_score": 85
+      }
+    ]
+  },
+  "avgGap": 2.36,
+  "avgAbsGap": 14.72,
+  "maxGap": 60,
+  "minGap": 1,
+  "correlation": 0.5494035861268173,
+  "scoreRanges": {
+    "original": {
+      "0-60": 9,
+      "61-70": 25,
+      "71-80": 13,
+      "81-90": 3,
+      "91-100": 0
+    },
+    "rule": {
+      "0-60": 8,
+      "61-70": 0,
+      "71-80": 42,
+      "81-90": 0,
+      "91-100": 0
+    },
+    "qwenRaw": {
+      "0-60": 5,
+      "61-70": 3,
+      "71-80": 0,
+      "81-90": 42,
+      "91-100": 0
+    }
+  },
+  "metrics": {
+    "样本数": {
+      "value": 50,
+      "pass": true
+    },
+    "avg |gap|": {
+      "value": "14.72",
+      "pass": false
+    },
+    "correlation": {
+      "value": "0.549",
+      "pass": false
+    },
+    "高风险分歧率": {
+      "value": "4.0%",
+      "pass": true
+    }
+  }
+}

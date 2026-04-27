@@ -1,0 +1,702 @@
+[
+  {
+    "conversation_id": 4,
+    "agent_tag": "艾斯",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 55,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 45
+    }
+  },
+  {
+    "conversation_id": 5,
+    "agent_tag": "艾斯",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 20,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 6
+    }
+  },
+  {
+    "conversation_id": 8,
+    "agent_tag": "艾斯",
+    "scenario": "info_missing",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 2,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 0,
+      "first_response_seconds": 7
+    }
+  },
+  {
+    "conversation_id": 9,
+    "agent_tag": "艾斯",
+    "scenario": "info_missing",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 3,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 0,
+      "first_response_seconds": 6
+    }
+  },
+  {
+    "conversation_id": 11,
+    "agent_tag": "艾斯",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 26,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 24
+    }
+  },
+  {
+    "conversation_id": 14,
+    "agent_tag": "乐多",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 167,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 6
+    }
+  },
+  {
+    "conversation_id": 15,
+    "agent_tag": "乐多",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 25,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 27
+    }
+  },
+  {
+    "conversation_id": 18,
+    "agent_tag": "小美",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 27,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 7
+    }
+  },
+  {
+    "conversation_id": 19,
+    "agent_tag": "乐多",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 24,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 8
+    }
+  },
+  {
+    "conversation_id": 20,
+    "agent_tag": "乐多",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 24,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 13
+    }
+  },
+  {
+    "conversation_id": 23,
+    "agent_tag": "乐多",
+    "scenario": "transfer_not_received",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 9,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 5
+    }
+  },
+  {
+    "conversation_id": 24,
+    "agent_tag": "小美",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 13,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 9
+    }
+  },
+  {
+    "conversation_id": 26,
+    "agent_tag": "乐多",
+    "scenario": "info_missing",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 8,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 0,
+      "first_response_seconds": 3
+    }
+  },
+  {
+    "conversation_id": 30,
+    "agent_tag": "乐多",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 16,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 7
+    }
+  },
+  {
+    "conversation_id": 31,
+    "agent_tag": "乐多",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 37,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 9
+    }
+  },
+  {
+    "conversation_id": 32,
+    "agent_tag": "乐多",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 18,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 10
+    }
+  },
+  {
+    "conversation_id": 33,
+    "agent_tag": "乐多",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 39,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 5
+    }
+  },
+  {
+    "conversation_id": 36,
+    "agent_tag": "小玉",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 35,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 6
+    }
+  },
+  {
+    "conversation_id": 37,
+    "agent_tag": "玲玲",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 14,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 9
+    }
+  },
+  {
+    "conversation_id": 38,
+    "agent_tag": "玲玲",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 12,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 13
+    }
+  },
+  {
+    "conversation_id": 39,
+    "agent_tag": "玲玲",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 17,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 20
+    }
+  },
+  {
+    "conversation_id": 42,
+    "agent_tag": "小熊",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 14,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 8
+    }
+  },
+  {
+    "conversation_id": 43,
+    "agent_tag": "小玉",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 21,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 11
+    }
+  },
+  {
+    "conversation_id": 44,
+    "agent_tag": "小玉",
+    "scenario": "transfer_not_received",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 7,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 12
+    }
+  },
+  {
+    "conversation_id": 45,
+    "agent_tag": "玲玲",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 20,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 6
+    }
+  },
+  {
+    "conversation_id": 48,
+    "agent_tag": "玲玲",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 22,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 6
+    }
+  },
+  {
+    "conversation_id": 49,
+    "agent_tag": "玲玲",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 26,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 6
+    }
+  },
+  {
+    "conversation_id": 50,
+    "agent_tag": "小玉",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 16,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 12
+    }
+  },
+  {
+    "conversation_id": 51,
+    "agent_tag": "小熊",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 117,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 14
+    }
+  },
+  {
+    "conversation_id": 52,
+    "agent_tag": "小熊",
+    "scenario": "transfer_not_received",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 9,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 27
+    }
+  },
+  {
+    "conversation_id": 53,
+    "agent_tag": "玲玲",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 23,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 19
+    }
+  },
+  {
+    "conversation_id": 54,
+    "agent_tag": null,
+    "scenario": "info_missing",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 1,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 0,
+      "first_response_seconds": null
+    }
+  },
+  {
+    "conversation_id": 55,
+    "agent_tag": "小艾",
+    "scenario": "service_response_poor",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 11,
+      "first_response_sla_breached": 1,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 3021424
+    }
+  },
+  {
+    "conversation_id": 56,
+    "agent_tag": "玲玲",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 11,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 9
+    }
+  },
+  {
+    "conversation_id": 58,
+    "agent_tag": "玲玲",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 11,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 11
+    }
+  },
+  {
+    "conversation_id": 59,
+    "agent_tag": "玲玲",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 11,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 6
+    }
+  },
+  {
+    "conversation_id": 62,
+    "agent_tag": null,
+    "scenario": "info_missing",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 210,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 0,
+      "first_response_seconds": null
+    }
+  },
+  {
+    "conversation_id": 63,
+    "agent_tag": "小艾",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 35,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 19
+    }
+  },
+  {
+    "conversation_id": 64,
+    "agent_tag": "艾斯",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 12,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 16
+    }
+  },
+  {
+    "conversation_id": 65,
+    "agent_tag": "艾斯",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 22,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 7
+    }
+  },
+  {
+    "conversation_id": 66,
+    "agent_tag": "小熊",
+    "scenario": "service_response_poor",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 24,
+      "first_response_sla_breached": 1,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 54858
+    }
+  },
+  {
+    "conversation_id": 68,
+    "agent_tag": "艾斯",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 12,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 10
+    }
+  },
+  {
+    "conversation_id": 69,
+    "agent_tag": "艾斯",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 18,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 19
+    }
+  },
+  {
+    "conversation_id": 72,
+    "agent_tag": "艾斯",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 24,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 31
+    }
+  },
+  {
+    "conversation_id": 73,
+    "agent_tag": "艾斯",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 30,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 31
+    }
+  },
+  {
+    "conversation_id": 74,
+    "agent_tag": "小艾",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 17,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 29
+    }
+  },
+  {
+    "conversation_id": 75,
+    "agent_tag": "小艾",
+    "scenario": "service_response_poor",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 10,
+      "first_response_sla_breached": 1,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 1258594
+    }
+  },
+  {
+    "conversation_id": 76,
+    "agent_tag": "小美",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 13,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 8
+    }
+  },
+  {
+    "conversation_id": 77,
+    "agent_tag": "乐多",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 11,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 7
+    }
+  },
+  {
+    "conversation_id": 79,
+    "agent_tag": "小美",
+    "scenario": "complex_case",
+    "entrySource": "training",
+    "taskType": "quality_evaluation",
+    "_raw": {
+      "message_count": 41,
+      "first_response_sla_breached": 0,
+      "reopen_count": 0,
+      "is_valid": 1,
+      "first_response_seconds": 6
+    }
+  }
+]

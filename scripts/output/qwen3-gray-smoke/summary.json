@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-04-22T17:53:12.149Z",
+  "total": 5,
+  "qwenSuccessCount": 4,
+  "fallbackCount": 1,
+  "grayHitCount": 5,
+  "riskyReplyCount": 0,
+  "scriptFailureCount": 0,
+  "routeCounts": {
+    "qwen3_adapter": 4,
+    "fallback_original": 1,
+    "original_direct": 0,
+    "unknown": 0
+  },
+  "failureTypeCounts": {
+    "risky_suggested_reply": 1
+  },
+  "pass": true
+}

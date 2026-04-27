@@ -1,0 +1,78 @@
+[
+  {
+    "evaluationId": "eval_1776552235721_ny6b8fdnu",
+    "messageId": "msg_1776552235720_wb1q7e7el",
+    "sessionId": "sess_1776552235719_lim2m0bnc",
+    "projectId": "default",
+    "mode": "live_monitor",
+    "scenarioId": null,
+    "status": "invalid_input",
+    "alertLevel": "none",
+    "score": 35,
+    "dimensionScores": {},
+    "findings": [
+      {
+        "code": "INVALID_INPUT",
+        "severity": "high",
+        "message": "缺少必填字段: project",
+        "type": "system_error",
+        "expected": "正常分析流程",
+        "actual": "invalid_input"
+      }
+    ],
+    "suggestions": [
+      "请检查输入参数或场景配置"
+    ],
+    "alerts": [],
+    "summary": "系统错误: 缺少必填字段: project",
+    "standardReply": null,
+    "matchedScenario": null,
+    "matchConfidence": null,
+    "createdAt": "2026-04-18T22:43:55.721Z",
+    "rawResult": {
+      "status": "invalid_input",
+      "evaluationStatus": "invalid_input",
+      "alertLevel": "none",
+      "reviewStatus": "pending",
+      "projectId": "default",
+      "mode": "live_monitor",
+      "sessionId": "sess_1776552235719_lim2m0bnc",
+      "employeeId": "e2e_agent_003",
+      "scenarioId": null,
+      "matchedScenarioId": null,
+      "matchConfidence": null,
+      "customerMessage": null,
+      "currentReply": "请提供付款截图、订单号和付款时间，我帮您核查。",
+      "result": {
+        "level": "fail",
+        "issues": [
+          {
+            "code": "INVALID_INPUT",
+            "severity": "high",
+            "message": "缺少必填字段: project",
+            "type": "system_error",
+            "expected": "正常分析流程",
+            "actual": "invalid_input"
+          }
+        ],
+        "missing": [],
+        "nextAction": "请检查输入参数或场景配置"
+      },
+      "coachSummary": "系统错误: 缺少必填字段: project",
+      "riskLevel": "high",
+      "alerts": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewComment": "",
+      "falsePositiveReason": null,
+      "createdAt": "2026-04-18T22:43:55.721Z",
+      "updatedAt": "2026-04-18T22:43:55.721Z",
+      "meta": {
+        "analyzerVersion": "v4.0",
+        "source": "evaluation-service",
+        "timestamp": "2026-04-18T22:43:55.721Z",
+        "error": "缺少必填字段: project"
+      }
+    }
+  }
+]

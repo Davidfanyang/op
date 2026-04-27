@@ -22,6 +22,11 @@ const { MySQLSessionRepository } = require('../infrastructure/persistence/mysql/
 const { MySQLMessageRepository } = require('../infrastructure/persistence/mysql/mysql-message-repository');
 const { MySQLEvaluationRepository } = require('../infrastructure/persistence/mysql/mysql-evaluation-repository');
 const { MySQLReviewRepository } = require('../infrastructure/persistence/mysql/mysql-review-repository');
+const { MySQLLiveSessionRepository } = require('../infrastructure/persistence/mysql/mysql-live-session-repository');
+const { MySQLLiveMessageRepository } = require('../infrastructure/persistence/mysql/mysql-live-message-repository');
+const { MySQLLiveEvaluationRepository } = require('../infrastructure/persistence/mysql/mysql-live-evaluation-repository');
+const { MySQLSuggestionsRepository } = require('../infrastructure/persistence/mysql/mysql-suggestions-repository');
+const { MySQLReviewsRepository } = require('../infrastructure/persistence/mysql/mysql-reviews-repository');
 const { MySQLPool, createPool } = require('../infrastructure/persistence/mysql/mysql-pool');
 
 /**
@@ -138,6 +143,78 @@ class RepositoryFactory {
   }
 
   /**
+   * 获取 Live Session Repository
+   */
+  getLiveSessionRepository() {
+    if (!this._instances.liveSession) {
+      switch (this.config.type) {
+        case 'file':
+          const { defaultRepo } = require('../repositories/impl/file-live-sessions-repository');
+          this._instances.liveSession = defaultRepo;
+          break;
+        case 'mysql':
+          this._instances.liveSession = new MySQLLiveSessionRepository(this._getMySQLPool());
+          break;
+        case 'mock':
+          const { LiveSessionsRepository } = require('../repositories/live-sessions-repository');
+          this._instances.liveSession = new LiveSessionsRepository();
+          break;
+        default:
+          throw new Error(`Unknown repository type: ${this.config.type}`);
+      }
+    }
+    return this._instances.liveSession;
+  }
+
+  /**
+   * 获取 Live Message Repository
+   */
+  getLiveMessageRepository() {
+    if (!this._instances.liveMessage) {
+      switch (this.config.type) {
+        case 'file':
+          const { defaultRepo } = require('../repositories/impl/file-live-messages-repository');
+          this._instances.liveMessage = defaultRepo;
+          break;
+        case 'mysql':
+          this._instances.liveMessage = new MySQLLiveMessageRepository(this._getMySQLPool());
+          break;
+        case 'mock':
+          const { LiveMessagesRepository } = require('../repositories/live-messages-repository');
+          this._instances.liveMessage = new LiveMessagesRepository();
+          break;
+        default:
+          throw new Error(`Unknown repository type: ${this.config.type}`);
+      }
+    }
+    return this._instances.liveMessage;
+  }
+
+  /**
+   * 获取 Live Evaluation Repository
+   */
+  getLiveEvaluationRepository() {
+    if (!this._instances.liveEvaluation) {
+      switch (this.config.type) {
+        case 'file':
+          const { defaultRepo } = require('../repositories/impl/file-live-evaluations-repository');
+          this._instances.liveEvaluation = defaultRepo;
+          break;
+        case 'mysql':
+          this._instances.liveEvaluation = new MySQLLiveEvaluationRepository(this._getMySQLPool());
+          break;
+        case 'mock':
+          const { LiveEvaluationsRepository } = require('../repositories/live-evaluations-repository');
+          this._instances.liveEvaluation = new LiveEvaluationsRepository();
+          break;
+        default:
+          throw new Error(`Unknown repository type: ${this.config.type}`);
+      }
+    }
+    return this._instances.liveEvaluation;
+  }
+
+  /**
    * 获取 Review Repository
    */
   getReviewRepository() {
@@ -165,14 +242,109 @@ class RepositoryFactory {
   }
 
   /**
-   * 获取所有 Repository
+   * 获取 Suggestions Repository
+   */
+  getSuggestionsRepository() {
+    if (!this._instances.suggestions) {
+      switch (this.config.type) {
+        case 'file':
+          const { defaultRepo } = require('../repositories/impl/file-suggestions-repository');
+          this._instances.suggestions = defaultRepo;
+          break;
+        case 'mysql':
+          this._instances.suggestions = new MySQLSuggestionsRepository(this._getMySQLPool());
+          break;
+        case 'mock':
+          this._instances.suggestions = { findById: () => null, create: () => null };
+          break;
+        default:
+          throw new Error(`Unknown repository type: ${this.config.type}`);
+      }
+    }
+    return this._instances.suggestions;
+  }
+
+  /**
+   * 获取 Reviews Repository (live_monitor reviews)
+   */
+  getReviewsRepository() {
+    if (!this._instances.reviews) {
+      switch (this.config.type) {
+        case 'file':
+          const { defaultRepo } = require('../repositories/impl/file-reviews-repository');
+          this._instances.reviews = defaultRepo;
+          break;
+        case 'mysql':
+          this._instances.reviews = new MySQLReviewsRepository(this._getMySQLPool());
+          break;
+        case 'mock':
+          this._instances.reviews = { findById: () => null, create: () => null };
+          break;
+        default:
+          throw new Error(`Unknown repository type: ${this.config.type}`);
+      }
+    }
+    return this._instances.reviews;
+  }
+
+  /**
+   * 获取 Alerts Repository
+   */
+  getAlertsRepository() {
+    if (!this._instances.alerts) {
+      switch (this.config.type) {
+        case 'file':
+          const { defaultRepo } = require('../repositories/impl/file-alerts-repository');
+          this._instances.alerts = defaultRepo;
+          break;
+        case 'mysql':
+          // alerts 使用 reviews 表存储
+          this._instances.alerts = new MySQLReviewsRepository(this._getMySQLPool());
+          break;
+        case 'mock':
+          this._instances.alerts = { findById: () => null, create: () => null };
+          break;
+        default:
+          throw new Error(`Unknown repository type: ${this.config.type}`);
+      }
+    }
+    return this._instances.alerts;
+  }
+
+  /**
+   * 获取所有 Repository（包含 live）
    */
   getAll() {
     return {
       session: this.getSessionRepository(),
       message: this.getMessageRepository(),
       evaluation: this.getEvaluationRepository(),
-      review: this.getReviewRepository()
+      review: this.getReviewRepository(),
+      liveSession: this.getLiveSessionRepository(),
+      liveMessage: this.getLiveMessageRepository(),
+      liveEvaluation: this.getLiveEvaluationRepository(),
+      suggestions: this.getSuggestionsRepository(),
+      reviews: this.getReviewsRepository(),
+      alerts: this.getAlertsRepository()
+    };
+  }
+
+  /**
+   * 获取 MySQL Repository 集合（便捷方法）
+   * 如果当前不是 MySQL 模式，会抛出错误
+   */
+  getMySQLRepositories() {
+    if (this.config.type !== 'mysql') {
+      throw new Error('当前未使用 MySQL 模式，无法获取 MySQL Repositories');
+    }
+    return {
+      session: this.getSessionRepository(),
+      message: this.getMessageRepository(),
+      evaluation: this.getEvaluationRepository(),
+      review: this.getReviewRepository(),
+      liveSession: this.getLiveSessionRepository(),
+      liveMessage: this.getLiveMessageRepository(),
+      liveEvaluation: this.getLiveEvaluationRepository()
     };
   }
 
@@ -217,8 +389,10 @@ class RepositoryFactory {
   }
 }
 
-// 默认工厂实例
-const defaultFactory = new RepositoryFactory();
+// 默认工厂实例（根据环境变量 REPOSITORY_TYPE 初始化）
+const defaultFactory = new RepositoryFactory({
+  type: process.env.REPOSITORY_TYPE || 'file'
+});
 
 module.exports = {
   // 接口定义
@@ -238,6 +412,9 @@ module.exports = {
   MySQLMessageRepository,
   MySQLEvaluationRepository,
   MySQLReviewRepository,
+  MySQLLiveSessionRepository,
+  MySQLLiveMessageRepository,
+  MySQLLiveEvaluationRepository,
   MySQLPool,
   createPool,
   
@@ -249,6 +426,12 @@ module.exports = {
   getMessageRepository: () => defaultFactory.getMessageRepository(),
   getEvaluationRepository: () => defaultFactory.getEvaluationRepository(),
   getReviewRepository: () => defaultFactory.getReviewRepository(),
+  getLiveSessionRepository: () => defaultFactory.getLiveSessionRepository(),
+  getLiveMessageRepository: () => defaultFactory.getLiveMessageRepository(),
+  getLiveEvaluationRepository: () => defaultFactory.getLiveEvaluationRepository(),
+  getSuggestionsRepository: () => defaultFactory.getSuggestionsRepository(),
+  getReviewsRepository: () => defaultFactory.getReviewsRepository(),
+  getAlertsRepository: () => defaultFactory.getAlertsRepository(),
   getRepositories: () => defaultFactory.getAll(),
   createRepositoryFactory: (config) => new RepositoryFactory(config),
   getDefaultFactory: () => defaultFactory

@@ -278,6 +278,16 @@ class MySQLReviewsRepository extends ReviewsRepository {
   }
 
   /**
+   * 更新 review 的 knowledge_id（别名方法）
+   * @param {string} reviewId - review ID
+   * @param {string} knowledgeId - 知识 ID
+   * @returns {Promise<Object>} 更新后的 review 对象
+   */
+  async updateKnowledgeId(reviewId, knowledgeId) {
+    return this.markReviewKnowledgeCreated(reviewId, knowledgeId);
+  }
+
+  /**
    * 根据 review_id 查询审核记录
    * @param {string} reviewId - review ID (review_id 业务字段)
    * @returns {Promise<Object|null>} review 对象或 null

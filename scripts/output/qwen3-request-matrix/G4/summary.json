@@ -1,0 +1,22 @@
+{
+  "groupId": "G4",
+  "config": {
+    "id": "G4",
+    "numPredict": 1024,
+    "format": "json",
+    "promptVersion": "full",
+    "messageMode": "system_user",
+    "think": false
+  },
+  "totalRounds": 3,
+  "parseSuccessCount": 3,
+  "validSuccessCount": 3,
+  "highRiskSuccessCount": 0,
+  "usableSuccessCount": 3,
+  "doneReasonLengthCount": 0,
+  "truncatedCount": 0,
+  "failureTypeBreakdown": {
+    "success": 3
+  },
+  "timestamp": "2026-04-22T10:38:46.879Z"
+}

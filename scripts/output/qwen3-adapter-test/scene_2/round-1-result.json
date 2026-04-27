@@ -1,0 +1,74 @@
+{
+  "sceneId": "scene_2",
+  "sceneName": "提现一直没到账",
+  "roundIndex": 1,
+  "timestamp": "2026-04-22T10:54:36.858Z",
+  "input": {
+    "conversationText": "用户：我提现已经两个小时了，还没到账，怎么回事？\n客服：请稍等。"
+  },
+  "result": {
+    "success": true,
+    "failureType": null,
+    "error": null,
+    "requestConfig": {
+      "model": "qwen3:4b",
+      "format": "json",
+      "num_predict": 1024,
+      "temperature": 0,
+      "think": false
+    },
+    "rawResponse": {
+      "model": "qwen3:4b",
+      "created_at": "2026-04-22T10:54:41.073166Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"score\": 0,\n  \"problem_type\": \"unknown\",\n  \"scenario\": \"提现未到账\",\n  \"issues\": [\n    \"未提供具体提现金额\",\n    \"未提供提现渠道\",\n    \"未提供账户信息\"\n  ],\n  \"missing_info\": [\n    \"提现金额\",\n    \"提现渠道\",\n    \"账户信息\"\n  ],\n  \"suggested_reply\": \"您好，您的提现请求已提交。请提供提现金额、提现渠道及账户信息，以便我们快速处理。同时，我们建议您检查银行账户是否已收到款项，或联系银行确认交易状态。\",\n  \"confidence\": 0.85\n}"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 4214680625,
+      "load_duration": 78738458,
+      "prompt_eval_count": 211,
+      "prompt_eval_duration": 96115166,
+      "eval_count": 140,
+      "eval_duration": 3926813494
+    },
+    "processed": {
+      "success": true,
+      "selectedSource": "message.content",
+      "candidates": [
+        {
+          "source": "message.content",
+          "index": 0,
+          "length": 314,
+          "hasParsed": true
+        }
+      ],
+      "truncated": false,
+      "validationErrors": [],
+      "replyRisk": "no_obvious_risk",
+      "replyRiskDetails": []
+    },
+    "data": {
+      "score": 0,
+      "problem_type": "unknown",
+      "scenario": "提现未到账",
+      "issues": [
+        "未提供具体提现金额",
+        "未提供提现渠道",
+        "未提供账户信息"
+      ],
+      "missing_info": [
+        "提现金额",
+        "提现渠道",
+        "账户信息"
+      ],
+      "suggested_reply": "您好，您的提现请求已提交。请提供提现金额、提现渠道及账户信息，以便我们快速处理。同时，我们建议您检查银行账户是否已收到款项，或联系银行确认交易状态。",
+      "confidence": 0.85
+    },
+    "retryCount": 0
+  },
+  "isSuccess": true,
+  "isParseSuccess": true,
+  "hasHighRisk": false
+}

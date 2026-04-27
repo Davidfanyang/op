@@ -1,0 +1,791 @@
+{
+  "timestamp": "2026-04-22T10:55:16.581Z",
+  "totalScenes": 5,
+  "roundsPerScene": 2,
+  "totalRounds": 10,
+  "successRounds": 10,
+  "failureRounds": 0,
+  "parseSuccessRounds": 10,
+  "highRiskRounds": 0,
+  "failureTypeBreakdown": {},
+  "scenes": [
+    {
+      "sceneId": "scene_1",
+      "sceneName": "转账成功但对方未收到",
+      "totalRounds": 2,
+      "successRounds": 2,
+      "failureRounds": 0,
+      "parseSuccessRounds": 2,
+      "highRiskRounds": 0,
+      "rounds": [
+        {
+          "sceneId": "scene_1",
+          "sceneName": "转账成功但对方未收到",
+          "roundIndex": 1,
+          "timestamp": "2026-04-22T10:54:24.330Z",
+          "input": {
+            "conversationText": "用户：我转账成功了，但是对方没收到。\n客服：你等等。"
+          },
+          "result": {
+            "success": true,
+            "failureType": null,
+            "error": null,
+            "requestConfig": {
+              "model": "qwen3:4b",
+              "format": "json",
+              "num_predict": 1024,
+              "temperature": 0,
+              "think": false
+            },
+            "rawResponse": {
+              "model": "qwen3:4b",
+              "created_at": "2026-04-22T10:54:30.048217Z",
+              "message": {
+                "role": "assistant",
+                "content": "{\n  \"score\": 0,\n  \"problem_type\": \"unknown\",\n  \"scenario\": \"transfer_issue\",\n  \"issues\": [\n    \"客服未提供任何解决方案\",\n    \"未确认转账状态\"\n  ],\n  \"missing_info\": [\n    \"转账金额\",\n    \"转账时间\",\n    \"收款方信息\"\n  ],\n  \"suggested_reply\": \"请提供转账金额、转账时间及收款方信息，以便我们核实转账状态并协助处理。\",\n  \"confidence\": 0.85\n}"
+              },
+              "done": true,
+              "done_reason": "stop",
+              "total_duration": 5711601667,
+              "load_duration": 1864314625,
+              "prompt_eval_count": 209,
+              "prompt_eval_duration": 550570458,
+              "eval_count": 110,
+              "eval_duration": 3172997209
+            },
+            "processed": {
+              "success": true,
+              "selectedSource": "message.content",
+              "candidates": [
+                {
+                  "source": "message.content",
+                  "index": 0,
+                  "length": 272,
+                  "hasParsed": true
+                }
+              ],
+              "truncated": false,
+              "validationErrors": [],
+              "replyRisk": "no_obvious_risk",
+              "replyRiskDetails": []
+            },
+            "data": {
+              "score": 0,
+              "problem_type": "unknown",
+              "scenario": "transfer_issue",
+              "issues": [
+                "客服未提供任何解决方案",
+                "未确认转账状态"
+              ],
+              "missing_info": [
+                "转账金额",
+                "转账时间",
+                "收款方信息"
+              ],
+              "suggested_reply": "请提供转账金额、转账时间及收款方信息，以便我们核实转账状态并协助处理。",
+              "confidence": 0.85
+            },
+            "retryCount": 0
+          },
+          "isSuccess": true,
+          "isParseSuccess": true,
+          "hasHighRisk": false
+        },
+        {
+          "sceneId": "scene_1",
+          "sceneName": "转账成功但对方未收到",
+          "roundIndex": 2,
+          "timestamp": "2026-04-22T10:54:31.553Z",
+          "input": {
+            "conversationText": "用户：我转账成功了，但是对方没收到。\n客服：你等等。"
+          },
+          "result": {
+            "success": true,
+            "failureType": null,
+            "error": null,
+            "requestConfig": {
+              "model": "qwen3:4b",
+              "format": "json",
+              "num_predict": 1024,
+              "temperature": 0,
+              "think": false
+            },
+            "rawResponse": {
+              "model": "qwen3:4b",
+              "created_at": "2026-04-22T10:54:34.853772Z",
+              "message": {
+                "role": "assistant",
+                "content": "{\n  \"score\": 0,\n  \"problem_type\": \"unknown\",\n  \"scenario\": \"transfer_issue\",\n  \"issues\": [\n    \"客服未提供任何解决方案\",\n    \"未确认转账状态\"\n  ],\n  \"missing_info\": [\n    \"转账金额\",\n    \"转账时间\",\n    \"收款方信息\"\n  ],\n  \"suggested_reply\": \"请提供转账金额、转账时间及收款方信息，以便我们核实转账状态并协助处理。\",\n  \"confidence\": 0.85\n}"
+              },
+              "done": true,
+              "done_reason": "stop",
+              "total_duration": 3298891167,
+              "load_duration": 80611417,
+              "prompt_eval_count": 209,
+              "prompt_eval_duration": 33596583,
+              "eval_count": 110,
+              "eval_duration": 3083202960
+            },
+            "processed": {
+              "success": true,
+              "selectedSource": "message.content",
+              "candidates": [
+                {
+                  "source": "message.content",
+                  "index": 0,
+                  "length": 272,
+                  "hasParsed": true
+                }
+              ],
+              "truncated": false,
+              "validationErrors": [],
+              "replyRisk": "no_obvious_risk",
+              "replyRiskDetails": []
+            },
+            "data": {
+              "score": 0,
+              "problem_type": "unknown",
+              "scenario": "transfer_issue",
+              "issues": [
+                "客服未提供任何解决方案",
+                "未确认转账状态"
+              ],
+              "missing_info": [
+                "转账金额",
+                "转账时间",
+                "收款方信息"
+              ],
+              "suggested_reply": "请提供转账金额、转账时间及收款方信息，以便我们核实转账状态并协助处理。",
+              "confidence": 0.85
+            },
+            "retryCount": 0
+          },
+          "isSuccess": true,
+          "isParseSuccess": true,
+          "hasHighRisk": false
+        }
+      ]
+    },
+    {
+      "sceneId": "scene_2",
+      "sceneName": "提现一直没到账",
+      "totalRounds": 2,
+      "successRounds": 2,
+      "failureRounds": 0,
+      "parseSuccessRounds": 2,
+      "highRiskRounds": 0,
+      "rounds": [
+        {
+          "sceneId": "scene_2",
+          "sceneName": "提现一直没到账",
+          "roundIndex": 1,
+          "timestamp": "2026-04-22T10:54:36.858Z",
+          "input": {
+            "conversationText": "用户：我提现已经两个小时了，还没到账，怎么回事？\n客服：请稍等。"
+          },
+          "result": {
+            "success": true,
+            "failureType": null,
+            "error": null,
+            "requestConfig": {
+              "model": "qwen3:4b",
+              "format": "json",
+              "num_predict": 1024,
+              "temperature": 0,
+              "think": false
+            },
+            "rawResponse": {
+              "model": "qwen3:4b",
+              "created_at": "2026-04-22T10:54:41.073166Z",
+              "message": {
+                "role": "assistant",
+                "content": "{\n  \"score\": 0,\n  \"problem_type\": \"unknown\",\n  \"scenario\": \"提现未到账\",\n  \"issues\": [\n    \"未提供具体提现金额\",\n    \"未提供提现渠道\",\n    \"未提供账户信息\"\n  ],\n  \"missing_info\": [\n    \"提现金额\",\n    \"提现渠道\",\n    \"账户信息\"\n  ],\n  \"suggested_reply\": \"您好，您的提现请求已提交。请提供提现金额、提现渠道及账户信息，以便我们快速处理。同时，我们建议您检查银行账户是否已收到款项，或联系银行确认交易状态。\",\n  \"confidence\": 0.85\n}"
+              },
+              "done": true,
+              "done_reason": "stop",
+              "total_duration": 4214680625,
+              "load_duration": 78738458,
+              "prompt_eval_count": 211,
+              "prompt_eval_duration": 96115166,
+              "eval_count": 140,
+              "eval_duration": 3926813494
+            },
+            "processed": {
+              "success": true,
+              "selectedSource": "message.content",
+              "candidates": [
+                {
+                  "source": "message.content",
+                  "index": 0,
+                  "length": 314,
+                  "hasParsed": true
+                }
+              ],
+              "truncated": false,
+              "validationErrors": [],
+              "replyRisk": "no_obvious_risk",
+              "replyRiskDetails": []
+            },
+            "data": {
+              "score": 0,
+              "problem_type": "unknown",
+              "scenario": "提现未到账",
+              "issues": [
+                "未提供具体提现金额",
+                "未提供提现渠道",
+                "未提供账户信息"
+              ],
+              "missing_info": [
+                "提现金额",
+                "提现渠道",
+                "账户信息"
+              ],
+              "suggested_reply": "您好，您的提现请求已提交。请提供提现金额、提现渠道及账户信息，以便我们快速处理。同时，我们建议您检查银行账户是否已收到款项，或联系银行确认交易状态。",
+              "confidence": 0.85
+            },
+            "retryCount": 0
+          },
+          "isSuccess": true,
+          "isParseSuccess": true,
+          "hasHighRisk": false
+        },
+        {
+          "sceneId": "scene_2",
+          "sceneName": "提现一直没到账",
+          "roundIndex": 2,
+          "timestamp": "2026-04-22T10:54:42.577Z",
+          "input": {
+            "conversationText": "用户：我提现已经两个小时了，还没到账，怎么回事？\n客服：请稍等。"
+          },
+          "result": {
+            "success": true,
+            "failureType": null,
+            "error": null,
+            "requestConfig": {
+              "model": "qwen3:4b",
+              "format": "json",
+              "num_predict": 1024,
+              "temperature": 0,
+              "think": false
+            },
+            "rawResponse": {
+              "model": "qwen3:4b",
+              "created_at": "2026-04-22T10:54:46.716764Z",
+              "message": {
+                "role": "assistant",
+                "content": "{\n  \"score\": 0,\n  \"problem_type\": \"unknown\",\n  \"scenario\": \"提现未到账\",\n  \"issues\": [\n    \"未提供具体提现金额\",\n    \"未提供提现渠道\",\n    \"未提供账户信息\"\n  ],\n  \"missing_info\": [\n    \"提现金额\",\n    \"提现渠道\",\n    \"账户信息\"\n  ],\n  \"suggested_reply\": \"您好，您的提现请求已提交。请提供提现金额、提现渠道及账户信息，以便我们快速处理。同时，我们建议您检查银行账户是否已收到款项，或联系银行确认交易状态。\",\n  \"confidence\": 0.85\n}"
+              },
+              "done": true,
+              "done_reason": "stop",
+              "total_duration": 4138374708,
+              "load_duration": 80955958,
+              "prompt_eval_count": 211,
+              "prompt_eval_duration": 34687291,
+              "eval_count": 140,
+              "eval_duration": 3916268250
+            },
+            "processed": {
+              "success": true,
+              "selectedSource": "message.content",
+              "candidates": [
+                {
+                  "source": "message.content",
+                  "index": 0,
+                  "length": 314,
+                  "hasParsed": true
+                }
+              ],
+              "truncated": false,
+              "validationErrors": [],
+              "replyRisk": "no_obvious_risk",
+              "replyRiskDetails": []
+            },
+            "data": {
+              "score": 0,
+              "problem_type": "unknown",
+              "scenario": "提现未到账",
+              "issues": [
+                "未提供具体提现金额",
+                "未提供提现渠道",
+                "未提供账户信息"
+              ],
+              "missing_info": [
+                "提现金额",
+                "提现渠道",
+                "账户信息"
+              ],
+              "suggested_reply": "您好，您的提现请求已提交。请提供提现金额、提现渠道及账户信息，以便我们快速处理。同时，我们建议您检查银行账户是否已收到款项，或联系银行确认交易状态。",
+              "confidence": 0.85
+            },
+            "retryCount": 0
+          },
+          "isSuccess": true,
+          "isParseSuccess": true,
+          "hasHighRisk": false
+        }
+      ]
+    },
+    {
+      "sceneId": "scene_3",
+      "sceneName": "支付失败但被扣款",
+      "totalRounds": 2,
+      "successRounds": 2,
+      "failureRounds": 0,
+      "parseSuccessRounds": 2,
+      "highRiskRounds": 0,
+      "rounds": [
+        {
+          "sceneId": "scene_3",
+          "sceneName": "支付失败但被扣款",
+          "roundIndex": 1,
+          "timestamp": "2026-04-22T10:54:48.720Z",
+          "input": {
+            "conversationText": "用户：我支付失败了，但是银行卡被扣款了！\n客服：您提供一下订单号。"
+          },
+          "result": {
+            "success": true,
+            "failureType": null,
+            "error": null,
+            "requestConfig": {
+              "model": "qwen3:4b",
+              "format": "json",
+              "num_predict": 1024,
+              "temperature": 0,
+              "think": false
+            },
+            "rawResponse": {
+              "model": "qwen3:4b",
+              "created_at": "2026-04-22T10:54:51.597883Z",
+              "message": {
+                "role": "assistant",
+                "content": "{\n  \"score\": 0,\n  \"problem_type\": \"unknown\",\n  \"scenario\": \"支付失败但银行卡被扣款\",\n  \"issues\": [\n    \"用户未提供订单号\"\n  ],\n  \"missing_info\": [\n    \"订单号\"\n  ],\n  \"suggested_reply\": \"请提供您的订单号，以便我们核实支付失败的原因并处理银行卡扣款问题。\",\n  \"confidence\": 0.8\n}"
+              },
+              "done": true,
+              "done_reason": "stop",
+              "total_duration": 2876233167,
+              "load_duration": 79885709,
+              "prompt_eval_count": 215,
+              "prompt_eval_duration": 96063875,
+              "eval_count": 94,
+              "eval_duration": 2595601955
+            },
+            "processed": {
+              "success": true,
+              "selectedSource": "message.content",
+              "candidates": [
+                {
+                  "source": "message.content",
+                  "index": 0,
+                  "length": 222,
+                  "hasParsed": true
+                }
+              ],
+              "truncated": false,
+              "validationErrors": [],
+              "replyRisk": "no_obvious_risk",
+              "replyRiskDetails": []
+            },
+            "data": {
+              "score": 0,
+              "problem_type": "unknown",
+              "scenario": "支付失败但银行卡被扣款",
+              "issues": [
+                "用户未提供订单号"
+              ],
+              "missing_info": [
+                "订单号"
+              ],
+              "suggested_reply": "请提供您的订单号，以便我们核实支付失败的原因并处理银行卡扣款问题。",
+              "confidence": 0.8
+            },
+            "retryCount": 0
+          },
+          "isSuccess": true,
+          "isParseSuccess": true,
+          "hasHighRisk": false
+        },
+        {
+          "sceneId": "scene_3",
+          "sceneName": "支付失败但被扣款",
+          "roundIndex": 2,
+          "timestamp": "2026-04-22T10:54:53.100Z",
+          "input": {
+            "conversationText": "用户：我支付失败了，但是银行卡被扣款了！\n客服：您提供一下订单号。"
+          },
+          "result": {
+            "success": true,
+            "failureType": null,
+            "error": null,
+            "requestConfig": {
+              "model": "qwen3:4b",
+              "format": "json",
+              "num_predict": 1024,
+              "temperature": 0,
+              "think": false
+            },
+            "rawResponse": {
+              "model": "qwen3:4b",
+              "created_at": "2026-04-22T10:54:55.960869Z",
+              "message": {
+                "role": "assistant",
+                "content": "{\n  \"score\": 0,\n  \"problem_type\": \"unknown\",\n  \"scenario\": \"支付失败但银行卡被扣款\",\n  \"issues\": [\n    \"用户未提供订单号\"\n  ],\n  \"missing_info\": [\n    \"订单号\"\n  ],\n  \"suggested_reply\": \"请提供您的订单号，以便我们核实支付失败的原因并处理银行卡扣款问题。\",\n  \"confidence\": 0.8\n}"
+              },
+              "done": true,
+              "done_reason": "stop",
+              "total_duration": 2859004459,
+              "load_duration": 79495584,
+              "prompt_eval_count": 215,
+              "prompt_eval_duration": 31136625,
+              "eval_count": 94,
+              "eval_duration": 2646149287
+            },
+            "processed": {
+              "success": true,
+              "selectedSource": "message.content",
+              "candidates": [
+                {
+                  "source": "message.content",
+                  "index": 0,
+                  "length": 222,
+                  "hasParsed": true
+                }
+              ],
+              "truncated": false,
+              "validationErrors": [],
+              "replyRisk": "no_obvious_risk",
+              "replyRiskDetails": []
+            },
+            "data": {
+              "score": 0,
+              "problem_type": "unknown",
+              "scenario": "支付失败但银行卡被扣款",
+              "issues": [
+                "用户未提供订单号"
+              ],
+              "missing_info": [
+                "订单号"
+              ],
+              "suggested_reply": "请提供您的订单号，以便我们核实支付失败的原因并处理银行卡扣款问题。",
+              "confidence": 0.8
+            },
+            "retryCount": 0
+          },
+          "isSuccess": true,
+          "isParseSuccess": true,
+          "hasHighRisk": false
+        }
+      ]
+    },
+    {
+      "sceneId": "scene_4",
+      "sceneName": "客服回复敷衍、未处理核心问题",
+      "totalRounds": 2,
+      "successRounds": 2,
+      "failureRounds": 0,
+      "parseSuccessRounds": 2,
+      "highRiskRounds": 0,
+      "rounds": [
+        {
+          "sceneId": "scene_4",
+          "sceneName": "客服回复敷衍、未处理核心问题",
+          "roundIndex": 1,
+          "timestamp": "2026-04-22T10:54:57.964Z",
+          "input": {
+            "conversationText": "用户：我的账户被锁定了，无法登录，我很着急。\n客服：好的，理解您的心情。"
+          },
+          "result": {
+            "success": true,
+            "failureType": null,
+            "error": null,
+            "requestConfig": {
+              "model": "qwen3:4b",
+              "format": "json",
+              "num_predict": 1024,
+              "temperature": 0,
+              "think": false
+            },
+            "rawResponse": {
+              "model": "qwen3:4b",
+              "created_at": "2026-04-22T10:55:01.908775Z",
+              "message": {
+                "role": "assistant",
+                "content": "{\n  \"score\": 0,\n  \"problem_type\": \"unknown\",\n  \"scenario\": \"login_issue\",\n  \"issues\": [\n    \"未提供账户锁定原因\",\n    \"未提供账户锁定时间\",\n    \"未提供尝试登录的次数\"\n  ],\n  \"missing_info\": [\n    \"账户锁定原因\",\n    \"账户锁定时间\",\n    \"尝试登录次数\"\n  ],\n  \"suggested_reply\": \"您好，您的账户被锁定，可能是因为多次登录失败。请提供您的账户名和最近的登录尝试次数，以便我们快速解锁您的账户。\",\n  \"confidence\": 0.3\n}"
+              },
+              "done": true,
+              "done_reason": "stop",
+              "total_duration": 3943683792,
+              "load_duration": 78351542,
+              "prompt_eval_count": 214,
+              "prompt_eval_duration": 97735417,
+              "eval_count": 132,
+              "eval_duration": 3654408879
+            },
+            "processed": {
+              "success": true,
+              "selectedSource": "message.content",
+              "candidates": [
+                {
+                  "source": "message.content",
+                  "index": 0,
+                  "length": 311,
+                  "hasParsed": true
+                }
+              ],
+              "truncated": false,
+              "validationErrors": [],
+              "replyRisk": "no_obvious_risk",
+              "replyRiskDetails": []
+            },
+            "data": {
+              "score": 0,
+              "problem_type": "unknown",
+              "scenario": "login_issue",
+              "issues": [
+                "未提供账户锁定原因",
+                "未提供账户锁定时间",
+                "未提供尝试登录的次数"
+              ],
+              "missing_info": [
+                "账户锁定原因",
+                "账户锁定时间",
+                "尝试登录次数"
+              ],
+              "suggested_reply": "您好，您的账户被锁定，可能是因为多次登录失败。请提供您的账户名和最近的登录尝试次数，以便我们快速解锁您的账户。",
+              "confidence": 0.3
+            },
+            "retryCount": 0
+          },
+          "isSuccess": true,
+          "isParseSuccess": true,
+          "hasHighRisk": false
+        },
+        {
+          "sceneId": "scene_4",
+          "sceneName": "客服回复敷衍、未处理核心问题",
+          "roundIndex": 2,
+          "timestamp": "2026-04-22T10:55:03.411Z",
+          "input": {
+            "conversationText": "用户：我的账户被锁定了，无法登录，我很着急。\n客服：好的，理解您的心情。"
+          },
+          "result": {
+            "success": true,
+            "failureType": null,
+            "error": null,
+            "requestConfig": {
+              "model": "qwen3:4b",
+              "format": "json",
+              "num_predict": 1024,
+              "temperature": 0,
+              "think": false
+            },
+            "rawResponse": {
+              "model": "qwen3:4b",
+              "created_at": "2026-04-22T10:55:07.284781Z",
+              "message": {
+                "role": "assistant",
+                "content": "{\n  \"score\": 0,\n  \"problem_type\": \"unknown\",\n  \"scenario\": \"login_issue\",\n  \"issues\": [\n    \"未提供账户锁定原因\",\n    \"未提供账户锁定时间\",\n    \"未提供尝试登录的次数\"\n  ],\n  \"missing_info\": [\n    \"账户锁定原因\",\n    \"账户锁定时间\",\n    \"尝试登录次数\"\n  ],\n  \"suggested_reply\": \"您好，您的账户被锁定，可能是因为多次登录失败。请提供您的账户名和最近的登录尝试次数，以便我们快速解锁您的账户。\",\n  \"confidence\": 0.3\n}"
+              },
+              "done": true,
+              "done_reason": "stop",
+              "total_duration": 3872274250,
+              "load_duration": 81631833,
+              "prompt_eval_count": 214,
+              "prompt_eval_duration": 32652417,
+              "eval_count": 132,
+              "eval_duration": 3658359418
+            },
+            "processed": {
+              "success": true,
+              "selectedSource": "message.content",
+              "candidates": [
+                {
+                  "source": "message.content",
+                  "index": 0,
+                  "length": 311,
+                  "hasParsed": true
+                }
+              ],
+              "truncated": false,
+              "validationErrors": [],
+              "replyRisk": "no_obvious_risk",
+              "replyRiskDetails": []
+            },
+            "data": {
+              "score": 0,
+              "problem_type": "unknown",
+              "scenario": "login_issue",
+              "issues": [
+                "未提供账户锁定原因",
+                "未提供账户锁定时间",
+                "未提供尝试登录的次数"
+              ],
+              "missing_info": [
+                "账户锁定原因",
+                "账户锁定时间",
+                "尝试登录次数"
+              ],
+              "suggested_reply": "您好，您的账户被锁定，可能是因为多次登录失败。请提供您的账户名和最近的登录尝试次数，以便我们快速解锁您的账户。",
+              "confidence": 0.3
+            },
+            "retryCount": 0
+          },
+          "isSuccess": true,
+          "isParseSuccess": true,
+          "hasHighRisk": false
+        }
+      ]
+    },
+    {
+      "sceneId": "scene_5",
+      "sceneName": "用户描述不清，信息严重缺失",
+      "totalRounds": 2,
+      "successRounds": 2,
+      "failureRounds": 0,
+      "parseSuccessRounds": 2,
+      "highRiskRounds": 0,
+      "rounds": [
+        {
+          "sceneId": "scene_5",
+          "sceneName": "用户描述不清，信息严重缺失",
+          "roundIndex": 1,
+          "timestamp": "2026-04-22T10:55:09.289Z",
+          "input": {
+            "conversationText": "用户：就是那个，嗯，我昨天弄的那个，有问题。\n客服：您能具体说一下是什么问题吗？"
+          },
+          "result": {
+            "success": true,
+            "failureType": null,
+            "error": null,
+            "requestConfig": {
+              "model": "qwen3:4b",
+              "format": "json",
+              "num_predict": 1024,
+              "temperature": 0,
+              "think": false
+            },
+            "rawResponse": {
+              "model": "qwen3:4b",
+              "created_at": "2026-04-22T10:55:12.219723Z",
+              "message": {
+                "role": "assistant",
+                "content": "{\n  \"score\": 0,\n  \"problem_type\": \"unknown\",\n  \"scenario\": \"user_misunderstanding\",\n  \"issues\": [\n    \"用户未明确问题具体描述\"\n  ],\n  \"missing_info\": [\n    \"问题的具体内容\"\n  ],\n  \"suggested_reply\": \"请详细说明您昨天遇到的问题，例如是产品功能异常、支付问题还是其他情况？\",\n  \"confidence\": 0.3\n}"
+              },
+              "done": true,
+              "done_reason": "stop",
+              "total_duration": 2929334958,
+              "load_duration": 81050542,
+              "prompt_eval_count": 217,
+              "prompt_eval_duration": 96559083,
+              "eval_count": 96,
+              "eval_duration": 2652841876
+            },
+            "processed": {
+              "success": true,
+              "selectedSource": "message.content",
+              "candidates": [
+                {
+                  "source": "message.content",
+                  "index": 0,
+                  "length": 241,
+                  "hasParsed": true
+                }
+              ],
+              "truncated": false,
+              "validationErrors": [],
+              "replyRisk": "no_obvious_risk",
+              "replyRiskDetails": []
+            },
+            "data": {
+              "score": 0,
+              "problem_type": "unknown",
+              "scenario": "user_misunderstanding",
+              "issues": [
+                "用户未明确问题具体描述"
+              ],
+              "missing_info": [
+                "问题的具体内容"
+              ],
+              "suggested_reply": "请详细说明您昨天遇到的问题，例如是产品功能异常、支付问题还是其他情况？",
+              "confidence": 0.3
+            },
+            "retryCount": 0
+          },
+          "isSuccess": true,
+          "isParseSuccess": true,
+          "hasHighRisk": false
+        },
+        {
+          "sceneId": "scene_5",
+          "sceneName": "用户描述不清，信息严重缺失",
+          "roundIndex": 2,
+          "timestamp": "2026-04-22T10:55:13.722Z",
+          "input": {
+            "conversationText": "用户：就是那个，嗯，我昨天弄的那个，有问题。\n客服：您能具体说一下是什么问题吗？"
+          },
+          "result": {
+            "success": true,
+            "failureType": null,
+            "error": null,
+            "requestConfig": {
+              "model": "qwen3:4b",
+              "format": "json",
+              "num_predict": 1024,
+              "temperature": 0,
+              "think": false
+            },
+            "rawResponse": {
+              "model": "qwen3:4b",
+              "created_at": "2026-04-22T10:55:16.579295Z",
+              "message": {
+                "role": "assistant",
+                "content": "{\n  \"score\": 0,\n  \"problem_type\": \"unknown\",\n  \"scenario\": \"user_misunderstanding\",\n  \"issues\": [\n    \"用户未明确问题具体描述\"\n  ],\n  \"missing_info\": [\n    \"问题的具体内容\"\n  ],\n  \"suggested_reply\": \"请详细说明您昨天遇到的问题，例如是产品功能异常、支付问题还是其他情况？\",\n  \"confidence\": 0.3\n}"
+              },
+              "done": true,
+              "done_reason": "stop",
+              "total_duration": 2855529084,
+              "load_duration": 80007417,
+              "prompt_eval_count": 217,
+              "prompt_eval_duration": 31730875,
+              "eval_count": 96,
+              "eval_duration": 2648004703
+            },
+            "processed": {
+              "success": true,
+              "selectedSource": "message.content",
+              "candidates": [
+                {
+                  "source": "message.content",
+                  "index": 0,
+                  "length": 241,
+                  "hasParsed": true
+                }
+              ],
+              "truncated": false,
+              "validationErrors": [],
+              "replyRisk": "no_obvious_risk",
+              "replyRiskDetails": []
+            },
+            "data": {
+              "score": 0,
+              "problem_type": "unknown",
+              "scenario": "user_misunderstanding",
+              "issues": [
+                "用户未明确问题具体描述"
+              ],
+              "missing_info": [
+                "问题的具体内容"
+              ],
+              "suggested_reply": "请详细说明您昨天遇到的问题，例如是产品功能异常、支付问题还是其他情况？",
+              "confidence": 0.3
+            },
+            "retryCount": 0
+          },
+          "isSuccess": true,
+          "isParseSuccess": true,
+          "hasHighRisk": false
+        }
+      ]
+    }
+  ],
+  "hasObviousHighRisk": false
+}

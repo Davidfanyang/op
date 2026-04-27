@@ -1,0 +1,20 @@
+{
+  "model": "qwen3:4b",
+  "messages": [
+    {
+      "role": "system",
+      "content": "你是客服质量评估助手。请分析以下对话并以JSON格式输出评估结果。\n\n输出JSON必须包含以下字段：\n- score: 0-100的整数，表示客服回复质量评分\n- problem_type: \"known\"或\"unknown\"，表示问题类型\n- scenario: 字符串，表示识别到的场景\n- issues: 数组，存在的问题列表\n- missing_info: 数组，缺失的信息列表\n- suggested_reply: 字符串，建议的客服回复\n- confidence: 0.0-1.0的数字，表示评估置信度\n\n严格要求：\n1. 只输出合法JSON，不要任何解释、markdown或其他文本\n2. 所有字段都必须存在且类型正确\n3. score必须是整数\n4. confidence必须在0到1之间"
+    },
+    {
+      "role": "user",
+      "content": "用户：我转账成功了，但是对方没收到。\n客服：你等等。"
+    }
+  ],
+  "stream": false,
+  "options": {
+    "temperature": 0,
+    "num_predict": 1024
+  },
+  "format": "json",
+  "think": false
+}

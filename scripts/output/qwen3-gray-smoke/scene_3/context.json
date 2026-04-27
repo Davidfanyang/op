@@ -1,0 +1,5 @@
+{
+  "taskType": "quality_evaluation",
+  "entrySource": "test_entry",
+  "scenario": "payment_deducted_failed"
+}

@@ -1,0 +1,95 @@
+{
+  "timestamp": "2026-04-22T11:26:59.506Z",
+  "totalCases": 4,
+  "passed": 4,
+  "failed": 0,
+  "passRate": 100,
+  "results": [
+    {
+      "id": "verify_1_qwen3_hit",
+      "name": "验证 1：能正常命中 qwen3",
+      "context": {
+        "taskType": "quality_evaluation",
+        "entrySource": "test_entry",
+        "scenario": "transfer_not_received"
+      },
+      "mockQwen3": "success",
+      "expectedRoute": "qwen3_adapter",
+      "description": "route = qwen3_adapter",
+      "passed": true,
+      "actualRoute": "qwen3_adapter"
+    },
+    {
+      "id": "verify_2_adapter_failure_fallback",
+      "name": "验证 2：adapter 失败能自动回退",
+      "context": {
+        "taskType": "quality_evaluation",
+        "entrySource": "test_entry",
+        "scenario": "withdraw_pending"
+      },
+      "mockQwen3": "failure",
+      "failureType": "invalid_fields",
+      "expectedRoute": "fallback_original",
+      "description": "route = fallback_original",
+      "passed": true,
+      "actualRoute": "fallback_original"
+    },
+    {
+      "id": "verify_3_switch_off_restore",
+      "name": "验证 3：关闭开关立即恢复原逻辑",
+      "context": {
+        "taskType": "quality_evaluation",
+        "entrySource": "test_entry",
+        "scenario": "transfer_not_received"
+      },
+      "mockQwen3": "success",
+      "expectedRoute": "original_direct",
+      "forceSwitchOff": true,
+      "description": "route = original_direct",
+      "passed": true,
+      "actualRoute": "original_direct"
+    },
+    {
+      "id": "verify_4_timeout_fallback",
+      "name": "验证 4：超时也能回退（额外验证）",
+      "context": {
+        "taskType": "quality_evaluation",
+        "entrySource": "test_entry",
+        "scenario": "payment_deducted_failed"
+      },
+      "mockQwen3": "failure",
+      "failureType": "timeout",
+      "expectedRoute": "fallback_original",
+      "description": "route = fallback_original",
+      "passed": true,
+      "actualRoute": "fallback_original"
+    }
+  ],
+  "stats": {
+    "totalHits": 3,
+    "qwen3Success": 1,
+    "qwen3Failure": 2,
+    "fallbackCount": 2,
+    "originalDirectCount": 0,
+    "failureTypes": {
+      "request_failed": 0,
+      "timeout": 1,
+      "empty_response": 0,
+      "no_json_found": 0,
+      "json_parse_failed": 0,
+      "truncated_output": 0,
+      "invalid_fields": 1,
+      "risky_suggested_reply": 0
+    },
+    "qwen3TotalDuration": 0,
+    "fallbackTotalDuration": 0,
+    "totalDuration": 0,
+    "parseSuccessCount": 1,
+    "usableSuccessCount": 1,
+    "qwen3AvgDuration": 0,
+    "fallbackAvgDuration": 0,
+    "parseSuccessRate": 0.3333333333333333,
+    "usableSuccessRate": 0.3333333333333333,
+    "fallbackRate": 0.6666666666666666
+  }
+}

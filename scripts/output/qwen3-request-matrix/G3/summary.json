@@ -1,0 +1,22 @@
+{
+  "groupId": "G3",
+  "config": {
+    "id": "G3",
+    "numPredict": 2048,
+    "format": null,
+    "promptVersion": "full",
+    "messageMode": "system_user",
+    "think": false
+  },
+  "totalRounds": 3,
+  "parseSuccessCount": 3,
+  "validSuccessCount": 0,
+  "highRiskSuccessCount": 3,
+  "usableSuccessCount": 0,
+  "doneReasonLengthCount": 3,
+  "truncatedCount": 3,
+  "failureTypeBreakdown": {
+    "truncated_output": 3
+  },
+  "timestamp": "2026-04-22T10:37:06.911Z"
+}

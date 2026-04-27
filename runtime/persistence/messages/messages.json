@@ -1,0 +1,18 @@
+[
+  {
+    "messageId": "msg_1776552235720_wb1q7e7el",
+    "sessionId": "sess_1776552235719_lim2m0bnc",
+    "projectId": "default",
+    "channel": "telegram",
+    "employeeId": "e2e_agent_003",
+    "customerId": "unknown",
+    "direction": "outbound",
+    "content": "请提供付款截图、订单号和付款时间，我帮您核查。",
+    "messageType": "text",
+    "timestamp": "2026-04-19T06:45:00.000Z",
+    "rawPayload": {},
+    "normalized": {},
+    "evaluationId": "eval_1776552235721_ny6b8fdnu",
+    "createdAt": "2026-04-18T22:43:55.720Z"
+  }
+]

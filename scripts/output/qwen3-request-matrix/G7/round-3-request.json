@@ -1,0 +1,15 @@
+{
+  "model": "qwen3:4b",
+  "messages": [
+    {
+      "role": "user",
+      "content": "你是客服质量评估助手。分析对话并输出JSON评估结果。\n\nJSON格式：\n{\"score\": 0-100整数, \"problem_type\": \"known/unknown\", \"scenario\": \"字符串\", \"issues\": [], \"missing_info\": [], \"suggested_reply\": \"字符串\", \"confidence\": 0.0-1.0}\n\n要求：只输出JSON，不要任何解释。\n\n用户：我转账成功了，但是对方没收到。\n客服：你等等。"
+    }
+  ],
+  "stream": false,
+  "options": {
+    "temperature": 0,
+    "num_predict": 1024
+  },
+  "think": false
+}
